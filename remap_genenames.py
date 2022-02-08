@@ -6,8 +6,8 @@ import uniprot_handler as uh
 from fasta_grepper import grep_header_info
 from pathlib import Path
 
-
 full_mapping = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
+
 
 def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None):
     """
@@ -20,7 +20,7 @@ def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None)
     :param fasta: Fasta file
     :return: Remapped MayQuant file as dataframe
     """
-    handler = uh.Uniprot_Handler()
+    handler = uh.UniprotHandler()
     max_quant = pd.read_table(mq_file, sep=" ")
 
     # ==== Get fasta mapping ====
@@ -79,7 +79,7 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
         return genename
 
 
-def get_single_genename(ids, organism=None, handler:uh.Uniprot_Handler = uh.Uniprot_Handler()):
+def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.UniprotHandler()):
     """
     Get gene name from uniprot.
 
@@ -88,7 +88,7 @@ def get_single_genename(ids, organism=None, handler:uh.Uniprot_Handler = uh.Unip
     :param handler: Handler for uniprot mappings
     :return: Single gene name
     """
-    df = handler.get_mapping(ids=ids, organism=organism)
+    df = handler.get_mapping(ids=ids, in_type="proteinID", organism=organism)
     # ==== Get primary gene name first ====
     prim_keys = set(df['Gene names  (primary )'].fillna(""))
     if len(prim_keys) == 1:
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     df = remap_genenames(mq_file=parameters.maxquant_file, mode=parameters.mode, skip_filled=parameters.skip_filles,
                          organism=parameters.organism, fasta=parameters.fasta)
     df.to_csv(parameters.out_dir + Path(parameters.maxquant_file).stem + "_remapped.txt", header=True,
-                     index=False, sep=" ")
+              index=False, sep=" ")

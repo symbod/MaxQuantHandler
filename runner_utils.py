@@ -17,7 +17,7 @@ def save_parameters(script_desc: str, arguments):
     :return: values assigned to input arguments
     """
     descr = "\n############################################################################\n"
-    descr += "#################### MaxQuantHandler - %(prog)s ######################\n"
+    descr += "################# MaxQuantHandler - %(prog)s ##################\n"
     descr += script_desc
     descr += "\n############################################################################\n"
     descr += "\nusage: python3 %(prog)s [required arguments] [optional arguments]\n"
@@ -35,6 +35,9 @@ def save_parameters(script_desc: str, arguments):
     if 'm' in arguments:
         required_args.add_argument('-m', '--mode', choices=['all', 'fasta','uniprot','uniprot_one'], type=str,
                                    required=True, help='Mode of refilling. See below for more infos.')
+    if 'i' in arguments:
+        required_args.add_argument('-i', '--in_type', choices=['proteinID', 'genename'], required=True,
+                                   help='Define what type should be the source.')
     optional_args = parser.add_argument_group("optional arguments")
     if 'f' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
