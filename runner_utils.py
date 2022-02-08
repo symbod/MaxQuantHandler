@@ -17,7 +17,7 @@ def save_parameters(script_desc: str, arguments):
     :return: values assigned to input arguments
     """
     descr = "\n############################################################################\n"
-    descr += "###################### DiGeSt - %(prog)s ########################\n"
+    descr += "#################### MaxQuantHandler - %(prog)s ######################\n"
     descr += script_desc
     descr += "\n############################################################################\n"
     descr += "\nusage: python3 %(prog)s [required arguments] [optional arguments]\n"
@@ -57,7 +57,7 @@ def _get_epilog(script_name):
         epilog += "\nsupported modes\n"
         epilog += "  all\t\t\tUse primarly fasta infos and additionally uniprot infos.\n"
         epilog += "  fasta\t\t\tUse information extracted from fasta headers.\n"
-        epilog += "  uniprot\t\t\tUse mapping information from uniprot and use all gene names.\n"
+        epilog += "  uniprot\t\tUse mapping information from uniprot and use all gene names.\n"
         epilog += "  uniprot_one\t\tUse mapping information from uniprot and only use most frequent single gene name.\n"
     epilog += "\n############################################################################\n"
     return epilog

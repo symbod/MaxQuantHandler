@@ -32,7 +32,7 @@ def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None)
         skip_filled = True
 
     # ==== Get uniprot mappings ====
-    if mode is not 'fasta':
+    if mode != 'fasta':
         max_quant['Gene names'] = max_quant.apply(
             lambda row: run_uniprot_mapping(ids=row['Protein IDs'].split(";"), genename=row['Gene names'],
                                             mode=mode, organism=organism, handler=handler,
