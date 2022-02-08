@@ -7,7 +7,7 @@ git clone git@github.com:MaxQuantHandler.git
 ```
 2. Make sure you install python 3
 ## Smaller Scripts
-### fasta_grepper
+### [fasta_grepper.py](fasta_grepper.py)
 Get informations stored in the headers of the given fasta file and saving result to grepped_info.csv
 ```
 ############################################################################
@@ -28,7 +28,7 @@ optional arguments:
 
 ############################################################################
 ```
-### filter_ids
+### [filter_ids.py](filter_ids.py)
 Sometimes MaxQuant maps protein ids of different organisms. Run this script to filter ids out which do not match your given organism.
 ```
 ############################################################################
@@ -51,7 +51,7 @@ optional arguments:
 
 ############################################################################
 ```
-### get_uniprot_mapping 
+### [get_uniprot_mapping.py](get_uniprot_mapping.py) 
 Get a file uniprot mappings to protein ids in the file. Optionally those can be filtered by given organism.
 ```
 ############################################################################
@@ -75,7 +75,7 @@ optional arguments:
 ############################################################################
 ```
 ## Main Scripts
-### remap_genenames
+### [remap_genenames.py](remap_genenames.py) 
 Remap gene names in MaxQuant file based on fasta file and/or uniprot mappings with multiple other options.
 ```
 ############################################################################
