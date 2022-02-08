@@ -7,7 +7,7 @@ import uniprot_handler as uh
 
 def get_uniprot_mappings(mq_file, in_type, organism=None):
     """
-    Get uniprot mapping to protein ids in MaxQuant file. Optionally only mapped to chosen organism.
+    Get uniprot mapping to protein ids or gene names in MaxQuant file. Optionally only mapped to chosen organism.
 
     :param mq_file: MaxQuant file
     :param in_type: Type which column should be taken as a reference
