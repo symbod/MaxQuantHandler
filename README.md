@@ -28,11 +28,7 @@ optional arguments:
 
 ############################################################################
 ```
-<<<<<<< HEAD
-### [filter_ids.py](filter_protein_ids.py)
-=======
 ### [filter_protein_ids.py](filter_protein_ids.py)
->>>>>>> a4d6654e63a5320070bf058a0116e4039351a205
 Sometimes MaxQuant maps protein ids of different organisms. Run this script to filter ids out which do not match your given organism.
 ```
 ############################################################################
