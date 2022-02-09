@@ -28,28 +28,34 @@ optional arguments:
 
 ############################################################################
 ```
+<<<<<<< HEAD
 ### [filter_ids.py](filter_protein_ids.py)
+=======
+### [filter_protein_ids.py](filter_protein_ids.py)
+>>>>>>> a4d6654e63a5320070bf058a0116e4039351a205
 Sometimes MaxQuant maps protein ids of different organisms. Run this script to filter ids out which do not match your given organism.
 ```
 ############################################################################
-#################### MaxQuantHandler - filter_ids.py #######################
-                   Filter protein ids by organism.
+################# MaxQuantHandler - filter_protein_ids.py ##################
+               Filter protein ids by organism and/or decoy names.
 ############################################################################
 
-usage: python3 filter_ids.py [required arguments] [optional arguments]
+usage: python3 filter_protein_ids.py [required arguments] [optional arguments]
 
 required arguments:
-  -r {human,rat}, --organism {human,rat}
-                        Specify organism the ids should match to.
   -q MAXQUANT_FILE, --maxquant_file MAXQUANT_FILE
                         MaxQuant file
 
 optional arguments:
+  -r {human,rat}, --organism {human,rat}
+                        Specify organism the ids should match to.
+  -d, --decoy           Set flag if protein ids from decoy fasta (REV__, CON__) should be deleted.
   -o OUT_DIR, --out_dir OUT_DIR
                         Output directory. [Default=./]
   -h, --help            show this help message and exit
 
 ############################################################################
+
 ```
 ### [get_uniprot_mapping.py](get_uniprot_mapping.py) 
 Get a file uniprot mappings to protein ids in the file. Optionally those can be filtered by given organism.
