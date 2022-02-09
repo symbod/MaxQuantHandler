@@ -28,7 +28,7 @@ def grep_header_info(fasta: str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    description = "                   Grep protein info from fasta file."
+    description = "                  Grep protein info from fasta file."
     parameters = ru.save_parameters(script_desc=description, arguments=('f_req','o'))
     df = grep_header_info(fasta=parameters.fasta_file)
-    df.to_csv(parameters.out_dir + "grepped_info.csv", header=True)
+    df.to_csv(parameters.out_dir + "grepped_info.csv", header=True, index=False)

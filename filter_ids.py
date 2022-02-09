@@ -23,7 +23,7 @@ def filter_ids(mq_file, organism):
 
 
 if __name__ == "__main__":
-    description = "                   Filter protein ids by organism."
+    description = "                  Filter protein ids by organism."
     parameters = ru.save_parameters(script_desc=description, arguments=('q', 'r_req', 'o'))
     df = filter_ids(mq_file=parameters.maxquant_file, organism=parameters.organism)
-    df.to_csv(parameters.out_dir + Path(parameters.maxquant_file).stem + "_filtered.txt", header=True)
+    df.to_csv(parameters.out_dir + Path(parameters.maxquant_file).stem + "_filtered.txt", header=True, index=False)

@@ -25,13 +25,13 @@ def save_parameters(script_desc: str, arguments):
     parser = argparse.ArgumentParser(description=descr, formatter_class=argparse.RawTextHelpFormatter, epilog=epilo,
                                      usage=argparse.SUPPRESS, add_help=False)
     required_args = parser.add_argument_group("required arguments")
+    if 'q' in arguments:
+        required_args.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', required=True)
     if 'f_req' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', required=True)
     if 'r_req' in arguments:
         required_args.add_argument('-r', '--organism', choices=organisms.keys(), type=str, required=True,
                                    help='Specify organism the ids should match to.')
-    if 'q' in arguments:
-        required_args.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', required=True)
     if 'm' in arguments:
         required_args.add_argument('-m', '--mode', choices=['all', 'fasta','uniprot','uniprot_one'], type=str,
                                    required=True, help='Mode of refilling. See below for more infos.')
@@ -51,6 +51,8 @@ def save_parameters(script_desc: str, arguments):
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")
     args = parser.parse_args()
+    if 'r_req' in arguments or 'r' in arguments and args.organism is not None:
+        args.organism = organisms[args.organism]
     return args
 
 def _get_epilog(script_name):

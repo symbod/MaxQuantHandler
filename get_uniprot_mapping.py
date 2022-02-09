@@ -25,15 +25,20 @@ def get_uniprot_mappings(mq_file, in_type, organism=None):
             mappings = pd.concat(
                 [mappings, handler.get_mapping(ids=row['Protein IDs'].split(";"), in_type=in_type, organism=organism)])
         elif in_type == "genename":
+            def agg_func(x):
+                return ';'.join(set(x))
+
             mappings = pd.concat(
-                [mappings, handler.get_mapping(ids=row['Gene name'].split(";"), in_type=in_type, organism=organism)])
+                [mappings, handler.get_mapping(ids=row['Gene names'].split(";"), in_type=in_type, organism=organism)])
+            mappings= mappings.groupby('Gene name').agg({'Protein ID': agg_func, 'Status': agg_func,
+                                                         'Organism': agg_func}).reset_index()
     handler.save_mappings()
     return mappings
 
 
 if __name__ == "__main__":
-    description = "          Get uniprot mapping to protein ids or gene names optionally by organism."
+    description = "  Get uniprot mapping to protein ids or gene names optionally by organism."
     parameters = ru.save_parameters(script_desc=description, arguments=('q', 'r', 'i', 'o'))
     df = get_uniprot_mappings(mq_file=parameters.maxquant_file, in_type=parameters.in_type,
                               organism=parameters.organism)
-    df.to_csv(parameters.out_dir + "uniprot_" + parameters.in_type + "_mapping.txt", header=True)
+    df.to_csv(parameters.out_dir + "uniprot_" + parameters.in_type + "_mapping.csv", header=True, index=False)

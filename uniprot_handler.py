@@ -11,7 +11,7 @@ class UniprotHandler:
 
     full_proteinID_mapping = pd.DataFrame(
         columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
-    full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene names'])
+    full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene name'])
 
     def __init__(self):
         if Path("protein_to_genenames.csv").exists():
@@ -19,7 +19,7 @@ class UniprotHandler:
         if Path("genenames_to_protein.csv").exists():
             self.full_genenames_mapping = pd.read_csv("genenames_to_protein.csv")
 
-    def get_uniprot_mapping(self, ids, in_type, organism=None):
+    def get_uniprot_mapping(self, ids, in_type):
         setup = {'proteinID': {'from': 'ACC+ID', 'columns': 'genes,genes(PREFERRED),reviewed,organism'},
                  'genename': {'from': 'Genenames', 'columns': 'id,reviewed,organism'}}
         url = 'https://www.uniprot.org/uploadlists/'
@@ -35,14 +35,16 @@ class UniprotHandler:
         req = urllib.request.Request(url, data)
         with urllib.request.urlopen(req) as f:
             response = f.read()
+        if len(response.decode('utf-8')) == 0:
+            return None
         mapping = pd.read_csv(io.StringIO(response.decode('utf-8')), sep="\t")
-        if organism is not None:
-            mapping = mapping[mapping[organism] == mapping[organism]]
         if in_type == "proteinID":
             mapping.columns = [*mapping.columns[:-1], 'Protein ID']
             self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
         elif in_type == "genename":
-            mapping.columns = [*mapping.columns[:-1], 'Gene name']
+            mapping.columns = ['Protein ID', *mapping.columns[1:-1], 'Gene name']
+            mapping['Gene name'] = mapping['Gene name'].apply(lambda x: x.split(","))
+            mapping = mapping.explode('Gene name')
             self.full_genenames_mapping = pd.concat([self.full_genenames_mapping, mapping])
         return mapping
 
@@ -51,9 +53,11 @@ class UniprotHandler:
         df, missing = self.get_preloaded(in_list=ids, in_type=in_type)
         # ===== get missing =====
         if len(missing) > 0:
-            df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type, organism=organism)
+            df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type)
             if df2 is not None:
                 df = pd.concat([df, df2])
+        if organism is not None:
+            df = df[df['Organism'] == organism]
         return df
 
     def get_primary_genenames(self, ids, organism=None):
@@ -69,8 +73,8 @@ class UniprotHandler:
         if mapping.empty:
             return ""
         else:
-            mapping['Gene names'] = mapping['Gene names'].fillna("").str.upper()
-            gene_names_series = mapping['Gene names'].apply(series_to_set)
+            mapping['Gene name'] = mapping['Gene name'].fillna("").str.upper()
+            gene_names_series = mapping['Gene name'].apply(series_to_set)
             genenames = set([x for y in gene_names_series for x in y if x != ""])
             return ';'.join(genenames)
 
