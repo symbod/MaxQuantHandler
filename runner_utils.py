@@ -47,6 +47,9 @@ def save_parameters(script_desc: str, arguments):
     if 'r' in arguments:
         optional_args.add_argument('-r', '--organism', choices=organisms.keys(), type=str, default=None,
                                    help='Specify organism the ids should match to.')
+    if 'd' in arguments:
+        optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
+                                   help='Set flag if protein ids from decoy fasta (REV__, CON__) should be deleted.')
     if 'o' in arguments:
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")

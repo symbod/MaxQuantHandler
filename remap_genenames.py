@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import csv
 import pandas as pd
 import runner_utils as ru
 import uniprot_handler as uh
@@ -21,7 +22,7 @@ def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None)
     :return: Remapped MayQuant file as dataframe
     """
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=" ")
+    max_quant = pd.read_table(mq_file, sep=" ").fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
@@ -103,8 +104,8 @@ def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.Unipr
 
 if __name__ == "__main__":
     description = "                   Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'f', 'l', 'm', 'o'))
-    df = remap_genenames(mq_file=parameters.maxquant_file, mode=parameters.mode, skip_filled=parameters.skip_filles,
-                         organism=parameters.organism, fasta=parameters.fasta)
+    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'f', 'r', 'l', 'm', 'o'))
+    df = remap_genenames(mq_file=parameters.maxquant_file, mode=parameters.mode, skip_filled=parameters.fill,
+                         organism=parameters.organism, fasta=parameters.fasta_file)
     df.to_csv(parameters.out_dir + Path(parameters.maxquant_file).stem + "_remapped.txt", header=True,
-              index=False, sep=" ")
+              index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")

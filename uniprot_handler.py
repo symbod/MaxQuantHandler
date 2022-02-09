@@ -20,8 +20,9 @@ class UniprotHandler:
             self.full_genenames_mapping = pd.read_csv("genenames_to_protein.csv")
 
     def get_uniprot_mapping(self, ids, in_type):
+
         setup = {'proteinID': {'from': 'ACC+ID', 'columns': 'genes,genes(PREFERRED),reviewed,organism'},
-                 'genename': {'from': 'Genenames', 'columns': 'id,reviewed,organism'}}
+                 'genename': {'from': 'GENENAME', 'columns': 'id,reviewed,organism'}}
         url = 'https://www.uniprot.org/uploadlists/'
         params = {
             'from': setup[in_type]['from'],
@@ -29,7 +30,6 @@ class UniprotHandler:
             'format': 'tab',
             'query': " ".join(ids),
             'columns': setup[in_type]['columns']}
-
         data = urllib.parse.urlencode(params)
         data = data.encode('utf-8')
         req = urllib.request.Request(url, data)
@@ -50,7 +50,7 @@ class UniprotHandler:
 
     def get_mapping(self, ids, in_type, organism=None):
         # ===== get precalculated =====
-        df, missing = self.get_preloaded(in_list=ids, in_type=in_type)
+        df, missing = self.get_preloaded(in_list=ids, in_type=in_type, organism=organism)
         # ===== get missing =====
         if len(missing) > 0:
             df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type)
@@ -78,20 +78,28 @@ class UniprotHandler:
             genenames = set([x for y in gene_names_series for x in y if x != ""])
             return ';'.join(genenames)
 
-    def get_filtered_ids(self, ids, organism=None):
-        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism)
+    def get_filtered_ids(self, ids, organism=None, decoy=False):
+        if decoy:
+            sub_ids = [x for x in ids if not x.startswith(("REV", "CON"))]
+        else:
+            sub_ids = ids
+        mapping = self.get_mapping(ids=sub_ids, in_type="proteinID", organism=organism)
         if mapping.empty:
             return ""
         else:
             prot_ids = set(mapping['Protein ID'])
             return ';'.join(prot_ids)
 
-    def get_preloaded(self, in_list: list, in_type: str):
+    def get_preloaded(self, in_list: list, in_type: str, organism=None):
         if in_type == "proteinID":
             cur_mapping = self.full_proteinID_mapping[self.full_proteinID_mapping["Protein ID"].isin(in_list)]
+            if organism is not None:
+                cur_mapping = cur_mapping[cur_mapping['Organism'] == organism]
             return cur_mapping, list(set(in_list) - set(self.full_proteinID_mapping["Protein ID"]))
         elif in_type == "genename":
             cur_mapping = self.full_genenames_mapping[self.full_genenames_mapping["Gene name"].isin(in_list)]
+            if organism is not None:
+                cur_mapping = cur_mapping[cur_mapping['Organism'] == organism]
             return cur_mapping, list(set(in_list) - set(self.full_genenames_mapping["Gene name"]))
         else:
             return None

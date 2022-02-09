@@ -38,7 +38,7 @@ def get_uniprot_mappings(mq_file, in_type, organism=None):
 
 if __name__ == "__main__":
     description = "  Get uniprot mapping to protein ids or gene names optionally by organism."
-    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'r', 'i', 'o'))
+    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'r_req', 'i', 'o'))
     df = get_uniprot_mappings(mq_file=parameters.maxquant_file, in_type=parameters.in_type,
                               organism=parameters.organism)
     df.to_csv(parameters.out_dir + "uniprot_" + parameters.in_type + "_mapping.csv", header=True, index=False)
