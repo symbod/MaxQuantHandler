@@ -55,8 +55,8 @@ optional arguments:
 Get a file uniprot mappings to protein ids in the file. Optionally those can be filtered by given organism.
 ```
 ############################################################################
-################### MaxQuantHandler - get_uniprot_mapping.py ###############
-                   Get uniprot mapping to protein ids optionally by organism.
+################# MaxQuantHandler - get_uniprot_mapping.py ##################
+  Get uniprot mapping to protein ids or gene names optionally by organism.
 ############################################################################
 
 usage: python3 get_uniprot_mapping.py [required arguments] [optional arguments]
@@ -64,6 +64,8 @@ usage: python3 get_uniprot_mapping.py [required arguments] [optional arguments]
 required arguments:
   -q MAXQUANT_FILE, --maxquant_file MAXQUANT_FILE
                         MaxQuant file
+  -i {proteinID,genename}, --in_type {proteinID,genename}
+                        Define what type should be the source.
 
 optional arguments:
   -r {human,rat}, --organism {human,rat}
@@ -73,6 +75,7 @@ optional arguments:
   -h, --help            show this help message and exit
 
 ############################################################################
+
 ```
 ## Main Scripts
 ### [remap_genenames.py](remap_genenames.py) 
