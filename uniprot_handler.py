@@ -80,14 +80,14 @@ class UniprotHandler:
 
     def get_filtered_ids(self, ids, organism=None, decoy=False):
         if decoy:
-            sub_ids = [x for x in ids if not x.startswith(("REV", "CON"))]
+            keep = set([x for x in ids if x.startswith(("REV", "CON"))])
         else:
-            sub_ids = ids
-        mapping = self.get_mapping(ids=sub_ids, in_type="proteinID", organism=organism)
+            keep = set()
+        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism)
         if mapping.empty:
             return ""
         else:
-            prot_ids = set(mapping['Protein ID'])
+            prot_ids = set(mapping['Protein ID']).union(keep)
             return ';'.join(prot_ids)
 
     def get_preloaded(self, in_list: list, in_type: str, organism=None):

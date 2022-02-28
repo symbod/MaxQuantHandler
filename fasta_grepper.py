@@ -21,14 +21,14 @@ def grep_header_info(fasta: str) -> pd.DataFrame:
                 gene_name = matches.group(1) if matches else ""
                 gene_string = "GN=.*\s" if matches else ""
                 # get full info
-                matches = re.search("\|(.*)\|\S*\s(.*)\sOS=(.*)\sOX=(.*)\s"+gene_string+"PE=(.*)\sSV=(.*)", line)
+                matches = re.search("\|(.*)\|\S*\s(.*)\sOS=(.*)\sOX=(.*)\s" + gene_string + "PE=(.*)\sSV=(.*)", line)
                 infos.append([matches.group(1), matches.group(2), gene_name, matches.group(3),
                               matches.group(4), matches.group(5), matches.group(6)])
-    return(pd.DataFrame(infos, columns=['uniprot','description','symbol','organism','ox','pe','sv']))
+    return pd.DataFrame(infos, columns=['uniprot', 'description', 'symbol', 'organism', 'ox', 'pe', 'sv'])
 
 
 if __name__ == "__main__":
     description = "                  Grep protein info from fasta file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('f_req','o'))
+    parameters = ru.save_parameters(script_desc=description, arguments=('f_req', 'o'))
     df = grep_header_info(fasta=parameters.fasta_file)
     df.to_csv(parameters.out_dir + "grepped_info.csv", header=True, index=False)

@@ -13,6 +13,7 @@ def filter_protein_ids(mq_file, organism=None, decoy=False):
 
     :param mq_file: MaxQuant file
     :param organism: Organism to map to
+    :param decoy: bool to indicate if decoy IDs (REV_, ) should be kept
     :return: Filtered MaxQuant file as dataframe
     """
     handler = uh.UniprotHandler()
