@@ -17,21 +17,15 @@ def get_uniprot_mappings(mq_file, in_type, organism=None):
     handler = uh.UniprotHandler()
     max_quant = pd.read_table(mq_file, sep=" ").fillna("")
     if in_type == "proteinID":
-        mappings = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
-    else:  # if in_type == "genename":
-        mappings = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene names'])
-    for index, row in max_quant.iterrows():
-        if in_type == "proteinID":
-            mappings = pd.concat(
-                [mappings, handler.get_mapping(ids=row['Protein IDs'].split(";"), in_type=in_type, organism=organism)])
-        elif in_type == "genename":
-            def agg_func(x):
-                return ';'.join(set(x))
-
-            mappings = pd.concat(
-                [mappings, handler.get_mapping(ids=row['Gene names'].split(";"), in_type=in_type, organism=organism)])
-            mappings= mappings.groupby('Gene name').agg({'Protein ID': agg_func, 'Status': agg_func,
-                                                         'Organism': agg_func}).reset_index()
+        mappings = handler.get_mapping(ids=";".join(max_quant['Protein IDs']).split(";"),
+                                       in_type=in_type, organism=organism)
+    else:  # in_type == "genename":
+        def agg_func(x):
+            return ';'.join(set(x))
+        mappings = handler.get_mapping(ids=";".join(max_quant['Gene names']).split(";"),
+                                       in_type=in_type, organism=organism)
+        mappings= mappings.groupby(['Gene name','Status']).agg({'Protein ID': agg_func,
+                                                                'Organism': agg_func}).reset_index()
     handler.save_mappings()
     return mappings
 

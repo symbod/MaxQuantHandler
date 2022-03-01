@@ -8,7 +8,8 @@ import psutil
 
 start_time = time.time()
 organisms = {"human": "Homo sapiens (Human)",
-             "rat": "Rattus norvegicus (Rat)"}
+             "rat": "Rattus norvegicus (Rat)",
+             "mouse": "Mus musculus (Mouse)"}
 
 def save_parameters(script_desc: str, arguments):
     """

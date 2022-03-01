@@ -19,8 +19,8 @@ class UniprotHandler:
         if Path("genenames_to_protein.csv").exists():
             self.full_genenames_mapping = pd.read_csv("genenames_to_protein.csv")
 
-    def get_uniprot_mapping(self, ids, in_type):
-
+    def get_uniprot_mapping(self, ids, in_type, organism=None):
+        organisms = {'Homo sapiens (Human)': '9606', 'Mus musculus (Mouse)': '10090', 'Rattus norvegicus (Rat)': '10116'}
         setup = {'proteinID': {'from': 'ACC+ID', 'columns': 'genes,genes(PREFERRED),reviewed,organism'},
                  'genename': {'from': 'GENENAME', 'columns': 'id,reviewed,organism'}}
         url = 'https://www.uniprot.org/uploadlists/'
@@ -30,6 +30,8 @@ class UniprotHandler:
             'format': 'tab',
             'query': " ".join(ids),
             'columns': setup[in_type]['columns']}
+        if organism is not None:
+            params['taxon'] = organisms[organism]
         data = urllib.parse.urlencode(params)
         data = data.encode('utf-8')
         req = urllib.request.Request(url, data)
@@ -53,7 +55,7 @@ class UniprotHandler:
         df, missing = self.get_preloaded(in_list=ids, in_type=in_type, organism=organism)
         # ===== get missing =====
         if len(missing) > 0:
-            df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type)
+            df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type, organism=organism)
             if df2 is not None:
                 df = pd.concat([df, df2])
         if organism is not None:
