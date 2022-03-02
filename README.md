@@ -54,7 +54,7 @@ optional arguments:
 
 ```
 ### [get_uniprot_mapping.py](get_uniprot_mapping.py) 
-Get a file uniprot mappings to protein ids in the file. Optionally those can be filtered by given organism.
+Get a file with uniprot mappings to either protein ids or gene names in the file. Optionally those can be filtered by given organism, which is highly recommended for gene names option.
 ```
 ############################################################################
 ################# MaxQuantHandler - get_uniprot_mapping.py ##################
