@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import csv
 import pandas as pd
 import urllib.parse
 import urllib.request
@@ -42,6 +43,8 @@ class UniprotHandler:
         mapping = pd.read_csv(io.StringIO(response.decode('utf-8')), sep="\t")
         if in_type == "proteinID":
             mapping.columns = [*mapping.columns[:-1], 'Protein ID']
+            mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
+            mapping = mapping.explode('Protein ID')
             self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
         elif in_type == "genename":
             mapping.columns = ['Protein ID', *mapping.columns[1:-1], 'Gene name']
@@ -75,8 +78,8 @@ class UniprotHandler:
         if mapping.empty:
             return ""
         else:
-            mapping['Gene name'] = mapping['Gene name'].fillna("").str.upper()
-            gene_names_series = mapping['Gene name'].apply(series_to_set)
+            mapping['Gene names'] = mapping['Gene names'].fillna("").str.upper()
+            gene_names_series = mapping['Gene names'].apply(series_to_set)
             genenames = set([x for y in gene_names_series for x in y if x != ""])
             return ';'.join(genenames)
 
@@ -85,12 +88,20 @@ class UniprotHandler:
             keep = set([x for x in ids if x.startswith(("REV", "CON"))])
         else:
             keep = set()
-        ids = set([x.split("-")[0] for x in ids]) # filter multiple entries of ids with - separation
         mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism, ignore_missing=True)
         if mapping.empty:
             return ""
         else:
             prot_ids = set(mapping['Protein ID']).union(keep)
+            return ';'.join(prot_ids)
+
+    def get_ids_from_gene(self, genenames, organism=None):
+        mapping = self.get_mapping(ids=genenames, in_type="genename", organism=organism)
+        if mapping.empty:
+            return ""
+        else:
+            mapping = mapping[mapping["Status"] == "reviewed"]
+            prot_ids = set(mapping['Protein ID'])
             return ';'.join(prot_ids)
 
     def get_preloaded(self, in_list: list, in_type: str, organism=None):
@@ -114,3 +125,10 @@ class UniprotHandler:
 
 def series_to_set(x):
     return set(x.split(" "))
+
+
+def find_delimiter(filename):
+    sniffer = csv.Sniffer()
+    with open(filename) as fp:
+        delimiter = sniffer.sniff(fp.readline()).delimiter
+    return delimiter

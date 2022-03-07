@@ -22,7 +22,7 @@ def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None)
     :return: Remapped MayQuant file as dataframe
     """
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=" ").fillna("")
+    max_quant = pd.read_table(mq_file, sep=uh.find_delimiter(mq_file)).fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:

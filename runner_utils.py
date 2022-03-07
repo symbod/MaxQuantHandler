@@ -45,6 +45,10 @@ def save_parameters(script_desc: str, arguments):
     if 'l' in arguments:
         optional_args.add_argument('-l', '--fill', action='store_true', default=False,
                                    help='Use this flag, if only missing values should be filled.')
+    if 'a' in arguments:
+        optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete', 'fill'],
+                                   help='What to do, if IDs cell is empty after filtering. Keep empty cell, delete it '
+                                        'or fill it based on gene name.')
     if 'r' in arguments:
         optional_args.add_argument('-r', '--organism', choices=organisms.keys(), type=str, default=None,
                                    help='Specify organism the ids should match to.')
