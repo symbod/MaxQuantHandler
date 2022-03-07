@@ -15,7 +15,7 @@ def get_uniprot_mappings(mq_file, in_type, organism=None):
     :return: Uniprot mapping to protein ids or gene names as dataframe
     """
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=",").fillna("")
+    max_quant = pd.read_table(mq_file, sep=" ").fillna("")
     if in_type == "proteinID":
         mappings = handler.get_mapping(ids=";".join(max_quant['Protein IDs']).split(";"),
                                        in_type=in_type, organism=organism)

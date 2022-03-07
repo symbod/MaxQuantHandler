@@ -18,7 +18,7 @@ def filter_protein_ids(mq_file, organism=None, decoy=False):
     """
     id_column = "Protein IDs"  #"Protein IDs"
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=",").fillna("")
+    max_quant = pd.read_table(mq_file, sep=" ").fillna("")
     # Get all existing mappings in one batch
     handler.get_mapping(ids=";".join(max_quant[id_column]).split(";"),
                         in_type="proteinID", organism=organism)
