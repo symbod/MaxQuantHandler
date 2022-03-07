@@ -16,12 +16,17 @@ def filter_protein_ids(mq_file, organism=None, decoy=False):
     :param decoy: bool to indicate if decoy IDs (REV_, ) should be kept
     :return: Filtered MaxQuant file as dataframe
     """
+    id_column = "Protein IDs"  #"Protein IDs"
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=" ").fillna("")
-    max_quant['Protein IDs'] = max_quant['Protein IDs'].apply(
+    max_quant = pd.read_table(mq_file, sep=",").fillna("")
+    # Get all existing mappings in one batch
+    handler.get_mapping(ids=";".join(max_quant[id_column]).split(";"),
+                        in_type="proteinID", organism=organism)
+    # filter row wise
+    max_quant[id_column] = max_quant[id_column].apply(
         lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy))
     handler.save_mappings()
-    max_quant = max_quant[max_quant['Protein IDs'] != ""]
+    max_quant = max_quant[max_quant[id_column] != ""]
     return max_quant
 
 

@@ -50,11 +50,11 @@ class UniprotHandler:
             self.full_genenames_mapping = pd.concat([self.full_genenames_mapping, mapping])
         return mapping
 
-    def get_mapping(self, ids, in_type, organism=None):
+    def get_mapping(self, ids, in_type, organism=None, ignore_missing=False):
         # ===== get precalculated =====
         df, missing = self.get_preloaded(in_list=ids, in_type=in_type, organism=organism)
         # ===== get missing =====
-        if len(missing) > 0:
+        if len(missing) > 0 and not ignore_missing:
             df2 = self.get_uniprot_mapping(ids=missing, in_type=in_type, organism=organism)
             if df2 is not None:
                 df = pd.concat([df, df2])
@@ -85,7 +85,8 @@ class UniprotHandler:
             keep = set([x for x in ids if x.startswith(("REV", "CON"))])
         else:
             keep = set()
-        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism)
+        ids = set([x.split("-")[0] for x in ids]) # filter multiple entries of ids with - separation
+        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism, ignore_missing=True)
         if mapping.empty:
             return ""
         else:
