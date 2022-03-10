@@ -5,11 +5,15 @@ import sys
 import argparse
 import time
 import psutil
+import pandas as pd
+import csv
+from pathlib import Path
 
 start_time = time.time()
 organisms = {"human": "Homo sapiens (Human)",
              "rat": "Rattus norvegicus (Rat)",
              "mouse": "Mus musculus (Mouse)"}
+
 
 def save_parameters(script_desc: str, arguments):
     """
@@ -26,12 +30,16 @@ def save_parameters(script_desc: str, arguments):
     parser = argparse.ArgumentParser(description=descr, formatter_class=argparse.RawTextHelpFormatter, epilog=epilo,
                                      usage=argparse.SUPPRESS, add_help=False)
     required_args = parser.add_argument_group("required arguments")
+    if 'qf' in arguments:
+        required_mut = required_args.add_mutually_exclusive_group(required=True)
+        required_mut.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', default=None)
+        required_mut.add_argument('-s', '--single_file', type=str, help='Single file', default=None)
     if 'q' in arguments:
         required_args.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', required=True)
     if 'f_req' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', required=True)
-    if 'r_req' in arguments:
-        required_args.add_argument('-r', '--organism', choices=organisms.keys(), type=str, required=True,
+    if 'or_req' in arguments:
+        required_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, required=True,
                                    help='Specify organism the ids should match to.')
     if 'm' in arguments:
         required_args.add_argument('-m', '--mode', choices=['all', 'fasta','uniprot','uniprot_one'], type=str,
@@ -49,9 +57,12 @@ def save_parameters(script_desc: str, arguments):
         optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete', 'fill'],
                                    help='What to do, if IDs cell is empty after filtering. Keep empty cell, delete it '
                                         'or fill it based on gene name.')
-    if 'r' in arguments:
-        optional_args.add_argument('-r', '--organism', choices=organisms.keys(), type=str, default=None,
+    if 'or' in arguments:
+        optional_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, default=None,
                                    help='Specify organism the ids should match to.')
+    if 'r' in arguments:
+        optional_args.add_argument('-r', '--reviewed', action='store_true', default=False,
+                                   help='test')
     if 'd' in arguments:
         optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
                                    help='Set flag if protein ids from decoy fasta (REV__, CON__) should be deleted.')
@@ -59,9 +70,20 @@ def save_parameters(script_desc: str, arguments):
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")
     args = parser.parse_args()
-    if 'r_req' in arguments or 'r' in arguments and args.organism is not None:
+    if 'qf' in arguments:
+        if args.maxquant_file is not None:
+            args.data = pd.read_table(args.maxquant_file, sep=find_delimiter(args.maxquant_file)).fillna("")
+            args.file_name = Path(args.maxquant_file).stem
+        else:
+            args.data = pd.read_table(args.single_file).fillna("")
+            args.file_name = Path(args.single_file).stem
+    if 'q' in arguments:
+        args.data = pd.read_table(args.maxquant_file, sep=find_delimiter(args.maxquant_file)).fillna("")
+        args.file_name = Path(args.maxquant_file).stem
+    if 'or_req' in arguments or 'or' in arguments and args.organism is not None:
         args.organism = organisms[args.organism]
     return args
+
 
 def _get_epilog(script_name):
     epilog = ""
@@ -80,3 +102,10 @@ def print_current_usage(text):
     memory_usage = '{0:.2f}'.format(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
     time_usage = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
     print('[{}|{}MB] '.format(time_usage, memory_usage) + text)
+
+
+def find_delimiter(filename):
+    sniffer = csv.Sniffer()
+    with open(filename) as fp:
+        delimiter = sniffer.sniff(fp.readline()).delimiter
+    return delimiter

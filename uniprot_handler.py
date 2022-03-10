@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import csv
 import pandas as pd
 import urllib.parse
 import urllib.request
@@ -43,6 +42,7 @@ class UniprotHandler:
         mapping = pd.read_csv(io.StringIO(response.decode('utf-8')), sep="\t")
         if in_type == "proteinID":
             mapping.columns = [*mapping.columns[:-1], 'Protein ID']
+            mapping['Gene names'] = mapping['Gene names'].str.replace(' ', ';')
             mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
             mapping = mapping.explode('Protein ID')
             self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
@@ -95,12 +95,13 @@ class UniprotHandler:
             prot_ids = set(mapping['Protein ID']).union(keep)
             return ';'.join(prot_ids)
 
-    def get_ids_from_gene(self, genenames, organism=None):
+    def get_ids_from_gene(self, genenames, organism=None, reviewed=True):
         mapping = self.get_mapping(ids=genenames, in_type="genename", organism=organism)
         if mapping.empty:
             return ""
         else:
-            mapping = mapping[mapping["Status"] == "reviewed"]
+            if reviewed:
+                mapping = mapping[mapping["Status"] == "reviewed"]
             prot_ids = set(mapping['Protein ID'])
             return ';'.join(prot_ids)
 
@@ -124,11 +125,4 @@ class UniprotHandler:
 
 
 def series_to_set(x):
-    return set(x.split(" "))
-
-
-def find_delimiter(filename):
-    sniffer = csv.Sniffer()
-    with open(filename) as fp:
-        delimiter = sniffer.sniff(fp.readline()).delimiter
-    return delimiter
+    return set(x.split(";"))

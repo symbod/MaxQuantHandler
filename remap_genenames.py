@@ -10,11 +10,11 @@ from pathlib import Path
 full_mapping = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
 
 
-def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None):
+def remap_genenames(data, mode, skip_filled=False, organism=None, fasta=None):
     """
     Remap gene names in MaxQuant file based on chosen mode.
 
-    :param mq_file: MaxQuant file
+    :param data: MaxQuant data
     :param mode: Mode on how to map gene names
     :param skip_filled: Set True if rows with already filled gene names should be ignored
     :param organism: Organism to map to
@@ -22,24 +22,23 @@ def remap_genenames(mq_file, mode, skip_filled=False, organism=None, fasta=None)
     :return: Remapped MayQuant file as dataframe
     """
     handler = uh.UniprotHandler()
-    max_quant = pd.read_table(mq_file, sep=uh.find_delimiter(mq_file)).fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
         fasta_mapping = grep_header_info(fasta=parameters.mapping_file)
-        max_quant['Gene names'] = max_quant.apply(
+        data['Gene names'] = data.apply(
             lambda row: run_fasta_mapping(ids=row['Protein IDs'].split(";"), genename=row['Gene names'],
                                           mapping=fasta_mapping, skip_filled=skip_filled), axis=1)
         skip_filled = True
 
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
-        max_quant['Gene names'] = max_quant.apply(
+        data['Gene names'] = data.apply(
             lambda row: run_uniprot_mapping(ids=row['Protein IDs'].split(";"), genename=row['Gene names'],
                                             mode=mode, organism=organism, handler=handler,
                                             skip_filled=skip_filled), axis=1)
     handler.save_mappings()
-    return max_quant
+    return data
 
 
 def run_fasta_mapping(ids, genename, mapping=None, skip_filled=False):
@@ -52,7 +51,7 @@ def run_fasta_mapping(ids, genename, mapping=None, skip_filled=False):
     :param skip_filled: Set True if skip mapping when genename is not empty
     :return: Gene name
     """
-    if genename == "" or skip_filled==False:
+    if genename == "" or not skip_filled:
         symbols = set(mapping[mapping["uniprot"].isin(ids)]["symbol"].dropna())
         return ";". join(list(symbols))
     else:
@@ -71,7 +70,7 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
     :param skip_filled: Set True if skip mapping when genename is not empty
     :return: Gene name
     """
-    if genename == "" or skip_filled==False:
+    if genename == "" or not skip_filled:
         if mode == "uniprot_one":
             return get_single_genename(ids=ids, organism=organism, handler=handler)
         else:
@@ -104,8 +103,8 @@ def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.Unipr
 
 if __name__ == "__main__":
     description = "                   Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'f', 'r', 'l', 'm', 'o'))
-    df = remap_genenames(mq_file=parameters.maxquant_file, mode=parameters.mode, skip_filled=parameters.fill,
+    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'f', 'or', 'l', 'm', 'o'))
+    df = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
                          organism=parameters.organism, fasta=parameters.fasta_file)
-    df.to_csv(parameters.out_dir + Path(parameters.maxquant_file).stem + "_remapped.txt", header=True,
+    df.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
               index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
