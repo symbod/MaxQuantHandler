@@ -2,7 +2,9 @@
 
 from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import *
+from tkinter import ttk
+
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -35,7 +37,7 @@ def home():
         anchor="nw",
         text="MaxQuant Handler",
         fill="#FFFFFF",
-        font=("Poly", 48 * -1)
+        font=("Georgia", 48 * -1)
     )
 
     canvas.create_rectangle(
@@ -68,7 +70,7 @@ def home():
         anchor="nw",
         text="Python-based helpers to clean, filter and fill your MaxQuant file.",
         fill="#FFFFFF",
-        font=("WorkSans Regular", 18 * -1)
+        font=("Georgia", 20 * -1)
     )
 
     button_image_1 = PhotoImage(
@@ -125,7 +127,7 @@ def home():
         anchor="nw",
         text="Filter Protein IDs",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_text(
@@ -134,7 +136,7 @@ def home():
         anchor="nw",
         text="Get Uniprot Mapping",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_text(
@@ -143,7 +145,7 @@ def home():
         anchor="nw",
         text="Remap Gene Names",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_text(
@@ -152,7 +154,7 @@ def home():
         anchor="nw",
         text="Filter the Protein IDs in your",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -161,7 +163,7 @@ def home():
         anchor="nw",
         text="MaxQuant File based on",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -170,7 +172,7 @@ def home():
         anchor="nw",
         text="Organism. Optionally you",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -179,7 +181,7 @@ def home():
         anchor="nw",
         text="can also input a file with a",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -188,7 +190,7 @@ def home():
         anchor="nw",
         text="single column.",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -197,7 +199,7 @@ def home():
         anchor="nw",
         text="Remap the Gene Names in the",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -206,7 +208,7 @@ def home():
         anchor="nw",
         text="MaxQuant File using either a",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -215,7 +217,7 @@ def home():
         anchor="nw",
         text="given Fasta File, Mappings",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -224,7 +226,7 @@ def home():
         anchor="nw",
         text="from the Uniprot database or",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -233,7 +235,7 @@ def home():
         anchor="nw",
         text="both. Optionally you can also",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -242,7 +244,7 @@ def home():
         anchor="nw",
         text="simply get the Header",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -251,7 +253,7 @@ def home():
         anchor="nw",
         text="Information from the Fasta",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -260,7 +262,7 @@ def home():
         anchor="nw",
         text="File.",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -269,7 +271,7 @@ def home():
         anchor="nw",
         text="Get a complete mapping from",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -278,7 +280,7 @@ def home():
         anchor="nw",
         text="UniProt based on either given",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -287,7 +289,7 @@ def home():
         anchor="nw",
         text="ProteinIDs or Gene Names of",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -296,7 +298,7 @@ def home():
         anchor="nw",
         text="the MaxQuant File with",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -305,7 +307,7 @@ def home():
         anchor="nw",
         text="Information about Organism,",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -314,7 +316,7 @@ def home():
         anchor="nw",
         text="Review Status associated IDs.",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -323,7 +325,7 @@ def home():
         anchor="nw",
         text="Optionally you can also input",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -332,7 +334,7 @@ def home():
         anchor="nw",
         text="a file with a single column.",
         fill="#646464",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
     window.resizable(False, False)
     window.mainloop()
@@ -362,7 +364,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="MaxQuant Handler",
         fill="#FFFFFF",
-        font=("Poly", 48 * -1)
+        font=("Georgia", 48 * -1)
     )
 
     canvas.create_rectangle(
@@ -388,16 +390,37 @@ def filter_protein_ids(tk_window: Tk):
         width=160.0,
         height=43.0
     )
-
+    combostyle = ttk.Style()
+    combostyle.theme_create('combostyle', parent='alt', settings={'TCombobox': {'configure':
+                                                                                    {'selectbackground': 'white',
+                                                                                     'fieldbackground': 'white',
+                                                                                     'selectforeground': 'black',
+                                                                                     'background': 'white'}}})
+    combostyle.theme_use('combostyle')
     canvas.create_text(
         734.0,
         117.0,
         anchor="nw",
         text="Required ",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
-
+    ttk.Label(window, text="Select action for empty cells:", background="white").place(
+        x=600.0,
+        y=230.0,
+        height=30.0
+    )
+    action = StringVar()
+    action_box = ttk.Combobox(window, width=27, textvariable=action)
+    action_box['state'] = 'readonly'
+    action_box['values'] = ('delete', 'fill', 'keep')
+    action_box.current(0)
+    action_box.place(
+        x=810.0,
+        y=230.0,
+        width=150.0,
+        height=30.0
+    )
     canvas.create_rectangle(
         581.0,
         131.0,
@@ -420,7 +443,23 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="Optional ",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
+    )
+
+    decoy = IntVar()
+    Checkbutton(window, text="Keep decoy IDs", variable=decoy, bg="white").place(
+        x=810.0,
+        y=350.0,
+        width=150.0,
+        height=43.0
+    )
+
+    reviewed = IntVar()
+    Checkbutton(window, text="Take reviewed IDs", variable=reviewed, bg="white").place(
+        x=600.0,
+        y=350.0,
+        width=150.0,
+        height=43.0
     )
 
     canvas.create_text(
@@ -429,7 +468,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="Filter Protein IDs",
         fill="#FFFFFF",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_rectangle(
@@ -462,7 +501,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="“Protein IDs”",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -471,7 +510,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="What to do, if a cell is empty after filtering:",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -480,7 +519,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="keep: keep the empty row",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -489,7 +528,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="fill: try to map Protein IDs from Gene Name",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -498,7 +537,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="if column with “Gene names” is given",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -507,7 +546,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="delete: delete the row",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -516,7 +555,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="Select the File with the Protein IDs. Please make sure that the",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -525,7 +564,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="column is called:",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -534,7 +573,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="Set checkmark on reviewed, if during the fill option only",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -543,7 +582,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="reviewed Protein IDs should be chosen.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -552,7 +591,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="Set checkmark on decoy, if IDs with REV_, CON_ should be",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -561,7 +600,7 @@ def filter_protein_ids(tk_window: Tk):
         anchor="nw",
         text="deleted.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
     window.resizable(False, False)
     window.mainloop()
@@ -591,7 +630,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="MaxQuant Handler",
         fill="#FFFFFF",
-        font=("Poly", 48 * -1)
+        font=("Georgia", 48 * -1)
     )
 
     canvas.create_rectangle(
@@ -624,7 +663,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Required ",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_rectangle(
@@ -649,7 +688,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Optional ",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_text(
@@ -658,7 +697,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Remap Genenames",
         fill="#FFFFFF",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_rectangle(
@@ -691,7 +730,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Fasta File if it should be used in the chosen Modes.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -700,7 +739,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="all: use primarly fasta infos and additionally uniprot infos.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -709,7 +748,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="fasta: use information extracted from fasta headers.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -718,7 +757,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="uniprot:	use mapping information from uniprot and use all",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -727,7 +766,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="gene names.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -736,7 +775,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Set checkmark on fill, if only rows without previously mapped",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -745,7 +784,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Gene Names should be mapped.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -754,7 +793,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Optionally select an Organism, so only Organism associated",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -763,7 +802,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Protein IDs will be used during the Mapping.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -772,7 +811,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="uniprot_one: use mapping information from uniprot and only",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -781,7 +820,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="use most frequent single gene name.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -790,7 +829,7 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="Remap Gene Names in a MaxQuant File based on one of four",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -799,8 +838,9 @@ def remap_genenames(tk_window: Tk):
         anchor="nw",
         text="possible Modes. Keep in mind, that you have to provide the",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
+
     window.resizable(False, False)
     window.mainloop()
 
@@ -829,7 +869,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="MaxQuant Handler",
         fill="#FFFFFF",
-        font=("Poly", 48 * -1)
+        font=("Georgia", 48 * -1)
     )
 
     canvas.create_rectangle(
@@ -862,7 +902,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Required ",
         fill="#646464",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_rectangle(
@@ -887,7 +927,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Get UniProt Mapping",
         fill="#FFFFFF",
-        font=("Poly", 24 * -1)
+        font=("Georgia", 22 * -1)
     )
 
     canvas.create_rectangle(
@@ -904,7 +944,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Get the UniProt Mapping for either Protein IDs or Gene",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -913,7 +953,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Names.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -922,7 +962,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="MaxQuant Files and Files with a single Column are supported.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -931,7 +971,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Please make sure the columns have the correct name:",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -940,7 +980,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="“Protein IDs” for Protein IDs",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -949,7 +989,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="“Gene names” for Gene Names",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -958,7 +998,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Select your Input Type:",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -967,7 +1007,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="“proteinID” for Protein IDs",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -976,7 +1016,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="“genename” for Gene Names",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -985,7 +1025,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Lastly, select the desired Organism. This is important, as the",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
 
     canvas.create_text(
@@ -994,7 +1034,7 @@ def get_uniprot_mapping(tk_window: Tk):
         anchor="nw",
         text="Database has too many Organisms to get the IDs from all.",
         fill="#FFFFFF",
-        font=("Poly", 18 * -1)
+        font=("Georgia", 16 * -1)
     )
     window.resizable(False, False)
     window.mainloop()

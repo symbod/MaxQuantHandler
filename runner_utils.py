@@ -65,7 +65,7 @@ def save_parameters(script_desc: str, arguments):
                                    help='test')
     if 'd' in arguments:
         optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
-                                   help='Set flag if protein ids from decoy fasta (REV__, CON__) should be deleted.')
+                                   help='Set flag if protein ids from decoy fasta (REV__, CON__) should be kept.')
     if 'o' in arguments:
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")
