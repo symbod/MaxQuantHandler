@@ -9,8 +9,7 @@ from pathlib import Path
 
 class UniprotHandler:
 
-    full_proteinID_mapping = pd.DataFrame(
-        columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
+    full_proteinID_mapping = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
     full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene name'])
 
     def __init__(self):

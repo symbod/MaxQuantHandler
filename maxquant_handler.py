@@ -1,9 +1,16 @@
 #!/bin/python3
 
 from pathlib import Path
+import pandas as pd
+import csv, os
 
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, filedialog
+
+import runner_utils as ru
+from filter_protein_ids import filter_protein_ids as fpi
+from get_uniprot_mapping import get_uniprot_mappings as gum
+from remap_genenames import remap_genenames as rg
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -375,13 +382,23 @@ def filter_protein_ids(tk_window: Tk):
         fill="#FFFFFF",
         outline="")
 
+    def run_script():
+        if outdir_path.get().startswith("Set output"):
+            outdir_path.set("./")
+        data = pd.read_table(data_path.get(), sep=ru.find_delimiter(data_path.get())).fillna("")
+        file_name = Path(data_path.get()).stem
+        df = fpi(data = data, organism = ru.organisms[organism.get()], decoy = decoy.get()==1,
+                 action = action.get(), reviewed = reviewed.get()==1)
+        df.to_csv(os.path.join(outdir_path.get(), file_name + "_filtered.txt"), header=True, index=False,
+                  quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = Button(
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=run_script,
         relief="flat"
     )
     button_1.place(
@@ -405,9 +422,47 @@ def filter_protein_ids(tk_window: Tk):
         fill="#646464",
         font=("Georgia", 22 * -1)
     )
-    ttk.Label(window, text="Select action for empty cells:", background="white").place(
+    ttk.Label(window, text="Select your MaxQuant File from your computer.", background="white").place(
+        x=600.0,
+        y=150.0,
+        height=30.0
+    )
+    data_path = StringVar()
+    data_path.set("Path to data file ...")
+    def select_file():
+        data_path.set(filedialog.askopenfilename())
+    Entry(master=window, textvariable=data_path).place(
+        x=603.0,
+        y=185.0,
+        width=280.0,
+        height=33.0
+    )
+    outdir_button = Button(window, text="Browse", command=select_file, background="#FFFFFF")
+    outdir_button.place(
+        x=880.0,
+        y=180.0,
+        width=80.0,
+        height=43.0
+    )
+    ttk.Label(window, text="Select organism:", background="white").place(
         x=600.0,
         y=230.0,
+        height=30.0
+    )
+    organism = StringVar()
+    organism_box = ttk.Combobox(window, width=27, textvariable=organism)
+    organism_box['state'] = 'readonly'
+    organism_box['values'] = ('human', 'rat', 'mouse')
+    organism_box.current(0)
+    organism_box.place(
+        x=810.0,
+        y=230.0,
+        width=150.0,
+        height=30.0
+    )
+    ttk.Label(window, text="Select action for empty cells:", background="white").place(
+        x=600.0,
+        y=310.0,
         height=30.0
     )
     action = StringVar()
@@ -417,7 +472,7 @@ def filter_protein_ids(tk_window: Tk):
     action_box.current(0)
     action_box.place(
         x=810.0,
-        y=230.0,
+        y=310.0,
         width=150.0,
         height=30.0
     )
@@ -441,7 +496,7 @@ def filter_protein_ids(tk_window: Tk):
         734.0,
         277.0,
         anchor="nw",
-        text="Optional ",
+        text="Optional",
         fill="#646464",
         font=("Georgia", 22 * -1)
     )
@@ -461,6 +516,25 @@ def filter_protein_ids(tk_window: Tk):
         width=150.0,
         height=43.0
     )
+
+    outdir_path = StringVar()
+    outdir_path.set("Set output directory. Default: ./")
+    def select_dir():
+        outdir_path.set( filedialog.askdirectory())
+    Entry(master=window, textvariable=outdir_path).place(
+        x=603.0,
+        y=405.0,
+        width=280.0,
+        height=33.0
+    )
+    outdir_button = Button(window, text="Browse", command=select_dir, background="#FFFFFF")
+    outdir_button.place(
+        x=880.0,
+        y=400.0,
+        width=80.0,
+        height=43.0
+    )
+
 
     canvas.create_text(
         148.0,
@@ -641,13 +715,23 @@ def remap_genenames(tk_window: Tk):
         fill="#FFFFFF",
         outline="")
 
+    def run_script():
+        if outdir_path.get().startswith("Set output"):
+            outdir_path.set("./")
+        data = pd.read_table(data_path.get(), sep=ru.find_delimiter(data_path.get())).fillna("")
+        file_name = Path(data_path.get()).stem
+        df = rg(data=data, mode=mode.get(), skip_filled=fill.get()==1, organism=ru.organisms[organism.get()],
+                fasta=fasta.get())
+        df.to_csv(os.path.join(outdir_path.get(), file_name + "_filtered.txt"), header=True, index=False,
+                  quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = Button(
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=run_script,
         relief="flat"
     )
     button_1.place(
@@ -681,6 +765,54 @@ def remap_genenames(tk_window: Tk):
         133.0,
         fill="#646464",
         outline="")
+
+    ttk.Label(window, text="Select your MaxQuant File from your computer.", background="white").place(
+        x=600.0,
+        y=150.0,
+        height=30.0
+    )
+    data_path = StringVar()
+    data_path.set("Path to data file ...")
+    def select_file():
+        data_path.set(filedialog.askopenfilename())
+
+    combostyle = ttk.Style()
+    combostyle.theme_create('combostyle', parent='alt', settings={'TCombobox': {'configure':
+                                                                                    {'selectbackground': 'white',
+                                                                                     'fieldbackground': 'white',
+                                                                                     'selectforeground': 'black',
+                                                                                     'background': 'white'}}})
+    combostyle.theme_use('combostyle')
+    ttk.Label(window, text="Select mode (see description):", background="white").place(
+        x=600.0,
+        y=230.0,
+        height=30.0
+    )
+    mode = StringVar()
+    mode_box = ttk.Combobox(window, width=27, textvariable=mode)
+    mode_box['state'] = 'readonly'
+    mode_box['values'] = ('all', 'fasta', 'uniprot', 'uniprot_one')
+    mode_box.current(0)
+    mode_box.place(
+        x=810.0,
+        y=230.0,
+        width=150.0,
+        height=30.0
+    )
+
+    Entry(master=window, textvariable=data_path).place(
+        x=603.0,
+        y=185.0,
+        width=280.0,
+        height=33.0
+    )
+    file_button = Button(window, text="Browse", command=select_file, background="#FFFFFF")
+    file_button.place(
+        x=880.0,
+        y=180.0,
+        width=80.0,
+        height=43.0
+    )
 
     canvas.create_text(
         734.0,
@@ -716,6 +848,70 @@ def remap_genenames(tk_window: Tk):
         fill="#646464",
         outline="")
 
+    fill = IntVar()
+    Checkbutton(window, text="Fill", variable=fill, bg="white").place(
+        x=600.0,
+        y=310.0,
+        width=60.0,
+        height=43.0
+    )
+
+    fasta = StringVar()
+    fasta.set("Optionally select FASTA file.")
+
+    def select_fasta():
+        fasta.set(filedialog.askopenfilename())
+
+    Entry(master=window, textvariable=fasta).place(
+        x=683.0,
+        y=315.0,
+        width=200.0,
+        height=33.0
+    )
+    fasta_button = Button(window, text="Browse", command=select_fasta, background="#FFFFFF")
+    fasta_button.place(
+        x=880.0,
+        y=310.0,
+        width=80.0,
+        height=43.0
+    )
+
+    ttk.Label(window, text="Select organism:", background="white").place(
+        x=600.0,
+        y=360.0,
+        height=30.0
+    )
+    organism = StringVar()
+    organism_box = ttk.Combobox(window, width=27, textvariable=organism)
+    organism_box['state'] = 'readonly'
+    organism_box['values'] = ('human', 'rat', 'mouse')
+    organism_box.current(0)
+    organism_box.place(
+        x=810.0,
+        y=360.0,
+        width=150.0,
+        height=30.0
+    )
+
+    outdir_path = StringVar()
+    outdir_path.set("Set output directory. Default: ./")
+
+    def select_dir():
+        outdir_path.set(filedialog.askdirectory())
+
+    Entry(master=window, textvariable=outdir_path).place(
+        x=603.0,
+        y=405.0,
+        width=280.0,
+        height=33.0
+    )
+    outdir_button = Button(window, text="Browse", command=select_dir, background="#FFFFFF")
+    outdir_button.place(
+        x=880.0,
+        y=400.0,
+        width=80.0,
+        height=43.0
+    )
     canvas.create_rectangle(
         0.0,
         104.0,
@@ -880,13 +1076,22 @@ def get_uniprot_mapping(tk_window: Tk):
         fill="#FFFFFF",
         outline="")
 
+    def run_script():
+        if outdir_path.get().startswith("Set output"):
+            outdir_path.set("./")
+        data = pd.read_table(data_path.get(), sep=ru.find_delimiter(data_path.get())).fillna("")
+        file_name = Path(data_path.get()).stem
+        df = gum(data=data, in_type = input_type.get(),organism=ru.organisms[organism.get()])
+        df.to_csv(os.path.join(outdir_path.get(), file_name + "_uniprot_" + input_type.get() + "_mapping.csv"),
+                  header=True, index=False)
+
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = Button(
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=run_script,
         relief="flat"
     )
     button_1.place(
@@ -920,7 +1125,117 @@ def get_uniprot_mapping(tk_window: Tk):
         133.0,
         fill="#646464",
         outline="")
+    ttk.Label(window, text="Select your MaxQuant File from your computer.", background="white").place(
+        x=600.0,
+        y=150.0,
+        height=30.0
+    )
+    data_path = StringVar()
+    data_path.set("Path to data file ...")
 
+    def select_file():
+        data_path.set(filedialog.askopenfilename())
+
+    Entry(master=window, textvariable=data_path).place(
+        x=603.0,
+        y=185.0,
+        width=280.0,
+        height=33.0
+    )
+    file_button = Button(window, text="Browse", command=select_file, background="#FFFFFF")
+    file_button.place(
+        x=880.0,
+        y=180.0,
+        width=80.0,
+        height=43.0
+    )
+
+    combostyle = ttk.Style()
+    combostyle.theme_create('combostyle', parent='alt', settings={'TCombobox': {'configure':
+                                                                                    {'selectbackground': 'white',
+                                                                                     'fieldbackground': 'white',
+                                                                                     'selectforeground': 'black',
+                                                                                     'background': 'white'}}})
+    combostyle.theme_use('combostyle')
+    ttk.Label(window, text="Select organism:", background="white").place(
+        x=600.0,
+        y=230.0,
+        height=30.0
+    )
+    organism = StringVar()
+    organism_box = ttk.Combobox(window, width=27, textvariable=organism)
+    organism_box['state'] = 'readonly'
+    organism_box['values'] = ('human', 'rat', 'mouse')
+    organism_box.current(0)
+    organism_box.place(
+        x=810.0,
+        y=230.0,
+        width=150.0,
+        height=30.0
+    )
+    ttk.Label(window, text="Select you Input type:", background="white").place(
+        x=600.0,
+        y=280.0,
+        height=30.0
+    )
+    input_type = StringVar()
+    input_type_box = ttk.Combobox(window, width=27, textvariable=input_type)
+    input_type_box['state'] = 'readonly'
+    input_type_box['values'] = ('proteinID', 'genename')
+    input_type_box.current(0)
+    input_type_box.place(
+        x=810.0,
+        y=280.0,
+        width=150.0,
+        height=30.0
+    )
+    canvas.create_text(
+        734.0,
+        327.0,
+        anchor="nw",
+        text="Optional ",
+        fill="#646464",
+        font=("Georgia", 22 * -1)
+    )
+    canvas.create_rectangle(
+        581.0,
+        342.0,
+        712.0,
+        344.0,
+        fill="#646464",
+        outline="")
+
+    canvas.create_rectangle(
+        853.0,
+        342.0,
+        984.0,
+        344.0,
+        fill="#646464",
+        outline="")
+    ttk.Label(window, text="Select your output directory.", background="white").place(
+        x=600.0,
+        y=370.0,
+        height=30.0
+    )
+    outdir_path = StringVar()
+    outdir_path.set("Set output directory. Default: ./")
+
+    def select_dir():
+        outdir_path.set(filedialog.askdirectory())
+
+    Entry(master=window, textvariable=outdir_path).place(
+        x=603.0,
+        y=405.0,
+        width=280.0,
+        height=33.0
+    )
+    outdir_button = Button(window, text="Browse", command=select_dir, background="#FFFFFF")
+    outdir_button.place(
+        x=880.0,
+        y=400.0,
+        width=80.0,
+        height=43.0
+    )
     canvas.create_text(
         159.0,
         123.0,
