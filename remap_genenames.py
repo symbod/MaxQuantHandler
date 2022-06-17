@@ -73,6 +73,8 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
     if genename == "" or not skip_filled:
         if mode == "uniprot_one":
             return get_single_genename(ids=ids, organism=organism, handler=handler)
+        elif mode == "uniprot_primary":
+            return handler.get_primary_genenames(ids=ids, organism=organism)
         else:
             return handler.get_all_genenames(ids=ids, organism=organism)
     else:

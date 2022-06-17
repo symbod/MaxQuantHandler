@@ -42,7 +42,7 @@ def save_parameters(script_desc: str, arguments):
         required_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, required=True,
                                    help='Specify organism the ids should match to.')
     if 'm' in arguments:
-        required_args.add_argument('-m', '--mode', choices=['all', 'fasta','uniprot','uniprot_one'], type=str,
+        required_args.add_argument('-m', '--mode', choices=['all', 'fasta','uniprot','uniprot_one', 'uniprot_primary'], type=str,
                                    required=True, help='Mode of refilling. See below for more infos.')
     if 'i' in arguments:
         required_args.add_argument('-i', '--in_type', choices=['proteinID', 'genename'], required=True,
@@ -93,6 +93,7 @@ def _get_epilog(script_name):
         epilog += "  all\t\t\tUse primarly fasta infos and additionally uniprot infos.\n"
         epilog += "  fasta\t\t\tUse information extracted from fasta headers.\n"
         epilog += "  uniprot\t\tUse mapping information from uniprot and use all gene names.\n"
+        epilog += "  uniprot_primary\t\tUse mapping information from uniprot and only all primary gene names.\n"
         epilog += "  uniprot_one\t\tUse mapping information from uniprot and only use most frequent single gene name.\n"
     epilog += "\n############################################################################\n"
     return epilog
