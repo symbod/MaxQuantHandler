@@ -51,8 +51,8 @@ def save_parameters(script_desc: str, arguments):
     if 'f' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
     if 'l' in arguments:
-        optional_args.add_argument('-l', '--fill', action='store_true', default=False,
-                                   help='Use this flag, if only missing values should be filled.')
+        optional_args.add_argument('-l', '--fill', action='store_false', default=True,
+                                   help='Use this flag, if filled values should be skipped. [Default=True]')
     if 'a' in arguments:
         optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete', 'fill'],
                                    help='What to do, if IDs cell is empty after filtering. Keep empty cell, delete it '

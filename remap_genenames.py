@@ -23,6 +23,9 @@ def remap_genenames(data, mode, skip_filled=False, organism=None, fasta=None):
     """
     handler = uh.UniprotHandler()
 
+    # ==== If Input was single column file ====
+    if 'Gene names' not in data.columns:
+        data['Gene names'] = ""
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
         fasta_mapping = grep_header_info(fasta=parameters.mapping_file)
@@ -105,7 +108,7 @@ def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.Unipr
 
 if __name__ == "__main__":
     description = "                   Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('q', 'f', 'or', 'l', 'm', 'o'))
+    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'or', 'l', 'm', 'o'))
     df = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
                          organism=parameters.organism, fasta=parameters.fasta_file)
     df.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,

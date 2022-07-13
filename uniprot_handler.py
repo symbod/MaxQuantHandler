@@ -69,7 +69,7 @@ class UniprotHandler:
         if mapping.empty:
             return ""
         else:
-            genenames = set(mapping['Gene names  (primary )'])
+            genenames = {x for x in mapping['Gene names  (primary )'] if pd.notna(x)}  # set()
             return ';'.join(genenames)
 
     def get_all_genenames(self, ids, organism=None):
