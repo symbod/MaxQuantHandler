@@ -1,16 +1,13 @@
 #!/usr/bin/python3
 
 import pandas as pd
-import urllib.parse
-import urllib.request
-import io
 from pathlib import Path
-
+import requests
 
 class UniprotHandler:
 
-    full_proteinID_mapping = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
-    full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene name'])
+    full_proteinID_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names  (primary )', 'Reviewed', 'Organism', 'Protein ID'])
+    full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene Name'])
 
     def __init__(self):
         if Path("protein_to_genenames.csv").exists():
@@ -20,36 +17,42 @@ class UniprotHandler:
 
     def get_uniprot_mapping(self, ids, in_type, organism=None):
         organisms = {'Homo sapiens (Human)': '9606', 'Mus musculus (Mouse)': '10090', 'Rattus norvegicus (Rat)': '10116'}
-        setup = {'proteinID': {'from': 'ACC+ID', 'columns': 'genes,genes(PREFERRED),reviewed,organism'},
-                 'genename': {'from': 'GENENAME', 'columns': 'id,reviewed,organism'}}
-        url = 'https://www.uniprot.org/uploadlists/'
-        params = {
-            'from': setup[in_type]['from'],
-            'to': 'ACC',
-            'format': 'tab',
-            'query': " ".join(ids),
-            'columns': setup[in_type]['columns']}
-        if organism is not None:
-            params['taxon'] = organisms[organism]
-        data = urllib.parse.urlencode(params)
-        data = data.encode('utf-8')
-        req = urllib.request.Request(url, data)
-        with urllib.request.urlopen(req) as f:
-            response = f.read()
-        if len(response.decode('utf-8')) == 0:
-            return None
-        mapping = pd.read_csv(io.StringIO(response.decode('utf-8')), sep="\t")
-        if in_type == "proteinID":
-            mapping.columns = [*mapping.columns[:-1], 'Protein ID']
-            mapping['Gene names'] = mapping['Gene names'].str.replace(' ', ';')
-            mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
-            mapping = mapping.explode('Protein ID')
-            self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
-        elif in_type == "genename":
+        setup = {'proteinID': {'fields': 'gene_names,gene_primary,reviewed,organism_name,accession'},
+                 'genename': {'fields': 'id,reviewed,organism'}}
+        url = 'https://rest.uniprot.org/uniprotkb/accessions' #uploadlists/'
+        mapping = self.get_uniprot_protein_mapping(ids=ids, organism=organism)
+
+
+        if in_type == "genename":
             mapping.columns = ['Protein ID', *mapping.columns[1:-1], 'Gene name']
-            mapping['Gene name'] = mapping['Gene name'].apply(lambda x: x.split(","))
+            mapping['Gene name'] = mapping['Gene name'].apply(lambda x: x.split(" "))
             mapping = mapping.explode('Gene name')
+            mapping = mapping[mapping['Gene name'].isin(ids)]
             self.full_genenames_mapping = pd.concat([self.full_genenames_mapping, mapping])
+        return mapping
+
+    def get_uniprot_protein_mapping(self, ids, organism=None):
+        url = 'https://rest.uniprot.org/uniprotkb/accessions'
+        mapping = pd.DataFrame()
+        for i in range(0, len(ids), 500):
+            ids_chunk = ids[i:i + 500]
+            params = {
+                'format': 'tsv',
+                'accessions': ",".join([x for x in ids_chunk if not x.startswith(("REV", "CON"))]),
+                'fields': 'gene_names,gene_primary,reviewed,organism_name,accession'}
+            f = requests.get(url=url, params=params)
+            mapping_chunk = pd.read_csv(f.url, sep="\t")
+            if organism is not None:
+                mapping_chunk = mapping_chunk[mapping_chunk['Organism'] == organism]
+            if mapping.empty:
+                mapping = mapping_chunk
+            else:
+                mapping = pd.concat([mapping, mapping_chunk])
+        mapping.columns = [*mapping.columns[:-1], 'Protein ID']
+        mapping['Gene Names'] = mapping['Gene Names'].str.replace(' ', ';')
+        mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
+        mapping = mapping.explode('Protein ID')
+        self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
         return mapping
 
     def get_mapping(self, ids, in_type, organism=None, ignore_missing=False):

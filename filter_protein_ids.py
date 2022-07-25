@@ -30,6 +30,7 @@ def filter_protein_ids(data: pd.DataFrame, organism: str = None, decoy: bool = F
         lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy))
     handler.save_mappings()
     # keep fill or remove
+    print(data)
     if action == "delete":
         data = data[data[id_column] != ""]  # remove
     elif action == "fill":
