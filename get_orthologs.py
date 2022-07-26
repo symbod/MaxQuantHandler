@@ -38,7 +38,7 @@ def get_orthologs(data: pd.DataFrame, organism: str, tar_organism: str):
 
 if __name__ == "__main__":
     description = "               Get ortholog gene names."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'tor_req', 'r', 'd', 'a', 'o'))
-    df = get_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.torganism)
+    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'tor_req', 'o'))
+    df = get_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.tar_organism)
     df.to_csv(parameters.out_dir + parameters.file_name + "_ortholog.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")

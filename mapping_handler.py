@@ -139,7 +139,7 @@ class MappingHandler:
             cur_mapping = self.full_ortholog_mapping[self.full_ortholog_mapping["source_symbol"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['source_organism'] == organism]
             cur_mapping = cur_mapping[cur_mapping['target_organism'] == tar_organism]
-            return cur_mapping, list(set(in_list) - set(self.full_genenames_mapping["source_symbol"]))
+            return cur_mapping, list(set(in_list) - set(self.full_ortholog_mapping["source_symbol"]))
         else:
             return None
 
