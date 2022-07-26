@@ -19,16 +19,16 @@ class UniprotHandler:
         organisms = {'Homo sapiens (Human)': '9606', 'Mus musculus (Mouse)': '10090', 'Rattus norvegicus (Rat)': '10116'}
         setup = {'proteinID': {'fields': 'gene_names,gene_primary,reviewed,organism_name,accession'},
                  'genename': {'fields': 'id,reviewed,organism'}}
-        url = 'https://rest.uniprot.org/uniprotkb/accessions' #uploadlists/'
-        mapping = self.get_uniprot_protein_mapping(ids=ids, organism=organism)
+        if in_type == "proteinID":
+            mapping = self.get_uniprot_protein_mapping(ids=ids, organism=organism)
 
-
-        if in_type == "genename":
-            mapping.columns = ['Protein ID', *mapping.columns[1:-1], 'Gene name']
-            mapping['Gene name'] = mapping['Gene name'].apply(lambda x: x.split(" "))
-            mapping = mapping.explode('Gene name')
-            mapping = mapping[mapping['Gene name'].isin(ids)]
-            self.full_genenames_mapping = pd.concat([self.full_genenames_mapping, mapping])
+        else: # in_type == "genename":
+            # mapping.columns = ['Protein ID', *mapping.columns[1:-1], 'Gene name']
+            # mapping['Gene name'] = mapping['Gene name'].apply(lambda x: x.split(" "))
+            # mapping = mapping.explode('Gene name')
+            # mapping = mapping[mapping['Gene name'].isin(ids)]
+            # self.full_genenames_mapping = pd.concat([self.full_genenames_mapping, mapping])
+            mapping = pd.DataFrame()
         return mapping
 
     def get_uniprot_protein_mapping(self, ids, organism=None):

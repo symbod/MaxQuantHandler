@@ -19,6 +19,7 @@ def get_uniprot_mappings(data: pd.DataFrame, in_type: str, organism=None):
         mappings = handler.get_mapping(ids=";".join(data['Protein IDs']).split(";"),
                                        in_type=in_type, organism=organism)
     else:  # in_type == "genename":
+        print("Gene names option deferred.")
         def agg_func(x):
             return ';'.join(set(x))
 
