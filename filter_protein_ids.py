@@ -3,7 +3,7 @@
 import csv
 import pandas as pd
 import runner_utils as ru
-import uniprot_handler as uh
+import mapping_handler as mh
 
 
 def filter_protein_ids(data: pd.DataFrame, organism: str = None, decoy: bool = False, action: str = "delete",
@@ -20,7 +20,7 @@ def filter_protein_ids(data: pd.DataFrame, organism: str = None, decoy: bool = F
     :return: Filtered MaxQuant file as dataframe
     """
     id_column = "Protein IDs"
-    handler = uh.UniprotHandler()
+    handler = mh.MappingHandler()
     # Get all existing mappings in one batch
     handler.get_mapping(ids=";".join(data[id_column]).split(";"),
                         in_type="proteinID", organism=organism)
@@ -30,7 +30,6 @@ def filter_protein_ids(data: pd.DataFrame, organism: str = None, decoy: bool = F
         lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy))
     handler.save_mappings()
     # keep fill or remove
-    print(data)
     if action == "delete":
         data = data[data[id_column] != ""]  # remove
     elif action == "fill":

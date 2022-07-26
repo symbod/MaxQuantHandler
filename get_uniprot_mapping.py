@@ -2,7 +2,7 @@
 
 import pandas as pd
 import runner_utils as ru
-import uniprot_handler as uh
+import mapping_handler as uh
 
 
 def get_uniprot_mappings(data: pd.DataFrame, in_type: str, organism=None):

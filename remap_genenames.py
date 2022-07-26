@@ -3,7 +3,7 @@
 import csv
 import pandas as pd
 import runner_utils as ru
-import uniprot_handler as uh
+import mapping_handler as mh
 from fasta_grepper import grep_header_info
 from pathlib import Path
 
@@ -21,7 +21,7 @@ def remap_genenames(data, mode, skip_filled=False, organism=None, fasta=None):
     :param fasta: Fasta file
     :return: Remapped MayQuant file as dataframe
     """
-    handler = uh.UniprotHandler()
+    handler = mh.MappingHandler()
 
     # ==== If Input was single column file ====
     if 'Gene names' not in data.columns:
@@ -84,7 +84,7 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
         return genename
 
 
-def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.UniprotHandler()):
+def get_single_genename(ids, organism=None, handler: mh.MappingHandler = mh.MappingHandler()):
     """
     Get gene name from uniprot.
 
@@ -100,7 +100,7 @@ def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.Unipr
         return ";".join(prim_keys)
     # ==== Check all gene names ====
     df['Gene names'] = df['Gene names'].fillna("").str.upper()
-    gene_names = df['Gene names'].apply(uh.series_to_set)
+    gene_names = df['Gene names'].apply(mh.series_to_set)
     lst = [x for z in gene_names for x in z if x != ""]
     # ==== Return most frequent ====
     return max(set(lst), key=lst.count)
@@ -109,7 +109,7 @@ def get_single_genename(ids, organism=None, handler:uh.UniprotHandler = uh.Unipr
 if __name__ == "__main__":
     description = "                   Re-mapp gene names in max quant file."
     parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'or', 'l', 'm', 'o'))
-    df = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
-                         organism=parameters.organism, fasta=parameters.fasta_file)
-    df.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
-              index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+    res = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
+                          organism=parameters.organism, fasta=parameters.fasta_file)
+    res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
+               index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
