@@ -8,7 +8,7 @@ import requests
 
 class MappingHandler:
 
-    full_proteinID_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names  (primary )', 'Reviewed', 'Organism',
+    full_proteinID_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism',
                                                    'Protein ID'])
     full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene Name'])
     full_ortholog_mapping = pd.DataFrame(columns=['source_symbol', 'source_organism', 'ensg', 'ortholog_ensg',
@@ -89,7 +89,8 @@ class MappingHandler:
         if mapping.empty:
             return ""
         else:
-            genenames = {x for x in mapping['Gene names  (primary )'] if pd.notna(x)}  # set()
+            #print(mapping)
+            genenames = {x for x in mapping['Gene Names (primary)'] if pd.notna(x)}  # set()
             return ';'.join(genenames)
 
     def get_all_genenames(self, ids, organism=None):

@@ -22,6 +22,9 @@ def remap_genenames(data, mode, skip_filled=False, organism=None, fasta=None):
     :return: Remapped MayQuant file as dataframe
     """
     handler = mh.MappingHandler()
+    # ==== Preload info for all IDs ====
+    handler.get_mapping(ids=";".join(data["Protein IDs"]).split(";"),
+                        in_type="proteinID", organism=organism)
 
     # ==== If Input was single column file ====
     if 'Gene names' not in data.columns:
