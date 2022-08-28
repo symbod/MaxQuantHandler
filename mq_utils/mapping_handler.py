@@ -8,21 +8,22 @@ import requests
 
 class MappingHandler:
 
-    full_proteinID_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism',
-                                                   'Protein ID'])
-    full_genenames_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene Name'])
+    full_protein_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism',
+                                                 'Protein ID'])
+    full_gene_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene Name'])
     full_ortholog_mapping = pd.DataFrame(columns=['source_symbol', 'source_organism', 'ensg', 'ortholog_ensg',
                                                   'target_symbol', 'target_organism', 'description'])
 
-    def __init__(self):
-        if Path("protein_to_genenames.csv").exists():
-            self.full_proteinID_mapping = pd.read_csv("protein_to_genenames.csv")
-        if Path("genenames_to_protein.csv").exists():
-            self.full_genenames_mapping = pd.read_csv("genenames_to_protein.csv")
-        if Path("genenames_to_orthologs.csv").exists():
-            self.full_ortholog_mapping = pd.read_csv("genenames_to_orthologs.csv")
+    def __init__(self, mapping_dir):
+        if Path(mapping_dir+"protein_to_genenames.csv").exists():
+            self.full_protein_mapping = pd.read_csv(mapping_dir+"protein_to_genenames.csv")
+        if Path(mapping_dir+"genenames_to_protein.csv").exists():
+            self.full_gene_mapping = pd.read_csv(mapping_dir+"genenames_to_protein.csv")
+        if Path(mapping_dir+"genenames_to_orthologs.csv").exists():
+            self.full_ortholog_mapping = pd.read_csv(mapping_dir+"genenames_to_orthologs.csv")
 
     def get_uniprot_mapping(self, ids, organism=None):
+        organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)", "mouse": "Mus musculus (Mouse)"}
         url = 'https://rest.uniprot.org/uniprotkb/accessions'
         mapping = pd.DataFrame()
         for i in range(0, len(ids), 500):
@@ -34,7 +35,7 @@ class MappingHandler:
             f = requests.get(url=url, params=params)
             mapping_chunk = pd.read_csv(f.url, sep="\t")
             if organism is not None:
-                mapping_chunk = mapping_chunk[mapping_chunk['Organism'] == organism]
+                mapping_chunk = mapping_chunk[mapping_chunk['Organism'] == organisms[organism]]
             if mapping.empty:
                 mapping = mapping_chunk
             else:
@@ -43,7 +44,7 @@ class MappingHandler:
         mapping['Gene Names'] = mapping['Gene Names'].str.replace(' ', ';')
         mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
         mapping = mapping.explode('Protein ID')
-        self.full_proteinID_mapping = pd.concat([self.full_proteinID_mapping, mapping])
+        self.full_protein_mapping = pd.concat([self.full_protein_mapping, mapping])
         return mapping
 
     def get_ortholog_mapping(self, ids, organism, tar_organism):
@@ -63,12 +64,15 @@ class MappingHandler:
         df, missing = self.get_preloaded(in_list=ids, in_type=in_type, organism=organism, tar_organism=tar_organism)
         # ===== get missing =====
         if len(missing) > 0 and not ignore_missing:
-            if in_type == "proteinID":
+            if in_type == "protein":
                 df2 = self.get_uniprot_mapping(ids=missing, organism=organism)
                 if df2 is not None:
                     df = pd.concat([df, df2])
                 if organism is not None:
                     df = df[df['Organism'] == organism]
+            if in_type == "gene":
+                # TODO
+                df = pd.DataFrame()
             if in_type == "orthologs":
                 df2 = self.get_ortholog_mapping(ids=missing, organism=organism, tar_organism=tar_organism)
                 if df2 is not None:
@@ -85,16 +89,15 @@ class MappingHandler:
             return ';'.join(orthologs)
 
     def get_primary_genenames(self, ids, organism=None):
-        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism)
+        mapping = self.get_mapping(ids=ids, in_type="protein", organism=organism)
         if mapping.empty:
             return ""
         else:
-            #print(mapping)
             genenames = {x for x in mapping['Gene Names (primary)'] if pd.notna(x)}  # set()
             return ';'.join(genenames)
 
     def get_all_genenames(self, ids, organism=None):
-        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism)
+        mapping = self.get_mapping(ids=ids, in_type="protein", organism=organism)
         if mapping.empty:
             return ""
         else:
@@ -103,39 +106,48 @@ class MappingHandler:
             genenames = set([x for y in gene_names_series for x in y if x != ""])
             return ';'.join(genenames)
 
-    def get_filtered_ids(self, ids, organism=None, decoy=False):
-        if decoy:
-            keep = set([x for x in ids if x.startswith(("REV", "CON"))])
-        else:
-            keep = set()
-        mapping = self.get_mapping(ids=ids, in_type="proteinID", organism=organism, ignore_missing=True)
+    def get_filtered_ids(self, ids, in_type, organism=None, decoy=False):
+        mapping = self.get_mapping(ids=ids, in_type=in_type, organism=organism, ignore_missing=True)
         if mapping.empty:
             return ""
-        else:
+        if in_type == "protein":
+            if decoy:
+                keep = set([x for x in ids if x.startswith(("REV", "CON"))])
+            else:
+                keep = set()
             prot_ids = set(mapping['Protein ID']).union(keep)
             return ';'.join(prot_ids)
+        elif in_type == "gene":
+            gene_names = set(mapping['Gene name'])
+            return ';'.join(gene_names)
+        else:
+            return set()
 
     def get_ids_from_gene(self, genenames, organism=None, reviewed=True):
-        mapping = self.get_mapping(ids=genenames, in_type="genename", organism=organism)
+        mapping = self.get_mapping(ids=genenames, in_type="gene", organism=organism)
         if mapping.empty:
             return ""
         else:
             if reviewed:
                 mapping = mapping[mapping["Status"] == "reviewed"]
-            prot_ids = set(mapping['Protein ID'])
-            return ';'.join(prot_ids)
+            protein_ids = set(mapping['Protein ID'])
+            return ';'.join(protein_ids)
 
     def get_preloaded(self, in_list: list, in_type: str, organism=None, tar_organism=None):
-        if in_type == "proteinID":
-            cur_mapping = self.full_proteinID_mapping[self.full_proteinID_mapping["Protein ID"].isin(in_list)]
+        if in_type == "protein":
+            organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
+                         "mouse": "Mus musculus (Mouse)"}
+            cur_mapping = self.full_protein_mapping[self.full_protein_mapping["Protein ID"].isin(in_list)]
             if organism is not None:
-                cur_mapping = cur_mapping[cur_mapping['Organism'] == organism]
-            return cur_mapping, list(set(in_list) - set(self.full_proteinID_mapping["Protein ID"]))
-        elif in_type == "genename":
-            cur_mapping = self.full_genenames_mapping[self.full_genenames_mapping["Gene name"].isin(in_list)]
+                cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
+            return cur_mapping, list(set(in_list) - set(self.full_protein_mapping["Protein ID"]))
+        elif in_type == "gene":
+            organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
+                         "mouse": "Mus musculus (Mouse)"}
+            cur_mapping = self.full_gene_mapping[self.full_gene_mapping["Gene name"].isin(in_list)]
             if organism is not None:
-                cur_mapping = cur_mapping[cur_mapping['Organism'] == organism]
-            return cur_mapping, list(set(in_list) - set(self.full_genenames_mapping["Gene name"]))
+                cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
+            return cur_mapping, list(set(in_list) - set(self.full_gene_mapping["Gene name"]))
         elif in_type == "orthologs":
             cur_mapping = self.full_ortholog_mapping[self.full_ortholog_mapping["source_symbol"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['source_organism'] == organism]
@@ -144,10 +156,10 @@ class MappingHandler:
         else:
             return None
 
-    def save_mappings(self):
-        self.full_proteinID_mapping.to_csv("protein_to_genenames.csv", index=False)
-        self.full_genenames_mapping.to_csv("genenames_to_protein.csv", index=False)
-        self.full_ortholog_mapping.to_csv("genenames_to_orthologs.csv", index=False)
+    def save_mappings(self, mapping_dir):
+        self.full_protein_mapping.to_csv(mapping_dir+"protein_to_genenames.csv", index=False)
+        self.full_gene_mapping.to_csv(mapping_dir+"genenames_to_protein.csv", index=False)
+        self.full_ortholog_mapping.to_csv(mapping_dir+"genenames_to_orthologs.csv", index=False)
 
 
 def series_to_set(x):

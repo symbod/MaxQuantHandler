@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 
 import pandas as pd
-import runner_utils as ru
-import mapping_handler as uh
+from mq_utils import mapping_handler as mh, runner_utils as ru
 
 
 def get_uniprot_mappings(data: pd.DataFrame, in_type: str, organism=None):
@@ -14,11 +13,11 @@ def get_uniprot_mappings(data: pd.DataFrame, in_type: str, organism=None):
     :param organism: Organism to map to
     :return: Uniprot mapping to protein ids or gene names as dataframe
     """
-    handler = uh.UniprotHandler()
-    if in_type == "proteinID":
+    handler = mh.MappingHandler(mapping_dir="mappings/")
+    if in_type == "protein":
         mappings = handler.get_mapping(ids=";".join(data['Protein IDs']).split(";"),
                                        in_type=in_type, organism=organism)
-    else:  # in_type == "genename":
+    else:  # in_type == "gene":
         print("Gene names option deferred.")
         def agg_func(x):
             return ';'.join(set(x))

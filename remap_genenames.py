@@ -2,48 +2,50 @@
 
 import csv
 import pandas as pd
-import runner_utils as ru
-import mapping_handler as mh
+from mq_utils import mapping_handler as mh, runner_utils as ru
 from fasta_grepper import grep_header_info
 from pathlib import Path
 
-full_mapping = pd.DataFrame(columns=['Gene names', 'Gene names  (primary )', 'Status', 'Organism', 'Protein ID'])
+full_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism', 'Protein ID'])
 
 
-def remap_genenames(data, mode, skip_filled=False, organism=None, fasta=None):
+def remap_genenames(data, mode, protein_column: str, gene_column:str = "Gene names",
+                    skip_filled=False, organism=None, fasta=None):
     """
     Remap gene names in MaxQuant file based on chosen mode.
 
     :param data: MaxQuant data
     :param mode: Mode on how to map gene names
+    :param protein_column:
+    :param gene_column:
     :param skip_filled: Set True if rows with already filled gene names should be ignored
     :param organism: Organism to map to
     :param fasta: Fasta file
     :return: Remapped MayQuant file as dataframe
     """
-    handler = mh.MappingHandler()
+    handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====
-    handler.get_mapping(ids=";".join(data["Protein IDs"]).split(";"),
-                        in_type="proteinID", organism=organism)
+    handler.get_mapping(ids=";".join(data[protein_column]).split(";"),
+                        in_type="protein", organism=organism)
 
     # ==== If Input was single column file ====
-    if 'Gene names' not in data.columns:
-        data['Gene names'] = ""
+    if gene_column not in data.columns:
+        data[gene_column] = ""
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
         fasta_mapping = grep_header_info(fasta=parameters.mapping_file)
-        data['Gene names'] = data.apply(
-            lambda row: run_fasta_mapping(ids=row['Protein IDs'].split(";"), genename=row['Gene names'],
+        data[gene_column] = data.apply(
+            lambda row: run_fasta_mapping(ids=row[protein_column].split(";"), genename=row[gene_column],
                                           mapping=fasta_mapping, skip_filled=skip_filled), axis=1)
         skip_filled = True
 
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
-        data['Gene names'] = data.apply(
-            lambda row: run_uniprot_mapping(ids=row['Protein IDs'].split(";"), genename=row['Gene names'],
+        data[gene_column] = data.apply(
+            lambda row: run_uniprot_mapping(ids=row[protein_column].split(";"), genename=row[gene_column],
                                             mode=mode, organism=organism, handler=handler,
                                             skip_filled=skip_filled), axis=1)
-    handler.save_mappings()
+    handler.save_mappings(mapping_dir="mappings/")
     return data
 
 
@@ -87,7 +89,7 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
         return genename
 
 
-def get_single_genename(ids, organism=None, handler: mh.MappingHandler = mh.MappingHandler()):
+def get_single_genename(ids, organism=None, handler: mh.MappingHandler = mh.MappingHandler(mapping_dir="mappings/")):
     """
     Get gene name from uniprot.
 
@@ -96,23 +98,24 @@ def get_single_genename(ids, organism=None, handler: mh.MappingHandler = mh.Mapp
     :param handler: Handler for uniprot mappings
     :return: Single gene name
     """
-    df = handler.get_mapping(ids=ids, in_type="proteinID", organism=organism)
+    df = handler.get_mapping(ids=ids, in_type="protein", organism=organism)
     # ==== Get primary gene name first ====
-    prim_keys = set(df['Gene names  (primary )'].fillna(""))
+    prim_keys = set(df['Gene Names (primary)'].fillna(""))
     if len(prim_keys) == 1:
         return ";".join(prim_keys)
     # ==== Check all gene names ====
-    df['Gene names'] = df['Gene names'].fillna("").str.upper()
-    gene_names = df['Gene names'].apply(mh.series_to_set)
+    df['Gene Names'] = df['Gene Names'].fillna("").str.upper()
+    gene_names = df['Gene Names'].apply(mh.series_to_set)
     lst = [x for z in gene_names for x in z if x != ""]
     # ==== Return most frequent ====
     return max(set(lst), key=lst.count)
 
 
 if __name__ == "__main__":
-    description = "                   Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'or', 'l', 'm', 'o'))
+    description = "                  Re-mapp gene names in max quant file."
+    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'c', 'or', 'l', 'm', 'o'))
     res = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
+                          protein_column=parameters.protein_column, gene_column=parameters.gene_column,
                           organism=parameters.organism, fasta=parameters.fasta_file)
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")

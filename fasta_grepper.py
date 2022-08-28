@@ -2,7 +2,7 @@
 
 import re
 import pandas as pd
-import runner_utils as ru
+from mq_utils import runner_utils as ru
 
 
 def grep_header_info(fasta: str) -> pd.DataFrame:

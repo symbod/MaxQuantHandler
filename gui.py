@@ -7,8 +7,8 @@ import csv, os
 from tkinter import *
 from tkinter import ttk, filedialog
 
-import runner_utils as ru
-from filter_protein_ids import filter_protein_ids as fpi
+from MaxQuantHandler.mq_utils import runner_utils as ru
+from filter_ids import filter_protein_ids as fpi
 from get_uniprot_mapping import get_uniprot_mappings as gum
 from remap_genenames import remap_genenames as rg
 

@@ -6712,3 +6712,503 @@ ANKRD28,human,ENSG00000206560,ENSMUSG00000014496,Ankrd28,mouse,ankyrin repeat do
 TMEM87A,human,ENSG00000103978,ENSMUSG00000033808,Tmem87a,mouse,transmembrane protein 87A [Source:MGI Symbol;Acc:MGI:2441844]
 PPP2R4,human,,,,mouse,
 SUN2,human,ENSG00000100242,ENSMUSG00000042524,Sun2,mouse,Sad1 and UNC84 domain containing 2 [Source:MGI Symbol;Acc:MGI:2443011]
+CEMIP2,human,ENSG00000135048,ENSRNOG00000012782,Cemip2,rat,cell migration inducing hyaluronidase 2 [Source:RGD Symbol;Acc:1307941]
+RIPOR1,human,ENSG00000039523,ENSRNOG00000017604,Ripor1,rat,RHO family interacting cell polarization regulator 1 [Source:RGD Symbol;Acc:1307772]
+RAP2A,human,ENSG00000125249,ENSRNOG00000051564,Rap2a,rat,"RAP2A, member of RAS oncogene family [Source:RGD Symbol;Acc:620590]"
+ANP32D,human,ENSG00000139223,ENSRNOG00000069538,ENSRNOG00000069538,rat,
+MARK3,human,ENSG00000075413,ENSRNOG00000010330,Mark3,rat,microtubule affinity regulating kinase 3 [Source:RGD Symbol;Acc:619883]
+FHIP2A,human,ENSG00000151553,ENSRNOG00000017225,Fhip2a,rat,FHF complex subunit HOOK interacting protein 2A [Source:RGD Symbol;Acc:1306116]
+GCN1,human,ENSG00000089154,ENSRNOG00000021871,Gcn1,rat,GCN1 activator of EIF2AK4 [Source:RGD Symbol;Acc:1593434]
+MERTK,human,ENSG00000153208,ENSRNOG00000017319,Mertk,rat,"MER proto-oncogene, tyrosine kinase [Source:RGD Symbol;Acc:69283]"
+DNAAF10,human,ENSG00000243667,,,rat,
+MACROH2A2,human,ENSG00000099284,ENSRNOG00000024751,Macroh2a2,rat,macroH2A.2 histone [Source:RGD Symbol;Acc:1561371]
+CALHM5,human,ENSG00000178033,ENSRNOG00000000825,Calhm5,rat,calcium homeostasis modulator family member 5 [Source:RGD Symbol;Acc:1310405]
+WASHC3,human,ENSG00000120860,ENSRNOG00000005102,Washc3,rat,WASH complex subunit 3 [Source:RGD Symbol;Acc:1563761]
+EPN3,human,ENSG00000049283,ENSRNOG00000003284,Epn3,rat,epsin 3 [Source:RGD Symbol;Acc:1306416]
+MEAK7,human,ENSG00000140950,ENSRNOG00000016224,Meak7,rat,"MTOR associated protein, eak-7 homolog [Source:RGD Symbol;Acc:1308461]"
+SERPINB10,human,ENSG00000242550,ENSRNOG00000002417,Serpinb10,rat,serpin family B member 10 [Source:RGD Symbol;Acc:628853]
+ATP5MK,human,ENSG00000173915,ENSRNOG00000020296,Atp5mk,rat,ATP synthase membrane subunit k [Source:RGD Symbol;Acc:631426]
+ATP5MK,human,ENSG00000173915,ENSRNOG00000042869,Atp5mk,rat,ATP synthase membrane subunit k [Source:RGD Symbol;Acc:631426]
+ATP5MK,human,ENSG00000173915,ENSRNOG00000067471,ENSRNOG00000067471,rat,up-regulated during skeletal muscle growth protein 5 [Source:RGD Symbol;Acc:9203006]
+CAVIN3,human,ENSG00000170955,ENSRNOG00000017914,Cavin3,rat,caveolae associated protein 3 [Source:RGD Symbol;Acc:628755]
+ATP5MC2,human,ENSG00000135390,ENSRNOG00000015320,Atp5mc2,rat,ATP synthase membrane subunit c locus 2 [Source:RGD Symbol;Acc:620051]
+ATP5MC2,human,ENSG00000135390,ENSRNOG00000018045,AABR07007730.1,rat,"similar to ATP synthase, H+ transporting, mitochondrial Fo complex, subunit C2 (subunit 9) [Source:RGD Symbol;Acc:1566212]"
+ATP5MC2,human,ENSG00000135390,ENSRNOG00000032518,AABR07068084.1,rat,"ATP synthase lipid-binding protein, mitochondrial-like [Source:RGD Symbol;Acc:2319343]"
+ATP5MC2,human,ENSG00000135390,ENSRNOG00000062268,AABR07051404.1,rat,"ATP synthase F(0) complex subunit C2, mitochondrial pseudogene [Source:RGD Symbol;Acc:9387198]"
+AP1M2,human,ENSG00000129354,ENSRNOG00000043093,Ap1m2,rat,adaptor related protein complex 1 subunit mu 2 [Source:RGD Symbol;Acc:1561490]
+PI4KAP2,human,ENSG00000183506,,,rat,
+RAC2,human,ENSG00000128340,ENSRNOG00000007350,Rac2,rat,Rac family small GTPase 2 [Source:RGD Symbol;Acc:1307568]
+MRPL58,human,ENSG00000167862,ENSRNOG00000032780,Mrpl58,rat,mitochondrial ribosomal protein L58 [Source:RGD Symbol;Acc:1307942]
+WTAP,human,ENSG00000146457,ENSRNOG00000019091,Wtap,rat,WT1 associated protein [Source:RGD Symbol;Acc:1563824]
+ELOB,human,ENSG00000103363,ENSRNOG00000029479,RGD1304870,rat,similar to Tceb2 protein [Source:RGD Symbol;Acc:1304870]
+ELOB,human,ENSG00000103363,ENSRNOG00000034060,AC119015.3,rat,"similar to transcription elongation factor B (SIII), polypeptide 2 [Source:RGD Symbol;Acc:1561118]"
+ELOB,human,ENSG00000103363,ENSRNOG00000067144,RGD1304870,rat,similar to Tceb2 protein [Source:RGD Symbol;Acc:1304870]
+RAB30,human,ENSG00000137502,ENSRNOG00000010224,Rab30,rat,"RAB30, member RAS oncogene family [Source:RGD Symbol;Acc:1309507]"
+FKBP1C,human,ENSG00000198225,ENSRNOG00000008822,Fkbp1a,rat,FKBP prolyl isomerase 1A [Source:RGD Symbol;Acc:2617]
+SNU13,human,ENSG00000100138,ENSRNOG00000006762,Snu13,rat,small nuclear ribonucleoprotein 13 [Source:RGD Symbol;Acc:1303103]
+CIP2A,human,ENSG00000163507,ENSRNOG00000039183,Cip2a,rat,cellular inhibitor of PP2A [Source:RGD Symbol;Acc:1310335]
+MYH14,human,ENSG00000105357,ENSRNOG00000020014,Myh14,rat,myosin heavy chain 14 [Source:RGD Symbol;Acc:1306821]
+ATP6V1B1,human,ENSG00000116039,ENSRNOG00000013573,Atp6v1b1,rat,ATPase H+ transporting V1 subunit B1 [Source:RGD Symbol;Acc:1310619]
+NIBAN2,human,ENSG00000136830,ENSRNOG00000015845,Niban2,rat,niban apoptosis regulator 2 [Source:RGD Symbol;Acc:1307018]
+NAXD,human,ENSG00000213995,ENSRNOG00000015021,Naxd,rat,NAD(P)HX dehydratase [Source:RGD Symbol;Acc:1562691]
+SELENOT,human,ENSG00000198843,ENSRNOG00000013507,Selenot,rat,selenoprotein T [Source:RGD Symbol;Acc:1359128]
+PLPP3,human,ENSG00000162407,ENSRNOG00000008116,Plpp3,rat,phospholipid phosphatase 3 [Source:RGD Symbol;Acc:620454]
+H3-3A,human,ENSG00000132475,ENSRNOG00000006532,H3f3a,rat,H3.3 histone B [Source:RGD Symbol;Acc:621095]
+H3-3A,human,ENSG00000132475,ENSRNOG00000063108,ENSRNOG00000063108,rat,
+H3-3A,human,ENSG00000163041,ENSRNOG00000003220,H3f3a,rat,H3.3 histone B [Source:RGD Symbol;Acc:621095]
+H3-3A,human,ENSG00000163041,ENSRNOG00000031251,ENSRNOG00000031251,rat,histone H3.3-like [Source:RGD Symbol;Acc:9158805]
+H3-3A,human,ENSG00000163041,ENSRNOG00000032108,RGD1564447,rat,similar to Zgc:56193 [Source:RGD Symbol;Acc:1564447]
+H3-3A,human,ENSG00000163041,ENSRNOG00000032401,H3f3c,rat,H3 histone family member 3C [Source:RGD Symbol;Acc:2321290]
+H3-3A,human,ENSG00000163041,ENSRNOG00000067027,ENSRNOG00000067027,rat,histone H3.3-like [Source:RGD Symbol;Acc:11381356]
+STX1A,human,ENSG00000106089,ENSRNOG00000029165,Stx1a,rat,syntaxin 1A [Source:RGD Symbol;Acc:69430]
+CRYBG1,human,ENSG00000112297,ENSRNOG00000025998,Crybg1,rat,crystallin beta-gamma domain containing 1 [Source:RGD Symbol;Acc:1308629]
+PLPBP,human,ENSG00000147471,ENSRNOG00000013751,Plpbp,rat,pyridoxal phosphate binding protein [Source:RGD Symbol;Acc:1308962]
+ATP5F1B,human,ENSG00000110955,ENSRNOG00000002840,Atp5f1b,rat,ATP synthase F1 subunit beta [Source:RGD Symbol;Acc:621368]
+VARS1,human,ENSG00000204394,ENSRNOG00000000867,Vars1,rat,valyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:3950]
+DOP1B,human,ENSG00000142197,ENSRNOG00000051204,Dop1b,rat,DOP1 leucine zipper like protein B [Source:RGD Symbol;Acc:1306097]
+CZIB,human,ENSG00000162384,ENSRNOG00000012724,Czib,rat,CXXC motif containing zinc binding protein [Source:RGD Symbol;Acc:1559786]
+SQOR,human,ENSG00000137767,ENSRNOG00000000172,Sqor,rat,sulfide quinone oxidoreductase [Source:RGD Symbol;Acc:1564504]
+SH3RF1,human,ENSG00000154447,ENSRNOG00000010358,Sh3rf1,rat,SH3 domain containing ring finger 1 [Source:RGD Symbol;Acc:735154]
+DIPK2A,human,ENSG00000181744,ENSRNOG00000008519,Dipk2a,rat,divergent protein kinase domain 2A [Source:RGD Symbol;Acc:1309079]
+FABP4,human,ENSG00000170323,ENSRNOG00000010805,Fabp4,rat,fatty acid binding protein 4 [Source:RGD Symbol;Acc:69309]
+DCUN1D2,human,ENSG00000150401,ENSRNOG00000019473,Dcun1d2,rat,defective in cullin neddylation 1 domain containing 2 [Source:RGD Symbol;Acc:1582994]
+DAPK2,human,ENSG00000035664,ENSRNOG00000017332,Dapk2,rat,death-associated protein kinase 2 [Source:RGD Symbol;Acc:1304708]
+EBF1,human,ENSG00000164330,ENSRNOG00000028845,Ebf1,rat,EBF transcription factor 1 [Source:RGD Symbol;Acc:620953]
+ATP5MC3,human,ENSG00000154518,ENSRNOG00000001596,Atp5mc3,rat,ATP synthase membrane subunit c locus 3 [Source:RGD Symbol;Acc:620052]
+ATP5MC3,human,ENSG00000154518,ENSRNOG00000063996,ENSRNOG00000063996,rat,
+PXN,human,ENSG00000089159,ENSRNOG00000001149,Pxn,rat,paxillin [Source:RGD Symbol;Acc:1305759]
+PTPRK,human,ENSG00000152894,ENSRNOG00000047605,ENSRNOG00000047605,rat,
+H3-7,human,,,,rat,
+DHRS4L2,human,ENSG00000187630,ENSRNOG00000018239,Dhrs4,rat,dehydrogenase/reductase 4 [Source:RGD Symbol;Acc:708482]
+ERBIN,human,ENSG00000112851,ENSRNOG00000047137,Erbin,rat,erbb2 interacting protein [Source:RGD Symbol;Acc:1562952]
+RTRAF,human,ENSG00000087302,ENSRNOG00000000340,Rtraf,rat,"RNA transcription, translation and transport factor [Source:RGD Symbol;Acc:1304704]"
+YJU2,human,ENSG00000105248,ENSRNOG00000029606,AABR07024964.1,rat,similar to RIKEN cDNA 2900016D05 [Source:RGD Symbol;Acc:1560857]
+YJU2,human,ENSG00000105248,ENSRNOG00000047456,Yju2,rat,YJU2 splicing factor homolog [Source:RGD Symbol;Acc:1589601]
+SPART,human,ENSG00000133104,ENSRNOG00000014155,Spart,rat,spartin [Source:RGD Symbol;Acc:1305900]
+GK,human,ENSG00000198814,ENSRNOG00000034116,Gk,rat,glycerol kinase [Source:MGI Symbol;Acc:MGI:106594]
+CCNH,human,ENSG00000134480,ENSRNOG00000031656,Ccnh,rat,cyclin H [Source:RGD Symbol;Acc:69419]
+ATP5MF-PTCD1,human,ENSG00000248919,ENSRNOG00000000987,Ptcd1,rat,pentatricopeptide repeat domain 1 [Source:RGD Symbol;Acc:1311473]
+PTCD1,human,ENSG00000106246,ENSRNOG00000000987,Ptcd1,rat,pentatricopeptide repeat domain 1 [Source:RGD Symbol;Acc:1311473]
+SEPTIN7,human,ENSG00000122545,ENSRNOG00000000713,AABR07033045.1,rat,
+SEPTIN7,human,ENSG00000122545,ENSRNOG00000065987,ENSRNOG00000065987,rat,
+NCALD,human,ENSG00000104490,ENSRNOG00000042978,Ncald,rat,neurocalcin delta [Source:RGD Symbol;Acc:1560287]
+VAMP1,human,ENSG00000139190,ENSRNOG00000019219,Vamp1,rat,vesicle-associated membrane protein 1 [Source:RGD Symbol;Acc:3948]
+SELENOK,human,ENSG00000113811,ENSRNOG00000014624,Selenok,rat,selenoprotein K [Source:RGD Symbol;Acc:1303129]
+SELENOK,human,ENSG00000113811,ENSRNOG00000062938,ENSRNOG00000062938,rat,
+UTP4,human,ENSG00000141076,ENSRNOG00000020333,Utp4,rat,UTP4 small subunit processome component [Source:RGD Symbol;Acc:1311341]
+MCUB,human,ENSG00000005059,ENSRNOG00000009433,Mcub,rat,mitochondrial calcium uniporter dominant negative subunit beta [Source:RGD Symbol;Acc:1305326]
+ATP5F1A,human,ENSG00000152234,ENSRNOG00000017032,Atp5f1a,rat,ATP synthase F1 subunit alpha [Source:RGD Symbol;Acc:619993]
+MTSS2,human,ENSG00000132613,ENSRNOG00000017500,Mtss2,rat,MTSS I-BAR domain containing 2 [Source:RGD Symbol;Acc:1309731]
+ADGRA2,human,ENSG00000020181,ENSRNOG00000012991,Adgra2,rat,adhesion G protein-coupled receptor A2 [Source:RGD Symbol;Acc:2323365]
+DENND10P1,human,ENSG00000221930,,,rat,
+LDHC,human,ENSG00000166796,ENSRNOG00000013103,Ldhc,rat,lactate dehydrogenase C [Source:RGD Symbol;Acc:69366]
+H3C15,human,ENSG00000183598,ENSRNOG00000063016,Hist2h3c2,rat,histone cluster 2 H3 family member C2 [Source:RGD Symbol;Acc:1306445]
+H3C15,human,ENSG00000203811,ENSRNOG00000064521,Hist2h3c2,rat,H3 clustered histone 13 [Source:NCBI gene (formerly Entrezgene);Acc:684762]
+H3C15,human,ENSG00000203852,ENSRNOG00000065886,Hist2h3c2,rat,H3 clustered histone 13 [Source:NCBI gene (formerly Entrezgene);Acc:684762]
+ABRAXAS2,human,ENSG00000165660,ENSRNOG00000017222,Abraxas2,rat,"abraxas 2, BRISC complex subunit [Source:RGD Symbol;Acc:1308918]"
+B3GLCT,human,ENSG00000187676,ENSRNOG00000061346,B3glct,rat,beta 3-glucosyltransferase [Source:RGD Symbol;Acc:1588723]
+WASHC2C,human,ENSG00000172661,ENSRNOG00000011653,Washc2c,rat,WASH complex subunit 2C [Source:RGD Symbol;Acc:735230]
+ECPAS,human,ENSG00000136813,ENSRNOG00000025076,Ecpas,rat,Ecm29 proteasome adaptor and scaffold [Source:RGD Symbol;Acc:1306148]
+DVL3,human,ENSG00000161202,ENSRNOG00000001708,Dvl3,rat,dishevelled segment polarity protein 3 [Source:RGD Symbol;Acc:1308834]
+KIRREL1,human,ENSG00000183853,ENSRNOG00000016408,Kirrel1,rat,kirre like nephrin family adhesion molecule 1 [Source:RGD Symbol;Acc:727883]
+GPAT4,human,ENSG00000158669,ENSRNOG00000018077,Gpat4,rat,glycerol-3-phosphate acyltransferase 4 [Source:RGD Symbol;Acc:1310520]
+WARS1,human,ENSG00000140105,ENSRNOG00000004359,Wars1,rat,tryptophanyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1308278]
+PCGF2,human,ENSG00000277258,ENSRNOG00000012705,Pcgf2,rat,polycomb group ring finger 2 [Source:RGD Symbol;Acc:1305097]
+PCGF2,human,ENSG00000277258,ENSRNOG00000068259,ENSRNOG00000068259,rat,polycomb group RING finger protein 2-like [Source:RGD Symbol;Acc:9238983]
+ H4C9,human,,,,rat,
+RIDA,human,ENSG00000132541,ENSRNOG00000005437,Rida,rat,reactive intermediate imine deaminase A homolog [Source:RGD Symbol;Acc:70940]
+SORBS1,human,ENSG00000095637,ENSRNOG00000015658,Sorbs1,rat,sorbin and SH3 domain containing 1 [Source:RGD Symbol;Acc:1586598]
+ERG28,human,ENSG00000133935,ENSRNOG00000008781,Erg28,rat,ergosterol biosynthesis 28 homolog [Source:RGD Symbol;Acc:1310769]
+POGLUT2,human,ENSG00000134901,ENSRNOG00000011740,Poglut2,rat,protein O-glucosyltransferase 2 [Source:RGD Symbol;Acc:1304684]
+WASHC1,human,ENSG00000181404,ENSRNOG00000053306,Washc1,rat,WASH complex subunit 1 [Source:RGD Symbol;Acc:1310196]
+WASHC1,human,ENSG00000181404,ENSRNOG00000064608,ENSRNOG00000064608,rat,
+SRPRA,human,ENSG00000182934,ENSRNOG00000010543,Srpra,rat,SRP receptor subunit alpha [Source:RGD Symbol;Acc:1311504]
+ATP5F1C,human,ENSG00000165629,,,rat,
+JCAD,human,ENSG00000165757,ENSRNOG00000027938,Jcad,rat,junctional cadherin 5 associated [Source:RGD Symbol;Acc:1562037]
+NAXE,human,ENSG00000163382,ENSRNOG00000019201,Naxe,rat,NAD(P)HX epimerase [Source:RGD Symbol;Acc:1304699]
+ H4C4,human,,,,rat,
+TARS1,human,ENSG00000113407,ENSRNOG00000019023,Tars1,rat,threonyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1359527]
+ H4C14,human,,,,rat,
+MMUT,human,ENSG00000146085,ENSRNOG00000050843,Mmut,rat,methylmalonyl-CoA mutase [Source:RGD Symbol;Acc:1587662]
+ARPIN-AP3S2,human,ENSG00000250021,ENSRNOG00000014589,Arpin,rat,actin-related protein 2/3 complex inhibitor [Source:RGD Symbol;Acc:1311021]
+STEAP1B,human,ENSG00000105889,ENSRNOG00000000017,Steap1,rat,STEAP family member 1 [Source:RGD Symbol;Acc:1311543]
+NARS1,human,ENSG00000134440,ENSRNOG00000017852,Nars1,rat,asparaginyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1307238]
+ H4C3,human,,,,rat,
+PUM3,human,ENSG00000080608,ENSRNOG00000012574,Pum3,rat,pumilio RNA-binding family member 3 [Source:RGD Symbol;Acc:1564753]
+PUM3,human,ENSG00000080608,ENSRNOG00000048356,RGD1308750,rat,"similar to DNA segment, Chr 19, Brigham & Womens Genetics 1357 expressed [Source:RGD Symbol;Acc:1308750]"
+AARS1,human,ENSG00000090861,ENSRNOG00000018404,Aars1,rat,alanyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1304832]
+KIFC3,human,ENSG00000140859,ENSRNOG00000014087,Kifc3,rat,kinesin family member C3 [Source:RGD Symbol;Acc:1307693]
+NAA11,human,ENSG00000156269,,,rat,
+PIN1P1,human,ENSG00000229359,,,rat,
+VPS53,human,ENSG00000141252,ENSRNOG00000006895,Vps53,rat,VPS53 subunit of GARP complex [Source:RGD Symbol;Acc:1311391]
+SEPTIN11,human,ENSG00000138758,ENSRNOG00000002182,Septin11,rat,septin 11 [Source:RGD Symbol;Acc:1307405]
+KARS1,human,ENSG00000065427,ENSRNOG00000019456,Kars,rat,lysyl-tRNA synthetase [Source:RGD Symbol;Acc:1359653]
+BABAM2,human,ENSG00000158019,ENSRNOG00000004364,Babam2,rat,BRISC and BRCA1 A complex member 2 [Source:RGD Symbol;Acc:735111]
+GET3,human,ENSG00000198356,ENSRNOG00000003747,Get3,rat,"guided entry of tail-anchored proteins factor 3, ATPase [Source:RGD Symbol;Acc:1307906]"
+CARMIL1,human,ENSG00000079691,ENSRNOG00000016576,Carmil1,rat,capping protein regulator and myosin 1 linker 1 [Source:RGD Symbol;Acc:1306623]
+PTBP1,human,ENSG00000011304,ENSRNOG00000028033,Smptb,rat,polypyrimidine tract-binding protein [Source:RGD Symbol;Acc:727953]
+PTBP1,human,ENSG00000011304,ENSRNOG00000066859,Smptb,rat,polypyrimidine tract-binding protein [Source:NCBI gene (formerly Entrezgene);Acc:302879]
+ATP5PO,human,ENSG00000241837,ENSRNOG00000001991,Atp5po,rat,ATP synthase peripheral stalk subunit OSCP [Source:RGD Symbol;Acc:621379]
+SHFL,human,ENSG00000130813,ENSRNOG00000020580,Shfl,rat,shiftless antiviral inhibitor of ribosomal frameshifting [Source:RGD Symbol;Acc:1565995]
+BPNT2,human,ENSG00000104331,ENSRNOG00000046647,Bpnt2,rat,"3'(2'), 5'-bisphosphate nucleotidase 2 [Source:RGD Symbol;Acc:1306455]"
+LIMS3,human,ENSG00000256977,ENSRNOG00000037765,Lims1,rat,LIM zinc finger domain containing 1 [Source:RGD Symbol;Acc:1560732]
+ H4C11,human,,,,rat,
+RAB31,human,ENSG00000168461,ENSRNOG00000042189,Rab31,rat,"RAB31, member RAS oncogene family [Source:RGD Symbol;Acc:628598]"
+JPT2,human,ENSG00000206053,ENSRNOG00000000607,RGD1559903,rat,similar to RIKEN cDNA 1700049L16 [Source:RGD Symbol;Acc:1559903]
+JPT2,human,ENSG00000206053,ENSRNOG00000024661,Jpt2,rat,Jupiter microtubule associated homolog 2 [Source:RGD Symbol;Acc:1305117]
+PFKFB3,human,ENSG00000170525,ENSRNOG00000018911,Pfkfb3,rat,"6-phosphofructo-2-kinase/fructose-2,6-biphosphatase 3 [Source:RGD Symbol;Acc:619776]"
+GATD3B,human,ENSG00000160221,ENSRNOG00000001211,Gatd3a,rat,glutamine amidotransferase like class 1 domain containing 3A [Source:RGD Symbol;Acc:1303003]
+GATD3B,human,ENSG00000280071,ENSRNOG00000001211,Gatd3a,rat,glutamine amidotransferase like class 1 domain containing 3A [Source:RGD Symbol;Acc:1303003]
+PRKD3,human,ENSG00000115825,ENSRNOG00000005289,Prkd3,rat,protein kinase D3 [Source:RGD Symbol;Acc:1310236]
+GTF2H1,human,ENSG00000110768,ENSRNOG00000012360,Gtf2h1,rat,general transcription factor IIH subunit 1 [Source:RGD Symbol;Acc:1308225]
+ATAD2B,human,ENSG00000119778,ENSRNOG00000058973,Atad2b,rat,"ATPase family, AAA domain containing 2B [Source:RGD Symbol;Acc:1566199]"
+LOC102724159,human,ENSG00000275464,ENSRNOG00000001210,Pwp2,rat,"PWP2, small subunit processome component [Source:RGD Symbol;Acc:1582817]"
+SIRPB1,human,ENSG00000101307,,,rat,
+ATP5PD,human,ENSG00000167863,ENSRNOG00000003626,Atp5pd,rat,ATP synthase peripheral stalk subunit d [Source:RGD Symbol;Acc:620083]
+ATP5PD,human,ENSG00000167863,ENSRNOG00000038744,AABR07025819.1,rat,"ATP synthase, H+ transporting, mitochondrial Fo complex, subunit d-like 1 [Source:RGD Symbol;Acc:1559626]"
+ATP5PD,human,ENSG00000167863,ENSRNOG00000060851,AC105662.3,rat,
+H1-5,human,ENSG00000184357,ENSRNOG00000060355,H1f5,rat,"H1.5 linker histone, cluster member [Source:RGD Symbol;Acc:1590638]"
+CEP43,human,ENSG00000213066,ENSRNOG00000055093,Cep43,rat,centrosomal protein 43 [Source:RGD Symbol;Acc:1583370]
+RBMX,human,ENSG00000147274,,,rat,
+KLHDC8B,human,ENSG00000185909,ENSRNOG00000047867,Klhdc8b,rat,kelch domain containing 8B [Source:RGD Symbol;Acc:1359445]
+RUSF1,human,ENSG00000140688,ENSRNOG00000020144,Rusf1,rat,RUS family member 1 [Source:RGD Symbol;Acc:1310127]
+ANKFN1,human,ENSG00000153930,ENSRNOG00000064511,Ankfn1,rat,ankyrin-repeat and fibronectin type III domain containing 1 [Source:RGD Symbol;Acc:7736477]
+ACTN3,human,ENSG00000248746,ENSRNOG00000019745,Actn3,rat,actinin alpha 3 [Source:RGD Symbol;Acc:621792]
+RIOX1,human,ENSG00000170468,ENSRNOG00000010126,Riox1,rat,ribosomal oxygenase 1 [Source:RGD Symbol;Acc:1307704]
+RGPD5,human,ENSG00000015568,,,rat,
+RGPD5,human,ENSG00000169629,,,rat,
+RGPD5,human,ENSG00000183054,,,rat,
+AFDN,human,ENSG00000130396,ENSRNOG00000023753,Afdn,rat,"afadin, adherens junction formation factor [Source:RGD Symbol;Acc:708561]"
+CSNKA2IP,human,ENSG00000283434,ENSRNOG00000068003,Csnka2ip,rat,casein kinase 2 subunit alpha' interacting protein [Source:RGD Symbol;Acc:1562102]
+LDHAL6A,human,ENSG00000166800,,,rat,
+DNAJB3,human,ENSG00000227802,,,rat,
+CIAO3,human,ENSG00000103245,ENSRNOG00000019522,Ciao3,rat,cytosolic iron-sulfur assembly component 3 [Source:RGD Symbol;Acc:1305982]
+PALS2,human,ENSG00000105926,ENSRNOG00000021579,Mpp6,rat,membrane palmitoylated protein 6 [Source:RGD Symbol;Acc:1311833]
+ELP1,human,ENSG00000070061,ENSRNOG00000016725,Elp1,rat,elongator acetyltransferase complex subunit 1 [Source:RGD Symbol;Acc:620072]
+PRXL2C,human,ENSG00000158122,ENSRNOG00000018886,Prxl2c,rat,peroxiredoxin like 2C [Source:RGD Symbol;Acc:1589650]
+HNRNPA1L3,human,,,,rat,
+RPS27AP5,human,ENSG00000231767,ENSRNOG00000029317,AABR07043659.1,rat,"ribosomal protein S27a, pseudogene 6 [Source:RGD Symbol;Acc:1588826]"
+PRXL2A,human,ENSG00000122378,ENSRNOG00000011140,Prxl2a,rat,peroxiredoxin like 2A [Source:RGD Symbol;Acc:1309676]
+DIPK1A,human,ENSG00000154511,ENSRNOG00000023533,Dipk1a,rat,divergent protein kinase domain 1A [Source:RGD Symbol;Acc:1308581]
+SEPTIN9,human,ENSG00000184640,ENSRNOG00000002807,Septin9,rat,septin 9 [Source:RGD Symbol;Acc:708523]
+METAP1,human,ENSG00000164024,ENSRNOG00000012947,Metap1,rat,methionyl aminopeptidase 1 [Source:RGD Symbol;Acc:1305545]
+AOC2,human,ENSG00000131480,,,rat,
+COPA,human,ENSG00000122218,ENSRNOG00000006247,Copa,rat,COPI coat complex subunit alpha [Source:RGD Symbol;Acc:1310525]
+PRXL2B,human,ENSG00000157870,,,rat,
+PFKFB1,human,ENSG00000158571,ENSRNOG00000000165,Pfkfb1,rat,"6-phosphofructo-2-kinase/fructose-2,6-biphosphatase 1 [Source:MGI Symbol;Acc:MGI:107816]"
+ELOA,human,ENSG00000011007,ENSRNOG00000010902,Eloa,rat,elongin A [Source:RGD Symbol;Acc:3827]
+ARRB2,human,ENSG00000141480,ENSRNOG00000019308,Arrb2,rat,"arrestin, beta 2 [Source:RGD Symbol;Acc:2157]"
+NUP58,human,ENSG00000139496,ENSRNOG00000012644,Nup58,rat,nucleoporin 58 [Source:RGD Symbol;Acc:631334]
+H1-10,human,ENSG00000184897,ENSRNOG00000027722,H1f10,rat,H1.10 linker histone [Source:RGD Symbol;Acc:1565596]
+ H3C13,human,,,,rat,
+FLYWCH1,human,ENSG00000059122,ENSRNOG00000004333,Flywch1,rat,FLYWCH-type zinc finger 1 [Source:RGD Symbol;Acc:1309385]
+ACTR3C,human,ENSG00000106526,ENSRNOG00000031855,Actr3b,rat,actin related protein 3B [Source:RGD Symbol;Acc:1565759]
+ H4C13,human,,,,rat,
+YBX2,human,ENSG00000006047,ENSRNOG00000017117,Ybx2,rat,Y box binding protein 2 [Source:RGD Symbol;Acc:1305068]
+CCN1,human,ENSG00000142871,ENSRNOG00000014350,Ccn1,rat,cellular communication network factor 1 [Source:RGD Symbol;Acc:620763]
+PHB1,human,,,,rat,
+H1-2,human,ENSG00000187837,ENSRNOG00000067441,H1f2,rat,"H1.2 linker histone, cluster member [Source:RGD Symbol;Acc:1587893]"
+MYZAP,human,ENSG00000263155,ENSRNOG00000057676,Myzap,rat,RNA polymerase II subunit M [Source:RGD Symbol;Acc:619847]
+H2AZ1,human,ENSG00000164032,ENSRNOG00000010306,H2az1,rat,H2A.Z variant histone 1 [Source:RGD Symbol;Acc:621464]
+H2AZ1,human,ENSG00000164032,ENSRNOG00000031564,AABR07062859.1,rat,"similar to H2A histone family, member Z [Source:RGD Symbol;Acc:1562306]"
+H2AZ1,human,ENSG00000164032,ENSRNOG00000038375,AABR07026311.1,rat,
+ATP5F1E,human,ENSG00000124172,ENSRNOG00000045749,AC105515.1,rat,"ATP synthase subunit epsilon, mitochondrial-like [Source:RGD Symbol;Acc:2319299]"
+ATP5F1E,human,ENSG00000124172,ENSRNOG00000049912,ENSRNOG00000049912,rat,
+WASHC2A,human,ENSG00000099290,ENSRNOG00000011653,Washc2c,rat,WASH complex subunit 2C [Source:RGD Symbol;Acc:735230]
+MACROH2A1,human,ENSG00000113648,ENSRNOG00000011523,Macroh2a1,rat,macroH2A.1 histone [Source:RGD Symbol;Acc:621462]
+SEPTIN8,human,ENSG00000164402,ENSRNOG00000007462,Septin8,rat,septin 8 [Source:RGD Symbol;Acc:1308449]
+ RPL9P7,human,,,,rat,
+NELFB,human,ENSG00000188986,ENSRNOG00000009377,Nelfb,rat,negative elongation factor complex member B [Source:RGD Symbol;Acc:1307832]
+ADGRE5,human,ENSG00000123146,ENSRNOG00000004489,Adgre5,rat,adhesion G protein-coupled receptor E5 [Source:RGD Symbol;Acc:1305595]
+H2AZ2,human,ENSG00000105968,ENSRNOG00000013622,RGD1560813,rat,"similar to H2A histone family, member V isoform 1 [Source:RGD Symbol;Acc:1560813]"
+H2AZ2,human,ENSG00000105968,ENSRNOG00000038771,ENSRNOG00000038771,rat,"similar to H2A histone family, member V isoform 1 [Source:RGD Symbol;Acc:1592352]"
+H2AZ2,human,ENSG00000105968,ENSRNOG00000052275,H2az2,rat,H2A.Z variant histone 2 [Source:RGD Symbol;Acc:1587865]
+H2AZ2,human,ENSG00000105968,ENSRNOG00000068631,ENSRNOG00000068631,rat,"similar to H2A histone family, member V isoform 1 [Source:RGD Symbol;Acc:1583233]"
+ADH4,human,ENSG00000198099,,,rat,
+CYRIB,human,ENSG00000153310,ENSRNOG00000061246,Cyrib,rat,CYFIP related Rac1 interactor B [Source:RGD Symbol;Acc:1307697]
+DKFZp586I031,human,,,,rat,
+ATP5F1EP2,human,ENSG00000180389,,,rat,
+VPS26C,human,ENSG00000157538,ENSRNOG00000001681,Vps26c,rat,VPS26 endosomal protein sorting factor C [Source:RGD Symbol;Acc:1306879]
+MBNL3,human,ENSG00000076770,ENSRNOG00000002487,Mbnl3,rat,muscleblind like splicing factor 3 [Source:MGI Symbol;Acc:MGI:2444912]
+OGA,human,ENSG00000198408,ENSRNOG00000017822,Oga,rat,O-GlcNAcase [Source:RGD Symbol;Acc:621077]
+UTP11,human,ENSG00000183520,ENSRNOG00000007174,Utp11,rat,"UTP11, small subunit processome component [Source:RGD Symbol;Acc:621412]"
+ATP5F1D,human,ENSG00000099624,ENSRNOG00000014625,Atp5f1d,rat,ATP synthase F1 subunit delta [Source:RGD Symbol;Acc:621372]
+HPF1,human,ENSG00000056050,ENSRNOG00000011293,Hpf1,rat,histone PARylation factor 1 [Source:RGD Symbol;Acc:1311747]
+RHOQ,human,ENSG00000119729,ENSRNOG00000021484,AABR07003537.1,rat,rho-related GTP-binding protein RhoQ-like [Source:RGD Symbol;Acc:6491275]
+LRRC7,human,ENSG00000033122,ENSRNOG00000011980,Lrrc7,rat,leucine rich repeat containing 7 [Source:RGD Symbol;Acc:708527]
+RPS6KB2,human,ENSG00000175634,ENSRNOG00000021689,Rps6kb2,rat,ribosomal protein S6 kinase B2 [Source:RGD Symbol;Acc:1305144]
+CAVIN1,human,ENSG00000177469,ENSRNOG00000019778,ENSRNOG00000019778,rat,
+H4C1,human,ENSG00000158406,,,rat,
+H4C1,human,ENSG00000197061,ENSRNOG00000070513,ENSRNOG00000070513,rat,"histone cluster 1, H2ao [Source:NCBI gene (formerly Entrezgene);Acc:364723]"
+H4C1,human,ENSG00000197238,,,rat,
+H4C1,human,ENSG00000197837,ENSRNOG00000064025,ENSRNOG00000064025,rat,"histone cluster 1, H2ao [Source:NCBI gene (formerly Entrezgene);Acc:364723]"
+H4C1,human,ENSG00000270276,ENSRNOG00000070513,ENSRNOG00000070513,rat,"histone cluster 1, H2ao [Source:NCBI gene (formerly Entrezgene);Acc:364723]"
+H4C1,human,ENSG00000270882,,,rat,
+H4C1,human,ENSG00000273542,,,rat,
+H4C1,human,ENSG00000274618,,,rat,
+H4C1,human,ENSG00000275126,,,rat,
+H4C1,human,ENSG00000276180,,,rat,
+H4C1,human,ENSG00000276966,,,rat,
+H4C1,human,ENSG00000277157,,,rat,
+H4C1,human,ENSG00000278637,,,rat,
+H4C1,human,ENSG00000278705,,,rat,
+PPP1R2B,human,ENSG00000231989,ENSRNOG00000001733,Ppp1r2,rat,"protein phosphatase 1, regulatory (inhibitor) subunit 2 [Source:RGD Symbol;Acc:621099]"
+ACTN2,human,ENSG00000077522,ENSRNOG00000017833,Actn2,rat,actinin alpha 2 [Source:RGD Symbol;Acc:1308097]
+ H3-3B,human,,,,rat,
+ARF3,human,ENSG00000134287,ENSRNOG00000054775,Fkbp11,rat,ADP-ribosylation factor 3 [Source:RGD Symbol;Acc:621273]
+FKBP9P1,human,ENSG00000176826,,,rat,
+ H4C6,human,,,,rat,
+PIP5K1B,human,ENSG00000107242,ENSRNOG00000015232,Pip5k1b,rat,phosphatidylinositol-4-phosphate 5-kinase type 1 beta [Source:RGD Symbol;Acc:1310914]
+TRIM16L,human,ENSG00000108448,,,rat,
+NIPSNAP3B,human,ENSG00000165028,,,rat,
+RPL37AP8,human,ENSG00000176343,,,rat,
+MESD,human,ENSG00000117899,ENSRNOG00000012366,Mesd,rat,mesoderm development LRP chaperone [Source:RGD Symbol;Acc:1310344]
+ATP5PB,human,ENSG00000116459,ENSRNOG00000064742,Atp5pb,rat,ATP synthase peripheral stalk-membrane subunit b [Source:RGD Symbol;Acc:620041]
+MYG1,human,ENSG00000139637,ENSRNOG00000013343,Myg1,rat,MYG1 exonuclease [Source:RGD Symbol;Acc:1359237]
+UBE2L5,human,ENSG00000236444,ENSRNOG00000001862,Ube2l3,rat,ubiquitin-conjugating enzyme E2L 3 [Source:RGD Symbol;Acc:1308361]
+MOB4,human,ENSG00000115540,ENSRNOG00000014980,Mob4,rat,"MOB family member 4, phocein [Source:RGD Symbol;Acc:620183]"
+SELENOF,human,ENSG00000183291,ENSRNOG00000055257,Selenof,rat,selenoprotein F [Source:RGD Symbol;Acc:621291]
+GSDME,human,ENSG00000105928,ENSRNOG00000009970,Gsdme,rat,gasdermin E [Source:RGD Symbol;Acc:727871]
+POGLUT3,human,ENSG00000178202,ENSRNOG00000007177,Poglut3,rat,protein O-glucosyltransferase 3 [Source:RGD Symbol;Acc:1562027]
+WASHC4,human,ENSG00000136051,ENSRNOG00000008331,Washc4,rat,WASH complex subunit 4 [Source:RGD Symbol;Acc:1309995]
+ATP5MJ,human,ENSG00000156411,ENSRNOG00000068254,ENSRNOG00000068254,rat,
+LARS1,human,ENSG00000133706,ENSRNOG00000018304,Lars1,rat,leucyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1304962]
+MTRES1,human,ENSG00000130349,ENSRNOG00000047118,Mtres1,rat,mitochondrial transcription rescue factor 1 [Source:RGD Symbol;Acc:1597785]
+H1-4,human,ENSG00000168298,ENSRNOG00000047459,H1f4,rat,"H1.4 linker histone, cluster member [Source:RGD Symbol;Acc:2776]"
+ADSS2,human,ENSG00000035687,ENSRNOG00000004481,Adss,rat,adenylosuccinate synthase [Source:RGD Symbol;Acc:1310508]
+MICOS13,human,ENSG00000174917,ENSRNOG00000046002,Micos13,rat,mitochondrial contact site and cristae organizing system subunit 13 [Source:RGD Symbol;Acc:1588578]
+MICOS13,human,ENSG00000174917,ENSRNOG00000064847,ENSRNOG00000064847,rat,
+CNOT9,human,ENSG00000144580,ENSRNOG00000016034,Cnot9,rat,CCR4-NOT transcription complex subunit 9 [Source:RGD Symbol;Acc:1311495]
+JPT1,human,ENSG00000189159,ENSRNOG00000001510,AC120066.1,rat,
+JPT1,human,ENSG00000189159,ENSRNOG00000003661,Jpt1,rat,Jupiter microtubule associated homolog 1 [Source:RGD Symbol;Acc:1359325]
+RO60,human,ENSG00000116747,ENSRNOG00000003434,Ro60,rat,"Ro60, Y RNA binding protein [Source:RGD Symbol;Acc:1305083]"
+PALS1,human,ENSG00000072415,ENSRNOG00000008788,Mpp5,rat,membrane palmitoylated protein 5 [Source:RGD Symbol;Acc:1308071]
+ELOC,human,ENSG00000154582,ENSRNOG00000051063,AABR07044940.1,rat,transcription elongation factor B polypeptide 1 pseudogene [Source:RGD Symbol;Acc:9165343]
+ELOC,human,ENSG00000154582,ENSRNOG00000061371,AABR07035541.3,rat,transcription elongation factor B polypeptide 1 pseudogene [Source:RGD Symbol;Acc:9368177]
+ELOC,human,ENSG00000154582,ENSRNOG00000062357,ENSRNOG00000062357,rat,elongin-C-like [Source:RGD Symbol;Acc:41102896]
+NIBAN1,human,ENSG00000135842,ENSRNOG00000002403,Niban1,rat,niban apoptosis regulator 1 [Source:RGD Symbol;Acc:71088]
+WASHC5,human,ENSG00000164961,ENSRNOG00000009739,Washc5,rat,WASH complex subunit 5 [Source:RGD Symbol;Acc:1564420]
+CALM3,human,ENSG00000160014,ENSRNOG00000016770,Calm1,rat,calmodulin 1 [Source:RGD Symbol;Acc:2257]
+ATP5MG,human,ENSG00000167283,ENSRNOG00000028884,Atp5mg,rat,ATP synthase membrane subunit g [Source:RGD Symbol;Acc:1303259]
+ATP5MG,human,ENSG00000167283,ENSRNOG00000062020,AC120096.3,rat,"similar to ATP synthase, H+ transporting, mitochondrial Fo complex, subunit G [Source:RGD Symbol;Acc:1585899]"
+HDHD5,human,ENSG00000069998,ENSRNOG00000011338,Hdhd5,rat,haloacid dehalogenase like hydrolase domain containing 5 [Source:RGD Symbol;Acc:1306557]
+PALM2AKAP2,human,ENSG00000157654,ENSRNOG00000011504,Akap2,rat,A-kinase anchoring protein 2 [Source:RGD Symbol;Acc:1305135]
+ HBA2,human,,,,rat,
+H2AX,human,ENSG00000188486,ENSRNOG00000010386,H2ax,rat,H2A.X variant histone [Source:RGD Symbol;Acc:1566119]
+BECN1,human,ENSG00000126581,ENSRNOG00000020513,Becn1,rat,beclin 1 [Source:RGD Symbol;Acc:620190]
+CLCN5,human,ENSG00000171365,ENSRNOG00000002862,Clcn5,rat,chloride voltage-gated channel 5 [Source:RGD Symbol;Acc:2362]
+ITPRID2,human,ENSG00000138434,ENSRNOG00000005865,Itprid2,rat,ITPR interacting domain containing 2 [Source:RGD Symbol;Acc:1310767]
+PSMA8,human,ENSG00000154611,ENSRNOG00000030363,Psma8,rat,proteasome 20S subunit alpha 8 [Source:RGD Symbol;Acc:1311659]
+P3H3,human,ENSG00000110811,ENSRNOG00000016143,P3h3,rat,G protein-coupled receptor 162 [Source:RGD Symbol;Acc:1307437]
+RMC1,human,ENSG00000141452,ENSRNOG00000012597,Rmc1,rat,regulator of MON1-CCZ1 [Source:RGD Symbol;Acc:1311805]
+TRIR,human,ENSG00000123144,ENSRNOG00000003863,Trir,rat,telomerase RNA component interacting RNase [Source:RGD Symbol;Acc:1564093]
+TRIR,human,ENSG00000123144,ENSRNOG00000071093,ENSRNOG00000071093,rat,uncharacterized protein C19orf43 homolog pseudogene [Source:RGD Symbol;Acc:11500591]
+ H4C15,human,,,,rat,
+KYAT1,human,ENSG00000171097,ENSRNOG00000016097,Kyat1,rat,kynurenine aminotransferase 1 [Source:RGD Symbol;Acc:1306912]
+KYAT1,human,ENSG00000286112,ENSRNOG00000016097,Kyat1,rat,kynurenine aminotransferase 1 [Source:RGD Symbol;Acc:1306912]
+SEPTIN10,human,ENSG00000186522,ENSRNOG00000049507,Septin10,rat,septin 10 [Source:RGD Symbol;Acc:1359307]
+PPP2CA,human,ENSG00000113575,ENSRNOG00000001893,ENSRNOG00000001893,rat,serine/threonine-protein phosphatase 2A catalytic subunit alpha-like [Source:RGD Symbol;Acc:2318135]
+PPP2CA,human,ENSG00000113575,ENSRNOG00000005389,Ppp2ca,rat,protein phosphatase 2 catalytic subunit alpha [Source:RGD Symbol;Acc:3380]
+H3-3B,human,ENSG00000132475,ENSRNOG00000006532,H3f3a,rat,H3.3 histone B [Source:RGD Symbol;Acc:621095]
+H3-3B,human,ENSG00000132475,ENSRNOG00000063108,ENSRNOG00000063108,rat,
+SLC7A7,human,ENSG00000155465,ENSRNOG00000010296,Slc7a7,rat,solute carrier family 7 member 7 [Source:RGD Symbol;Acc:619902]
+CAMK2B,human,ENSG00000058404,ENSRNOG00000052080,Camk2b,rat,calcium/calmodulin-dependent protein kinase II beta [Source:RGD Symbol;Acc:2262]
+NECTIN2,human,ENSG00000130202,ENSRNOG00000018730,Nectin2,rat,nectin cell adhesion molecule 2 [Source:RGD Symbol;Acc:1309505]
+CTSL3P,human,ENSG00000188029,,,rat,
+UFD1,human,ENSG00000070010,ENSRNOG00000047394,Ufd1,rat,ubiquitin recognition factor in ER associated degradation 1 [Source:RGD Symbol;Acc:619822]
+ H4C5,human,,,,rat,
+POLR1G,human,ENSG00000117877,ENSRNOG00000016825,Polr1g,rat,RNA polymerase I subunit G [Source:RGD Symbol;Acc:1591707]
+FAM234A,human,ENSG00000167930,ENSRNOG00000067554,Fam234a,rat,"family with sequence similarity 234, member A [Source:RGD Symbol;Acc:1311484]"
+ATP5PF,human,ENSG00000154723,ENSRNOG00000001551,Atp5pf,rat,ATP synthase peripheral stalk subunit F6 [Source:RGD Symbol;Acc:621376]
+ATP5PF,human,ENSG00000154723,ENSRNOG00000066253,ENSRNOG00000066253,rat,
+NECTIN3,human,ENSG00000177707,ENSRNOG00000002176,Nectin3,rat,nectin cell adhesion molecule 3 [Source:RGD Symbol;Acc:1309516]
+RARS1,human,ENSG00000113643,ENSRNOG00000007739,Rars1,rat,arginyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1309215]
+SPG7,human,ENSG00000197912,ENSRNOG00000015150,Spg7,rat,"SPG7 matrix AAA peptidase subunit, paraplegin [Source:RGD Symbol;Acc:727940]"
+SARS1,human,ENSG00000031698,ENSRNOG00000020255,Sars1,rat,seryl-tRNA synthetase 1 [Source:RGD Symbol;Acc:628813]
+BMI1,human,ENSG00000168283,ENSRNOG00000016585,Bmi1,rat,"BMI1 proto-oncogene, polycomb ring finger [Source:RGD Symbol;Acc:1307403]"
+HMGCLL1,human,ENSG00000146151,ENSRNOG00000011193,Hmgcll1,rat,3-hydroxymethyl-3-methylglutaryl-CoA lyase-like 1 [Source:RGD Symbol;Acc:1565090]
+SNX7,human,ENSG00000162627,ENSRNOG00000017077,Snx7,rat,sorting nexin 7 [Source:RGD Symbol;Acc:1305480]
+HSP90AA2P,human,ENSG00000224411,,,rat,
+IARS1,human,ENSG00000196305,ENSRNOG00000014616,Iars1,rat,isoleucyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:621022]
+EFL1,human,ENSG00000140598,ENSRNOG00000032723,Efl1,rat,elongation factor like GTPase 1 [Source:RGD Symbol;Acc:1306521]
+VPS50,human,ENSG00000004766,ENSRNOG00000009894,Vps50,rat,VPS50 subunit of EARP/GARPII complex [Source:RGD Symbol;Acc:1304751]
+YARS1,human,ENSG00000134684,ENSRNOG00000007213,Yars1,rat,tyrosyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1307616]
+GNB3,human,ENSG00000111664,ENSRNOG00000015541,Gnb3,rat,G protein subunit beta 3 [Source:RGD Symbol;Acc:708344]
+PIP4P2,human,ENSG00000155099,ENSRNOG00000006697,Pip4p2,rat,"phosphatidylinositol-4,5-bisphosphate 4-phosphatase 2 [Source:RGD Symbol;Acc:1306225]"
+VPS35L,human,ENSG00000103544,ENSRNOG00000016063,Vps35l,rat,VPS35 endosomal protein sorting factor like [Source:RGD Symbol;Acc:1564485]
+RBM23,human,ENSG00000100461,,,rat,
+CYBC1,human,ENSG00000178927,ENSRNOG00000036666,Cybc1,rat,cytochrome b-245 chaperone 1 [Source:RGD Symbol;Acc:1562022]
+MARS1,human,ENSG00000166986,ENSRNOG00000025459,Mars1,rat,methionyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1305321]
+MAP3K20,human,ENSG00000091436,ENSRNOG00000001515,Map3k20,rat,mitogen-activated protein kinase kinase kinase 20 [Source:RGD Symbol;Acc:1561394]
+NPEPPSL1,human,,,,rat,
+GNAI1,human,ENSG00000127955,ENSRNOG00000057096,Gnai1,rat,G protein subunit alpha i1 [Source:RGD Symbol;Acc:2713]
+ATP5MC1,human,ENSG00000159199,ENSRNOG00000021123,AC098622.1,rat,"similar to ATP synthase lipid-binding protein, mitochondrial precursor [Source:RGD Symbol;Acc:1586339]"
+GARS1,human,ENSG00000106105,ENSRNOG00000011052,Gars,rat,glycyl-tRNA synthetase [Source:RGD Symbol;Acc:1307856]
+MATK,human,ENSG00000007264,ENSRNOG00000020431,Matk,rat,megakaryocyte-associated tyrosine kinase [Source:RGD Symbol;Acc:69058]
+P3H1,human,ENSG00000117385,ENSRNOG00000053991,P3h1,rat,prolyl 3-hydroxylase 1 [Source:RGD Symbol;Acc:628823]
+LINC00869,human,ENSG00000277147,,,rat,
+ADH1C,human,ENSG00000248144,ENSRNOG00000012436,Adh6,rat,alcohol dehydrogenase 1 (class I) [Source:RGD Symbol;Acc:2044]
+SLC12A1,human,ENSG00000074803,ENSRNOG00000005367,Slc12a1,rat,solute carrier family 12 member 1 [Source:RGD Symbol;Acc:3685]
+RETREG3,human,ENSG00000141699,ENSRNOG00000020056,Retreg3,rat,reticulophagy regulator family member 3 [Source:RGD Symbol;Acc:1561189]
+SEC61A2,human,ENSG00000065665,ENSRNOG00000023278,Sec61a2,rat,SEC61 translocon subunit alpha 2 [Source:RGD Symbol;Acc:1305948]
+CCT6B,human,ENSG00000132141,ENSRNOG00000007523,Cct6b,rat,chaperonin containing TCP1 subunit 6B [Source:RGD Symbol;Acc:1359453]
+INTS13,human,ENSG00000064102,ENSRNOG00000001808,Ints13,rat,integrator complex subunit 13 [Source:RGD Symbol;Acc:1592236]
+GRAMD2B,human,ENSG00000155324,ENSRNOG00000015225,Gramd2b,rat,GRAM domain containing 2B [Source:RGD Symbol;Acc:1311016]
+STEEP1,human,ENSG00000018610,ENSRNOG00000012564,Steep1,rat,STING1 ER exit protein 1 [Source:RGD Symbol;Acc:1564541]
+SH3D19,human,ENSG00000109686,ENSRNOG00000011752,Sh3d19,rat,SH3 domain containing 19 [Source:RGD Symbol;Acc:1304885]
+H2AC21,human,ENSG00000184270,,,rat,
+KIFBP,human,ENSG00000198954,ENSRNOG00000000395,Kifbp,rat,kinesin family binding protein [Source:RGD Symbol;Acc:1593126]
+BOLA2-SMG1P6,human,ENSG00000261740,,,rat,
+GTF3C3,human,ENSG00000119041,ENSRNOG00000002091,Gtf3c3,rat,general transcription factor IIIC subunit 3 [Source:RGD Symbol;Acc:1309185]
+COQ8B,human,ENSG00000123815,ENSRNOG00000020848,Coq8b,rat,coenzyme Q8B [Source:RGD Symbol;Acc:1311356]
+RETREG2,human,ENSG00000144567,ENSRNOG00000018586,Retreg2,rat,reticulophagy regulator family member 2 [Source:RGD Symbol;Acc:1306844]
+EPRS1,human,ENSG00000136628,ENSRNOG00000002393,Eprs,rat,glutamyl-prolyl-tRNA synthetase [Source:RGD Symbol;Acc:1310952]
+H1-1,human,ENSG00000124610,ENSRNOG00000017175,H1f1,rat,"H1.1 linker histone, cluster member [Source:RGD Symbol;Acc:1305706]"
+OR4K1,human,ENSG00000155249,ENSRNOG00000066061,ENSRNOG00000066061,rat,olfactory receptor 4K1 [Source:RGD Symbol;Acc:41029303]
+OR4K1,human,ENSG00000155249,ENSRNOG00000069012,Olr1629,rat,olfactory receptor 1629 [Source:RGD Symbol;Acc:1333529]
+HDGFL3,human,ENSG00000166503,ENSRNOG00000019740,Hdgfl3,rat,HDGF like 3 [Source:RGD Symbol;Acc:628773]
+DARS1,human,ENSG00000115866,ENSRNOG00000003743,Dars1,rat,aspartyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:621167]
+TOMM70,human,ENSG00000154174,ENSRNOG00000001640,Tomm70,rat,translocase of outer mitochondrial membrane 70 [Source:RGD Symbol;Acc:1303049]
+AP1S3,human,ENSG00000152056,ENSRNOG00000049873,Ap1s3,rat,adaptor related protein complex 1 subunit sigma 3 [Source:RGD Symbol;Acc:1311772]
+ST13P4,human,ENSG00000232150,,,rat,
+DGLUCY,human,ENSG00000133943,ENSRNOG00000004442,Dglucy,rat,D-glutamate cyclase [Source:RGD Symbol;Acc:1311756]
+HLA-G,human,ENSG00000204632,,,rat,
+RCC1L,human,ENSG00000274523,ENSRNOG00000001483,Rcc1l,rat,RCC1 like [Source:RGD Symbol;Acc:1307558]
+ACTB,human,ENSG00000075624,ENSRNOG00000034254,Actb,rat,"actin, beta [Source:RGD Symbol;Acc:628837]"
+RGPD6,human,ENSG00000015568,,,rat,
+RGPD6,human,ENSG00000183054,,,rat,
+RBM14-RBM4,human,ENSG00000248643,,,rat,
+LNPK,human,ENSG00000144320,ENSRNOG00000001593,Lnpk,rat,"lunapark, ER junction formation factor [Source:RGD Symbol;Acc:1312042]"
+MOB3B,human,ENSG00000120162,ENSRNOG00000009453,Mob3b,rat,MOB kinase activator 3B [Source:RGD Symbol;Acc:1560696]
+GFUS,human,ENSG00000104522,ENSRNOG00000009020,Gfus,rat,GDP-L-fucose synthase [Source:RGD Symbol;Acc:1307028]
+CERT1,human,ENSG00000113163,ENSRNOG00000015686,Cert1,rat,ceramide transporter 1 [Source:RGD Symbol;Acc:1309131]
+CASP5,human,ENSG00000137757,,,rat,
+PYCR3,human,ENSG00000104524,,,rat,
+H1-3,human,ENSG00000124575,ENSRNOG00000048264,H4f3,rat,"H1.3 linker histone, cluster member [Source:RGD Symbol;Acc:1585568]"
+TBCEL-TECTA,human,ENSG00000109927,ENSRNOG00000031126,Tecta,rat,tectorin alpha [Source:RGD Symbol;Acc:1309824]
+TBCEL-TECTA,human,ENSG00000285509,ENSRNOG00000032364,Tbcel,rat,tubulin folding cofactor E-like [Source:RGD Symbol;Acc:1308880]
+NCBP3,human,ENSG00000074356,ENSRNOG00000018550,Ncbp3,rat,nuclear cap binding subunit 3 [Source:RGD Symbol;Acc:1308139]
+ATP5IF1,human,ENSG00000130770,ENSRNOG00000013300,Atp5if1,rat,ATP synthase inhibitory factor subunit 1 [Source:RGD Symbol;Acc:2181]
+ATP5IF1,human,ENSG00000130770,ENSRNOG00000032924,AABR07064753.1,rat,similar to ATPase inhibitory factor 1 [Source:RGD Symbol;Acc:1559545]
+ATP5IF1,human,ENSG00000130770,ENSRNOG00000062699,ENSRNOG00000062699,rat,
+UTP25,human,ENSG00000117597,ENSRNOG00000004789,Utp25,rat,"UTP25, small subunit processor component [Source:RGD Symbol;Acc:1359148]"
+WWP1,human,ENSG00000123124,ENSRNOG00000006328,Wwp1,rat,WW domain containing E3 ubiquitin protein ligase 1 [Source:RGD Symbol;Acc:1311734]
+PTPA,human,ENSG00000119383,ENSRNOG00000018457,Ptpa,rat,protein phosphatase 2 phosphatase activator [Source:RGD Symbol;Acc:1308354]
+ARMH3,human,ENSG00000120029,ENSRNOG00000025523,Armh3,rat,armadillo-like helical domain containing 3 [Source:RGD Symbol;Acc:9299787]
+HIKESHI,human,ENSG00000149196,ENSRNOG00000017383,Hikeshi,rat,heat shock protein nuclear import factor [Source:RGD Symbol;Acc:1359455]
+OPCML,human,ENSG00000183715,ENSRNOG00000023809,Opcml,rat,opioid binding protein/cell adhesion molecule-like [Source:RGD Symbol;Acc:620635]
+ RPL9P9,human,,,,rat,
+MRE11,human,ENSG00000020922,ENSRNOG00000009506,Mre11,rat,"MRE11 homolog, double strand break repair nuclease [Source:RGD Symbol;Acc:69263]"
+RAB11FIP5,human,ENSG00000135631,ENSRNOG00000056009,Rab11fip5,rat,RAB11 family interacting protein 5 [Source:RGD Symbol;Acc:1592069]
+MTARC2,human,ENSG00000117791,,,rat,
+TUBA1A,human,ENSG00000167552,ENSRNOG00000070725,ENSRNOG00000070725,rat,
+ H3C14,human,,,,rat,
+ H4C2,human,,,,rat,
+ERO1A,human,ENSG00000197930,ENSRNOG00000006462,Ero1a,rat,endoplasmic reticulum oxidoreductase 1 alpha [Source:RGD Symbol;Acc:621713]
+GATD3,human,ENSG00000160221,ENSRNOG00000001211,Gatd3a,rat,glutamine amidotransferase like class 1 domain containing 3A [Source:RGD Symbol;Acc:1303003]
+CARS1,human,ENSG00000110619,ENSRNOG00000020651,Cars,rat,cysteinyl-tRNA synthetase [Source:RGD Symbol;Acc:1310747]
+MAIP1,human,ENSG00000162972,ENSRNOG00000015983,Maip1,rat,matrix AAA peptidase interacting protein 1 [Source:RGD Symbol;Acc:1303159]
+H2BU1,human,ENSG00000196890,ENSRNOG00000066919,H2bu1,rat,H2B.U histone 1 [Source:RGD Symbol;Acc:1583885]
+JAK1,human,ENSG00000162434,ENSRNOG00000011157,Jak1,rat,Janus kinase 1 [Source:RGD Symbol;Acc:69056]
+MSH5,human,ENSG00000204410,ENSRNOG00000000857,Msh5,rat,mutS homolog 5 [Source:RGD Symbol;Acc:1303008]
+H1-0,human,ENSG00000189060,ENSRNOG00000063732,H1f0,rat,H1.0 linker histone [Source:RGD Symbol;Acc:2777]
+RRAGD,human,ENSG00000025039,ENSRNOG00000007331,Rragd,rat,Ras-related GTP binding D [Source:RGD Symbol;Acc:1310007]
+STING1,human,ENSG00000184584,ENSRNOG00000042137,Sting1,rat,stimulator of interferon response cGAMP interactor 1 [Source:RGD Symbol;Acc:1562552]
+INMT-MINDY4,human,ENSG00000254959,ENSRNOG00000011250,Inmt,rat,indolethylamine N-methyltransferase [Source:RGD Symbol;Acc:1597087]
+NIPSNAP2,human,ENSG00000146729,ENSRNOG00000023919,Nipsnap2,rat,nipsnap homolog 2 [Source:RGD Symbol;Acc:1566421]
+RAMAC,human,ENSG00000169612,ENSRNOG00000019426,Ramac,rat,RNA guanine-7 methyltransferase activating subunit [Source:RGD Symbol;Acc:1310022]
+CARD19,human,ENSG00000165233,ENSRNOG00000016560,Card19,rat,"caspase recruitment domain family, member 19 [Source:RGD Symbol;Acc:1306058]"
+NFIA,human,ENSG00000162599,ENSRNOG00000006966,Nfia,rat,nuclear factor I/A [Source:RGD Symbol;Acc:3170]
+MAP7,human,ENSG00000135525,ENSRNOG00000012701,Map7,rat,microtubule-associated protein 7 [Source:RGD Symbol;Acc:1308866]
+NOMO3,human,ENSG00000103226,ENSRNOG00000021118,Nomo1,rat,nodal modulator 1 [Source:RGD Symbol;Acc:1305240]
+ATP5MF,human,ENSG00000241468,ENSRNOG00000027049,Atp5mf,rat,ATP synthase membrane subunit f [Source:RGD Symbol;Acc:1596067]
+DKFZp667H216,human,,,,rat,
+PPP2R1B,human,ENSG00000137713,ENSRNOG00000010922,Ppp2r1b,rat,protein phosphatase 2 scaffold subunit A beta [Source:RGD Symbol;Acc:1304764]
+UBE2E2,human,ENSG00000182247,ENSRNOG00000032690,Ube2e2,rat,ubiquitin-conjugating enzyme E2E 2 [Source:RGD Symbol;Acc:1305644]
+HARS1,human,ENSG00000170445,ENSRNOG00000028105,Hars1,rat,histidyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1310695]
+HARS1,human,ENSG00000170445,ENSRNOG00000064147,ENSRNOG00000064147,rat,
+CCN2,human,ENSG00000118523,ENSRNOG00000015036,Ccn2,rat,cellular communication network factor 2 [Source:RGD Symbol;Acc:621392]
+RGPD8,human,ENSG00000015568,,,rat,
+RGPD8,human,ENSG00000169629,,,rat,
+PHF14,human,ENSG00000106443,ENSRNOG00000005775,Phf14,rat,PHD finger protein 14 [Source:RGD Symbol;Acc:1563764]
+SRSF11,human,ENSG00000116754,ENSRNOG00000029592,Srsf11,rat,serine and arginine rich splicing factor 11 [Source:RGD Symbol;Acc:1559953]
+OPA1,human,ENSG00000198836,ENSRNOG00000001717,Opa1,rat,"OPA1, mitochondrial dynamin like GTPase [Source:RGD Symbol;Acc:708423]"
+RACK1,human,ENSG00000204628,ENSRNOG00000052620,Rack1,rat,receptor for activated C kinase 1 [Source:RGD Symbol;Acc:69229]
+RAMACL,human,ENSG00000235272,ENSRNOG00000019426,Ramac,rat,RNA guanine-7 methyltransferase activating subunit [Source:RGD Symbol;Acc:1310022]
+RELCH,human,ENSG00000134444,ENSRNOG00000015508,Relch,rat,"RAB11 binding and LisH domain, coiled-coil and HEAT repeat containing [Source:RGD Symbol;Acc:1307235]"
+NEMP1,human,ENSG00000166881,ENSRNOG00000046492,Nemp1,rat,nuclear envelope integral membrane protein 1 [Source:RGD Symbol;Acc:1587179]
+CRBN,human,ENSG00000113851,ENSRNOG00000006534,Crbn,rat,cereblon [Source:RGD Symbol;Acc:1310533]
+HDGFL2,human,ENSG00000167674,ENSRNOG00000049142,Hdgfl2,rat,HDGF like 2 [Source:RGD Symbol;Acc:621013]
+C9orf129,human,ENSG00000204352,,,rat,
+MSH5-SAPCD1,human,ENSG00000204410,ENSRNOG00000000857,Msh5,rat,mutS homolog 5 [Source:RGD Symbol;Acc:1303008]
+MSH5-SAPCD1,human,ENSG00000255152,ENSRNOG00000000857,Msh5,rat,mutS homolog 5 [Source:RGD Symbol;Acc:1303008]
+RAB25,human,ENSG00000132698,ENSRNOG00000023640,Rab25,rat,"RAB25, member RAS oncogene family [Source:RGD Symbol;Acc:1308447]"
+DCAF1,human,ENSG00000145041,ENSRNOG00000013841,Dcaf1,rat,DDB1 and CUL4 associated factor 1 [Source:RGD Symbol;Acc:1305176]
+SELENOS,human,ENSG00000131871,ENSRNOG00000012576,Selenos,rat,selenoprotein S [Source:RGD Symbol;Acc:628897]
+DHFR2,human,ENSG00000178700,ENSRNOG00000013521,Dhfr,rat,dihydrofolate reductase [Source:RGD Symbol;Acc:2500]
+DPYSL2,human,ENSG00000092964,ENSRNOG00000009625,Dpysl2,rat,dihydropyrimidinase-like 2 [Source:RGD Symbol;Acc:2517]
+MINDY3,human,ENSG00000148481,ENSRNOG00000016955,Mindy3,rat,MINDY lysine 48 deubiquitinase 3 [Source:RGD Symbol;Acc:1309605]
+PI4KAP1,human,ENSG00000274602,,,rat,
+PAM16,human,ENSG00000217930,ENSRNOG00000004608,Pam16,rat,presequence translocase associated motor 16 [Source:RGD Symbol;Acc:1598163]
+PAM16,human,ENSG00000217930,ENSRNOG00000028427,AABR07030524.1,rat,"mitochondria-associated protein involved in granulocyte-macrophage colony-stimulating factor signal transduction, pseudogene 1 [Source:RGD Symbol;Acc:1564452]"
+RUFY3,human,ENSG00000018189,ENSRNOG00000003428,Rufy3,rat,RUN and FYVE domain containing 3 [Source:RGD Symbol;Acc:1565242]
+STAG3,human,ENSG00000066923,ENSRNOG00000001360,Stag3,rat,stromal antigen 3 [Source:RGD Symbol;Acc:621333]
+QARS1,human,ENSG00000172053,ENSRNOG00000060912,Qars1,rat,glutaminyl-tRNA synthetase 1 [Source:RGD Symbol;Acc:1359448]
+TMEM91,human,ENSG00000142046,ENSRNOG00000068180,ENSRNOG00000068180,rat,transmembrane protein 91 [Source:NCBI gene (formerly Entrezgene);Acc:100359879]
+DKFZp686L22104,human,,,,rat,
+NUP42,human,ENSG00000136243,ENSRNOG00000010435,Nupl2,rat,nucleoporin like 2 [Source:RGD Symbol;Acc:1560934]
+PPP4R3A,human,ENSG00000100796,ENSRNOG00000027773,Ppp4r3a,rat,"protein phosphatase 4, regulatory subunit 3A [Source:RGD Symbol;Acc:1309059]"
+ RPL9P8,human,,,,rat,
+MCTS2,human,,,,rat,
+CCNDBP1,human,ENSG00000166946,ENSRNOG00000011379,Ccndbp1,rat,cyclin D1 binding protein 1 [Source:RGD Symbol;Acc:1304669]
+P2RY11,human,ENSG00000244165,,,rat,
+MYO1H,human,ENSG00000174527,ENSRNOG00000047191,AABR07036550.1,rat,myosin IH [Source:RGD Symbol;Acc:1596237]
+CHD4,human,ENSG00000111642,,,rat,
+RPL13AP3,human,ENSG00000177350,,,rat,
+VIRMA,human,ENSG00000164944,ENSRNOG00000014664,Virma,rat,vir like m6A methyltransferase associated [Source:RGD Symbol;Acc:1559904]
+CAPNS2,human,ENSG00000256812,,,rat,
+ADPRS,human,ENSG00000116863,ENSRNOG00000010849,Adprs,rat,ADP-ribosylserine hydrolase [Source:RGD Symbol;Acc:1309068]
+TUBA3C,human,ENSG00000198033,,,rat,
+GOLM2,human,ENSG00000166734,ENSRNOG00000016357,Golm2,rat,golgi membrane protein 2 [Source:RGD Symbol;Acc:1305985]
+BOD1,human,ENSG00000145919,ENSRNOG00000020717,Bod1,rat,biorientation of chromosomes in cell division 1 [Source:RGD Symbol;Acc:1305622]
+ H4C8,human,,,,rat,
+PRORP,human,ENSG00000100890,ENSRNOG00000007043,Prorp,rat,protein only RNase P catalytic subunit [Source:RGD Symbol;Acc:1305089]
+ATP5ME,human,ENSG00000169020,,,rat,
+TUBA3D,human,ENSG00000075886,ENSRNOG00000032967,Tuba3b,rat,"tubulin, alpha 3B [Source:RGD Symbol;Acc:1565155]"
+CTNNA2,human,ENSG00000066032,ENSRNOG00000006003,Ctnna2,rat,catenin alpha 2 [Source:RGD Symbol;Acc:1305060]
+KYAT3,human,ENSG00000137944,ENSRNOG00000043426,Kyat3,rat,kynurenine aminotransferase 3 [Source:RGD Symbol;Acc:1359262]
+FABP5P3,human,ENSG00000241735,,,rat,
+ASDURF,human,ENSG00000286053,ENSRNOG00000065791,ENSRNOG00000065791,rat,
+ H4C12,human,,,,rat,
+DENND10,human,ENSG00000119979,ENSRNOG00000010230,Dennd10,rat,DENN domain containing 10 [Source:RGD Symbol;Acc:1308326]
+U2AF1L5,human,ENSG00000160201,ENSRNOG00000045860,U2af1,rat,U2 small nuclear RNA auxiliary factor 1 [Source:RGD Symbol;Acc:1584190]
+U2AF1L5,human,ENSG00000275895,ENSRNOG00000045860,U2af1,rat,U2 small nuclear RNA auxiliary factor 1 [Source:RGD Symbol;Acc:1584190]
+MTREX,human,ENSG00000039123,ENSRNOG00000010125,Mtrex,rat,Mtr4 exosome RNA helicase [Source:RGD Symbol;Acc:1305984]
+DCUN1D4,human,ENSG00000109184,ENSRNOG00000002152,Dcun1d4,rat,defective in cullin neddylation 1 domain containing 4 [Source:RGD Symbol;Acc:1310422]
+MIX23,human,ENSG00000160124,ENSRNOG00000031653,Mix23,rat,mitochondrial matrix import factor 23 [Source:RGD Symbol;Acc:1564582]
+KHDC4,human,ENSG00000132680,ENSRNOG00000020139,Khdc4,rat,"KH domain containing 4, pre-mRNA splicing factor [Source:MGI Symbol;Acc:MGI:1921450]"
+HBA2,human,ENSG00000188536,ENSRNOG00000029886,Hba-a2,rat,"hemoglobin alpha, adult chain 1 [Source:RGD Symbol;Acc:2782]"
+HBA2,human,ENSG00000188536,ENSRNOG00000047321,Hba-a3,rat,"hemoglobin alpha, adult chain 2 [Source:RGD Symbol;Acc:1359364]"
+HBA2,human,ENSG00000206172,ENSRNOG00000029886,Hba-a2,rat,"hemoglobin alpha, adult chain 1 [Source:RGD Symbol;Acc:2782]"
+HBA2,human,ENSG00000206172,ENSRNOG00000047321,Hba-a3,rat,"hemoglobin alpha, adult chain 2 [Source:RGD Symbol;Acc:1359364]"
+HSPA7,human,ENSG00000225217,,,rat,
+H2BC5,human,ENSG00000158373,ENSRNOG00000068034,ENSRNOG00000068034,rat,
+TSNAX-DISC1,human,ENSG00000270106,,,rat,
+PYM1,human,ENSG00000170473,ENSRNOG00000058130,Pym1,rat,"PYM homolog 1, exon junction complex associated factor [Source:RGD Symbol;Acc:1306096]"
+EIF2S3B,human,ENSG00000180574,ENSRNOG00000060793,Eif2s3x,rat,"eukaryotic translation initiation factor 2, subunit 3, structural gene X-linked [Source:MGI Symbol;Acc:MGI:1349431]"
+ H4-16,human,,,,rat,
+PDE2A,human,ENSG00000186642,ENSRNOG00000019560,Pde2a,rat,phosphodiesterase 2A [Source:RGD Symbol;Acc:620965]
+AKT3,human,ENSG00000117020,ENSRNOG00000021497,Akt3,rat,AKT serine/threonine kinase 3 [Source:RGD Symbol;Acc:62390]
+ SMN2,human,,,,rat,
+DDX3X,human,ENSG00000215301,ENSRNOG00000023383,Ddx3x,rat,"DEAD box helicase 3, X-linked [Source:MGI Symbol;Acc:MGI:103064]"
+CAVIN2,human,ENSG00000168497,ENSRNOG00000025895,Cavin2,rat,caveolae associated protein 2 [Source:RGD Symbol;Acc:1359345]
+BMERB1,human,ENSG00000166780,ENSRNOG00000003198,Bmerb1,rat,bMERB domain containing 1 [Source:RGD Symbol;Acc:1305733]
+ATP6V1E2,human,ENSG00000250565,ENSRNOG00000015566,Atp6v1e2,rat,ATPase H+ transporting V1 subunit E2 [Source:RGD Symbol;Acc:1311680]
+DLG2,human,ENSG00000150672,ENSRNOG00000022635,Dlg2,rat,discs large MAGUK scaffold protein 2 [Source:RGD Symbol;Acc:619895]
+NFKBIL1,human,ENSG00000204498,ENSRNOG00000000839,Nfkbil1,rat,NFKB inhibitor like 1 [Source:RGD Symbol;Acc:1303310]
+H3-4,human,ENSG00000168148,,,rat,
+CFAP410,human,ENSG00000160226,ENSRNOG00000001215,Cfap410,rat,cilia and flagella associated protein 410 [Source:RGD Symbol;Acc:1309594]
+NRDC,human,ENSG00000078618,ENSRNOG00000007111,Nrdc,rat,nardilysin convertase [Source:RGD Symbol;Acc:3210]
+PHC3,human,ENSG00000173889,ENSRNOG00000009491,Phc3,rat,polyhomeotic homolog 3 [Source:RGD Symbol;Acc:1307998]
+RTF2,human,ENSG00000022277,ENSRNOG00000005083,Rtfdc1,rat,replication termination factor 2 domain containing 1 [Source:RGD Symbol;Acc:1311072]
+CEP295NL,human,ENSG00000178404,ENSRNOG00000033143,Cep295nl,rat,CEP295 N-terminal like [Source:RGD Symbol;Acc:1597046]

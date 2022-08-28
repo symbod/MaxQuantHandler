@@ -10,10 +10,6 @@ import csv
 from pathlib import Path
 
 start_time = time.time()
-organisms = {"human": "Homo sapiens (Human)",
-             "rat": "Rattus norvegicus (Rat)",
-             "mouse": "Mus musculus (Mouse)"}
-
 
 def save_parameters(script_desc: str, arguments):
     """
@@ -39,22 +35,27 @@ def save_parameters(script_desc: str, arguments):
     if 'f_req' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', required=True)
     if 'or_req' in arguments:
-        required_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, required=True,
-                                   help='Specify organism the ids should match to.')
+        required_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
+                                   required=True, help='Specify organism the ids should match to.')
     if 'tor_req' in arguments:
-        required_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, required=True,
-                                   help='Specify organism the ids are mapped to.')
-        required_args.add_argument('-tor', '--tar_organism', choices=organisms.keys(), type=str, required=True,
-                                   help='Specify organism from which orthologs should be mapped.')
+        required_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
+                                   required=True, help='Specify organism the ids are mapped to.')
+        required_args.add_argument('-tor', '--tar_organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
+                                   required=True, help='Specify organism from which orthologs should be mapped.')
     if 'm' in arguments:
         required_args.add_argument('-m', '--mode', choices=['all', 'fasta', 'uniprot', 'uniprot_one', 'uniprot_primary'],
                                    type=str, required=True, help='Mode of refilling. See below for more infos.')
     if 'i' in arguments:
-        required_args.add_argument('-i', '--in_type', choices=['proteinID', 'genename'], required=True,
+        required_args.add_argument('-i', '--in_type', choices=['protein', 'gene'], required=True,
                                    help='Define what type should be the source.')
     optional_args = parser.add_argument_group("optional arguments")
+    if 'c' in arguments:
+        optional_args.add_argument('-pc', '--protein_column', type=str, default="Protein IDs",
+                                   help='Name of column with protein IDs [Default="Protein IDs"]')
+        optional_args.add_argument('-gc', '--gene_column', type=str, default="Gene names",
+                                   help='Name of column with gene names [Default="Gene names"]')
     if 'f' in arguments:
-        required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
+        optional_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
     if 'l' in arguments:
         optional_args.add_argument('-l', '--fill', action='store_false', default=True,
                                    help='Use this flag, if filled values should be skipped. [Default=True]')
@@ -63,11 +64,11 @@ def save_parameters(script_desc: str, arguments):
                                    help='What to do, if IDs cell is empty after filtering. Keep empty cell, delete it '
                                         'or fill it based on gene name.')
     if 'or' in arguments:
-        optional_args.add_argument('-or', '--organism', choices=organisms.keys(), type=str, default=None,
-                                   help='Specify organism the ids should match to.')
+        optional_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
+                                   default=None, help='Specify organism the ids should match to.')
     if 'r' in arguments:
         optional_args.add_argument('-r', '--reviewed', action='store_true', default=False,
-                                   help='test')
+                                   help='Bool to indicate if newly retrieved protein IDs should be reduced to reviewed ones.')
     if 'd' in arguments:
         optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
                                    help='Set flag if protein ids from decoy fasta (REV__, CON__) should be kept.')
@@ -85,8 +86,6 @@ def save_parameters(script_desc: str, arguments):
     if 'q' in arguments:
         args.data = pd.read_table(args.maxquant_file, sep=find_delimiter(args.maxquant_file)).fillna("")
         args.file_name = Path(args.maxquant_file).stem
-    if 'or_req' in arguments or 'or' in arguments and args.organism is not None:
-        args.organism = organisms[args.organism]
     return args
 
 
@@ -98,7 +97,7 @@ def _get_epilog(script_name):
         epilog += "  all\t\t\tUse primarly fasta infos and additionally uniprot infos.\n"
         epilog += "  fasta\t\t\tUse information extracted from fasta headers.\n"
         epilog += "  uniprot\t\tUse mapping information from uniprot and use all gene names.\n"
-        epilog += "  uniprot_primary\t\tUse mapping information from uniprot and only all primary gene names.\n"
+        epilog += "  uniprot_primary\tUse mapping information from uniprot and only all primary gene names.\n"
         epilog += "  uniprot_one\t\tUse mapping information from uniprot and only use most frequent single gene name.\n"
     epilog += "\n############################################################################\n"
     return epilog
