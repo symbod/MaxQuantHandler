@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 
+from os.path import dirname, abspath, join
 import pandas as pd
 from pathlib import Path
 from gprofiler import GProfiler
 import requests
 
+here=dirname(dirname(abspath(__file__)))
 
 class MappingHandler:
 
@@ -15,6 +17,7 @@ class MappingHandler:
                                                   'target_symbol', 'target_organism', 'description'])
 
     def __init__(self, mapping_dir):
+        mapping_dir = join(here, mapping_dir)
         if Path(mapping_dir+"protein_to_genenames.csv").exists():
             self.full_protein_mapping = pd.read_csv(mapping_dir+"protein_to_genenames.csv")
         if Path(mapping_dir+"genenames_to_protein.csv").exists():
@@ -157,6 +160,7 @@ class MappingHandler:
             return None
 
     def save_mappings(self, mapping_dir):
+        mapping_dir = join(here, mapping_dir)
         self.full_protein_mapping.to_csv(mapping_dir+"protein_to_genenames.csv", index=False)
         self.full_gene_mapping.to_csv(mapping_dir+"genenames_to_protein.csv", index=False)
         self.full_ortholog_mapping.to_csv(mapping_dir+"genenames_to_orthologs.csv", index=False)
