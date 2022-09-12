@@ -64,21 +64,22 @@ def filter_gene_names(data: pd.DataFrame, id_column: str = "Gene names", organis
     handler.get_mapping(ids=";".join(data[id_column]).split(";"),
                         in_type="gene", organism=organism)
     # TODO
-    # filter row wise
-    data[id_column] = data[id_column].apply(
-        lambda x: handler.get_filtered_ids(ids=x.split(";"), in_type="gene", organism=organism, decoy=decoy))
-    handler.save_mappings(mapping_dir="mappings/")
-    # keep fill or remove
-    if action == "delete":
-        data = data[data[id_column] != ""]  # remove
-    elif action == "fill":
-        if 'Protein IDs' in data.columns:
-            data[id_column] = data.apply(lambda row:
-                                         handler.get_ids_from_gene(genenames=row['Protein IDs'].split(";"),
-                                                                   organism=organism, reviewed=reviewed)
-                                         if row[id_column] == "" else row[id_column], axis=1)
-        data = data[data[id_column] != ""]  # remove no matchable
-    return data
+    raise Exception("Not yet implemented")
+    # # filter row wise
+    # data[id_column] = data[id_column].apply(
+    #     lambda x: handler.get_filtered_ids(ids=x.split(";"), in_type="gene", organism=organism, decoy=decoy))
+    # handler.save_mappings(mapping_dir="mappings/")
+    # # keep fill or remove
+    # if action == "delete":
+    #     data = data[data[id_column] != ""]  # remove
+    # elif action == "fill":
+    #     if 'Protein IDs' in data.columns:
+    #         data[id_column] = data.apply(lambda row:
+    #                                      handler.get_ids_from_gene(genenames=row['Protein IDs'].split(";"),
+    #                                                                organism=organism, reviewed=reviewed)
+    #                                      if row[id_column] == "" else row[id_column], axis=1)
+    #     data = data[data[id_column] != ""]  # remove no matchable
+    # return data
 
 
 if __name__ == "__main__":

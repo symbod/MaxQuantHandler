@@ -26,7 +26,8 @@ class MappingHandler:
             self.full_ortholog_mapping = pd.read_csv(mapping_dir+"genenames_to_orthologs.csv")
 
     def get_uniprot_mapping(self, ids, organism=None):
-        organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)", "mouse": "Mus musculus (Mouse)"}
+        organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)", "mouse": "Mus musculus (Mouse)",
+                     "rabbit": "Oryctolagus cuniculus (Rabbit)"}
         url = 'https://rest.uniprot.org/uniprotkb/accessions'
         mapping = pd.DataFrame()
         for i in range(0, len(ids), 500):

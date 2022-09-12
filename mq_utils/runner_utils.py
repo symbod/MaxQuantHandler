@@ -50,10 +50,10 @@ def save_parameters(script_desc: str, arguments):
                                    help='Define what type should be the source.')
     optional_args = parser.add_argument_group("optional arguments")
     if 'c' in arguments:
-        optional_args.add_argument('-pc', '--protein_column', type=str, default="Protein IDs",
-                                   help='Name of column with protein IDs [Default="Protein IDs"]')
-        optional_args.add_argument('-gc', '--gene_column', type=str, default="Gene names",
-                                   help='Name of column with gene names [Default="Gene names"]')
+        optional_args.add_argument('-pc', '--protein_column', type=str, default=None,
+                                   help='Name of column with protein IDs [Default=None]')
+        optional_args.add_argument('-gc', '--gene_column', type=str, default=None,
+                                   help='Name of column with gene names [Default=None]')
     if 'f' in arguments:
         optional_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
     if 'l' in arguments:

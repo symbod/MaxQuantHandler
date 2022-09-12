@@ -5,6 +5,8 @@ import pandas as pd
 from mq_utils import mapping_handler as mh, runner_utils as ru
 from fasta_grepper import grep_header_info
 from pathlib import Path
+import warnings
+warnings.filterwarnings('ignore')
 
 full_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism', 'Protein ID'])
 
