@@ -140,14 +140,14 @@ class MappingHandler:
     def get_preloaded(self, in_list: list, in_type: str, organism=None, tar_organism=None):
         if in_type == "protein":
             organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
-                         "mouse": "Mus musculus (Mouse)"}
+                         "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
             cur_mapping = self.full_protein_mapping[self.full_protein_mapping["Protein ID"].isin(in_list)]
             if organism is not None:
                 cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
             return cur_mapping, list(set(in_list) - set(self.full_protein_mapping["Protein ID"]))
         elif in_type == "gene":
             organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
-                         "mouse": "Mus musculus (Mouse)"}
+                         "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
             cur_mapping = self.full_gene_mapping[self.full_gene_mapping["Gene name"].isin(in_list)]
             if organism is not None:
                 cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
@@ -156,7 +156,7 @@ class MappingHandler:
             cur_mapping = self.full_ortholog_mapping[self.full_ortholog_mapping["source_symbol"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['source_organism'] == organism]
             cur_mapping = cur_mapping[cur_mapping['target_organism'] == tar_organism]
-            return cur_mapping, list(set(in_list) - set(self.full_ortholog_mapping["source_symbol"]))
+            return cur_mapping, list(set(in_list) - set(cur_mapping["source_symbol"]))
         else:
             return None
 
