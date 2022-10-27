@@ -6,3 +6,10 @@ Co2,['MT-CO2'],human,HGNC
 Mt-co2,['MT-CO2'],human,HGNC
 Nd5,['MT-ND5'],human,HGNC
 Mt-nd5,['MT-ND5'],human,HGNC
+Mtco2,Mt-co2,rat,ensembl
+Nd5,Mt-nd5,rat,ensembl
+COXII,None,rat,ensembl
+Mt-co2,Mt-co2,rat,ensembl
+COX2,Mt-co2,rat,ensembl
+Co2,None,rat,ensembl
+Mt-nd5,Mt-nd5,rat,ensembl

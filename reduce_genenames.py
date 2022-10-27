@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 
-from gprofiler import GProfiler
-import mygene
-import pandas as pd
 
-from mq_utils.HGNC_mapping import get_HGNC_mapping
 from mq_utils import mapping_handler as mh
+from mq_utils.logger import get_reduced_genenames_logging
 
 def reduce_genenames(data, mode, gene_column: str = "Gene names",
-                     keep_empty=False, organism=None, HGNC_mode="mostfrequent"):
+                     keep_empty=False, organism=None, HGNC_mode="mostfrequent",
+                     inplace=True, return_log=True):
     """
     Reduce gene names in MaxQuant file based on chosen mode.
 
@@ -18,6 +16,8 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
     :param keep_empty: Set True if rows with no gene names should be kept
     :param organism: Organism to map to
     :param HGNC_mode: Mode on how to select the gene names in HGNC (mostfrequent, all)
+    :param inplace: Set True if reduction should be applied on original dataframe (False for returning a new dataframe)
+    :param return_log: Set True if a log dataframe should be returned
     :return: Remapped MaxQuant file as dataframe
     """
 
@@ -32,27 +32,45 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
         print("Gene Column Not in Data Column!")
         raise SystemExit
 
+    if organism == None:
+        print("Organism is required!")
+        raise SystemExit
+
 
     # ==== If Mode == HGNC check if organism = Human
     if (mode == "HGNC") and (organism != "human"):
         print("HGNC Database only for Human Genes!")
         raise SystemExit
 
-    # === If Mode == Ensembl or enrichment --> check that organism is not None
-    if (mode in ["ensembl", "enrichment"]) and (organism is None):
-        print("For ensembl and enrichment modes, an organism is required!")
-        raise SystemExit
 
     # === Reduce Gene Names ====
-    data[gene_column] = data[gene_column].apply(lambda row: handler.get_reduced_genenames(
+    reduced_gene_names = data[gene_column].apply(lambda row: handler.get_reduced_genenames(
                                             ids = row.split(";"),
                                             reduction_mode = mode, HGNC_mode = HGNC_mode,
                                             organism = organism)
                                             )
 
+    # === Logging ===
+    log_df = get_reduced_genenames_logging(data[gene_column], reduced_gene_names)
+
     # === Remove Rows with Empty Gene Names ====
     if keep_empty is False:
-        data = data.drop(data[data[gene_column] == ""].index)
+        data = data.drop( data[ data[ gene_column ] == "" ].index )
 
-    handler.save_mappings(mapping_dir="mappings/")
-    return data
+    handler.save_mappings( mapping_dir="mappings/" )
+
+    # === Set Reduced Gene Names To DataFrame
+    if inplace:
+        data[gene_column] = reduced_gene_names
+        if return_log:
+            return data, log_df
+        else:
+            return data
+    else:
+        reduced_data = data.copy(deep=True)
+        reduced_data[gene_column] = reduced_gene_names
+        if return_log:
+            return reduced_data, log_df
+        return reduced_data
+
+

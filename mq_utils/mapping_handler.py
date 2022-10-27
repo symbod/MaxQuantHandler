@@ -96,6 +96,9 @@ class MappingHandler:
         else:
             # check if ensembl id == name --> then take the incoming name
             gp_df["new_name"] = np.where(gp_df["converted"] == gp_df["name"], gp_df["incoming"], gp_df["name"])
+            # replace Nones
+            gp_df["new_name"] = np.where(gp_df["name"].isin(["None", None]), gp_df["name"], gp_df["new_name"])
+
             mapping = gp_df[["incoming", "new_name"]]
             mapping.columns = ["Gene Name", "Reduced Gene Name"]
             mapping.loc[:,"Organism"] = organism
@@ -190,7 +193,6 @@ class MappingHandler:
                     df = pd.concat([df, df2])
         return df
 
-
     # === Methods for extracting the correct information of the mapping ====
     def get_reduced_genenames(self, ids, organism=None, reduction_mode="ensembl", HGNC_mode="mostfrequent"):
         mapping = self.get_mapping(ids=ids, in_type="reduced_genes", organism=organism, reduction_mode=reduction_mode)
@@ -208,7 +210,7 @@ class MappingHandler:
                     reduced_genenames = HGNC_list
             else:
                 # remove None
-                reduced_genenames = list(mapping[-mapping["Reduced Gene Name"].isin(["None", None, np.nan])]["Reduced Gene Name"]) # "None" and None because Ensembl returns for example "None"
+                reduced_genenames = list(mapping[-mapping["Reduced Gene Name"].isin(["None", None])]["Reduced Gene Name"]) # "None" and None because Ensembl returns for example "None"
             return ";".join(list(set(reduced_genenames)))
 
     def get_orthologs(self, ids, organism: str, tar_organism: str):
