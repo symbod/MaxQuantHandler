@@ -1,0 +1,8 @@
+Gene Name,Reduced Gene Name,Organism,Mode
+COX2,"['PTGS2', 'MT-CO2']",human,HGNC
+COXII,,human,HGNC
+Mtco2,,human,HGNC
+Co2,['MT-CO2'],human,HGNC
+Mt-co2,['MT-CO2'],human,HGNC
+Nd5,['MT-ND5'],human,HGNC
+Mt-nd5,['MT-ND5'],human,HGNC
