@@ -4,9 +4,10 @@
 from mq_utils import mapping_handler as mh
 from mq_utils.logger import get_reduced_genenames_logging
 
+
 def reduce_genenames(data, mode, gene_column: str = "Gene names",
-                     keep_empty=False, organism=None, HGNC_mode="mostfrequent",
-                     inplace=True, return_log=True):
+                     keep_empty: bool = False, organism: str = None, HGNC_mode: str = "mostfrequent",
+                     inplace: bool = True, return_log: bool = True):
     """
     Reduce gene names in MaxQuant file based on chosen mode.
 
@@ -21,9 +22,12 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
     :return: Remapped MaxQuant file as dataframe
     """
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    # ==== Check if user want to work on input or create a deep copy ====
+    if not inplace:
+        data = data.copy( deep=True )
 
     # ==== Preload info for all IDs ====
+    handler = mh.MappingHandler(mapping_dir="mappings/")
     handler.get_mapping(ids=";".join(data[gene_column]).split(";"),
                                      in_type="reduced_genes", organism=organism, reduction_mode=mode)
 
@@ -32,6 +36,7 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
         print("Gene Column Not in Data Column!")
         raise SystemExit
 
+    # ==== If Organism is not set ====
     if organism == None:
         print("Organism is required!")
         raise SystemExit
@@ -43,34 +48,28 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
         raise SystemExit
 
 
-    # === Reduce Gene Names ====
+    # ==== Reduce Gene Names ====
     reduced_gene_names = data[gene_column].apply(lambda row: handler.get_reduced_genenames(
                                             ids = row.split(";"),
                                             reduction_mode = mode, HGNC_mode = HGNC_mode,
                                             organism = organism)
                                             )
 
-    # === Logging ===
+    # ==== Logging ====
     log_df = get_reduced_genenames_logging(data[gene_column], reduced_gene_names)
 
-    # === Remove Rows with Empty Gene Names ====
+    # ==== Remove Rows with Empty Gene Names ====
     if keep_empty is False:
         data = data.drop( data[ data[ gene_column ] == "" ].index )
 
+    # ==== Save Current Mappings To Files ====
     handler.save_mappings( mapping_dir="mappings/" )
 
-    # === Set Reduced Gene Names To DataFrame
-    if inplace:
-        data[gene_column] = reduced_gene_names
-        if return_log:
-            return data, log_df
-        else:
-            return data
+    # ==== Set Reduced Gene Names To DataFrame ====
+    data[ gene_column ] = reduced_gene_names
+    if return_log:
+        return data, log_df
     else:
-        reduced_data = data.copy(deep=True)
-        reduced_data[gene_column] = reduced_gene_names
-        if return_log:
-            return reduced_data, log_df
-        return reduced_data
+        return data
 
 

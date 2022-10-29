@@ -7,6 +7,7 @@ data = data[["Gene names"]]
 #data = data[1:10]
 
 data = pd.DataFrame({"Gene names" : ["Mtco2;COXII;Mt-co2;COX2;Co2", "Mt-nd5;Nd5"]})
+print(data)
 
 organism = "rat"
 mode = "ensembl"
@@ -14,7 +15,7 @@ gene_column = "Gene names"
 keep_empty = True
 HGNC_mode = "mostfrequent"
 
-reduced_data, log_df = reduce_genenames(data=data, organism = organism, mode=mode, gene_column=gene_column, keep_empty=keep_empty, HGNC_mode=HGNC_mode)
+reduced_data, log_df = reduce_genenames(data=data, organism = organism, mode=mode, gene_column=gene_column, keep_empty=keep_empty, HGNC_mode=HGNC_mode, inplace=False)
 
-
+print(data)
 print(reduced_data)
