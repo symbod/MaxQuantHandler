@@ -10,13 +10,12 @@ import mygene
 import numpy as np
 import itertools
 
-here=dirname(dirname(abspath(__file__)))
+here=dirname(dirname(abspath(__file__))) # needed to make files reachable in python package 
 
 class MappingHandler:
 
     full_protein_mapping = pd.DataFrame(columns=['Gene Names', 'Gene Names (primary)', 'Reviewed', 'Organism',
                                                  'Protein ID'])
-    full_gene_mapping = pd.DataFrame(columns=['Protein ID', 'Status', 'Organism', 'Gene Name'])
     full_ortholog_mapping = pd.DataFrame(columns=['source_symbol', 'source_organism', 'ensg', 'ortholog_ensg',
                                                   'target_symbol', 'target_organism', 'description'])
     full_reduced_gene_mapping = pd.DataFrame(columns=["Gene Name", "Reduced Gene Name", "Organism", "Mode"])
@@ -26,8 +25,6 @@ class MappingHandler:
         mapping_dir = join(here, mapping_dir)
         if Path(mapping_dir+"protein_to_genenames.csv").exists():
             self.full_protein_mapping = pd.read_csv(mapping_dir+"protein_to_genenames.csv")
-        if Path(mapping_dir+"genenames_to_protein.csv").exists():
-            self.full_gene_mapping = pd.read_csv(mapping_dir+"genenames_to_protein.csv")
         if Path(mapping_dir+"genenames_to_orthologs.csv").exists():
             self.full_ortholog_mapping = pd.read_csv(mapping_dir+"genenames_to_orthologs.csv")
         if Path(mapping_dir+"genenames_to_reduced_genenames.csv").exists():
@@ -168,22 +165,35 @@ class MappingHandler:
         return mapping
 
 
-    # === Load Mapping and Add Missing Entries ====
     def get_mapping(self, ids, in_type, organism=None, tar_organism=None, ignore_missing=False, reduction_mode="ensembl"):
+        """
+        Load prefetched mappings to set of IDs and add missing entries.
+
+        :param ids: Set of either protein IDs or gene names
+        :param in_type: Type of needed mapping [protein, orthologs, reduced_genes]
+        :param organism: Organism the input IDs (should) belong to
+        :param tar_organism: (Orthologs mode) Target organism to find the orthologs of
+        :param ignore_missing: Bool indicating if not previously fetched IDs should be ignored
+        :param reduction_mode: Mode of how to reduce the gene names
+        :return: Dataframe with mapping
+        """
         # ===== get precalculated =====
         df, missing = self.get_preloaded(in_list=ids, in_type=in_type, organism=organism, tar_organism=tar_organism, reduction_mode = reduction_mode)
         # ===== get missing =====
         if len(missing) > 0 and not ignore_missing:
+            # ==== Filter protein IDs ====
             if in_type == "protein":
                 df2 = self.get_uniprot_mapping(ids=missing, organism=organism)
                 if df2 is not None:
                     df = pd.concat([df, df2])
                 if organism is not None:
                     df = df[df['Organism'] == organism]
+            # ==== Map orthologs ====
             if in_type == "orthologs":
                 df2 = self.get_ortholog_mapping(ids=missing, organism=organism, tar_organism=tar_organism)
                 if df2 is not None:
                     df = pd.concat([df, df2])
+            # ==== Reduce gene names ====
             if in_type == "reduced_genes":
                 df2 = self.get_reduced_mapping(ids=missing, organism=organism, reduction_mode=reduction_mode)
                 if df2 is not None:
@@ -238,16 +248,29 @@ class MappingHandler:
             return ';'.join(genenames)
 
 
-    def get_filtered_ids(self, ids, organism=None, decoy=False, reviewed=False):
+    def get_filtered_ids(self, ids, organism=None, decoy=False, reviewed=False) -> str:
+        """
+        Filter given set of protein ids based on organism, decoy and/or review status.
+
+        :param ids: Set of protein IDs
+        :param organism: Organism the IDs should belong to
+        :param decoy: Bool to indicate if decoy IDs should be kept
+        :param reviewed: Bool to indicate if only reviewed IDs should be kept
+        :return: filtered IDs combined into a string
+        """
+        # ==== Get mapping on protein IDs ====
         mapping = self.get_mapping(ids=ids, in_type="protein", organism=organism, ignore_missing=True)
         if mapping.empty:
             return ""
-        if decoy:
-            keep = set([x for x in ids if x.startswith(("REV", "CON"))])
-        else:
-            keep = set()
+
+        # ==== Keep or remove decoy IDs based on flag ====
+        keep = set([x for x in ids if x.startswith(("REV", "CON"))]) if decoy else set()
+
+        # ==== Keep only reviewed IDs based on flag ====
         if reviewed:
             mapping = mapping[mapping['Reviewed'] == "reviewed"]
+
+        # ==== Combine mapped IDs with kept or left decoy IDs ====
         prot_ids = set(mapping['Protein ID']).union(keep)
         return ';'.join(prot_ids)
 
@@ -261,13 +284,6 @@ class MappingHandler:
             if organism is not None:
                 cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
             return cur_mapping, list(set(in_list) - set(self.full_protein_mapping["Protein ID"]))
-        elif in_type == "gene":
-            organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
-                         "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
-            cur_mapping = self.full_gene_mapping[self.full_gene_mapping["Gene name"].isin(in_list)]
-            if organism is not None:
-                cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
-            return cur_mapping, list(set(in_list) - set(self.full_gene_mapping["Gene name"]))
         elif in_type == "orthologs":
             cur_mapping = self.full_ortholog_mapping[self.full_ortholog_mapping["source_symbol"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['source_organism'] == organism]
@@ -285,7 +301,6 @@ class MappingHandler:
     def save_mappings(self, mapping_dir):
         mapping_dir = join(here, mapping_dir)
         self.full_protein_mapping.to_csv(mapping_dir+"protein_to_genenames.csv", index=False)
-        self.full_gene_mapping.to_csv(mapping_dir+"genenames_to_protein.csv", index=False)
         self.full_ortholog_mapping.to_csv(mapping_dir+"genenames_to_orthologs.csv", index=False)
         self.full_reduced_gene_mapping.to_csv(mapping_dir+"genenames_to_reduced_genenames.csv", index=False)
 
