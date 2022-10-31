@@ -17,7 +17,7 @@ def filter_protein_ids(data: pd.DataFrame, id_column: str = "Protein IDs", organ
     :param organism: Organism to map to
     :param decoy: Bool to indicate if decoy IDs (REV_, ) should be kept
     :param action: What to do, if IDs cell is empty after filtering. Keep empty cell or delete it.
-    :param reviewed: Set True if during action=fill only reviewed protein IDs should be taken
+    :param reviewed: Set True if only reviewed protein IDs should be kept
     :param return_log: Set True if a log dataframe should be returned
     :return: Filtered data as dataframe
     """
@@ -31,7 +31,7 @@ def filter_protein_ids(data: pd.DataFrame, id_column: str = "Protein IDs", organ
 
     # ==== Filter row wise ====
     filtered_ids = data_copy[id_column].apply(
-        lambda x: handler.get_filtered_ids(ids=x.split(";"), in_type="protein", organism=organism, decoy=decoy))
+        lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy, reviewed=reviewed))
 
     # ==== Logging ====
     log_df = pd.DataFrame()

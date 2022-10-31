@@ -11,6 +11,7 @@ from pathlib import Path
 
 start_time = time.time()
 
+
 def save_parameters(script_desc: str, arguments):
     """
     Save command line options into local variables.
@@ -43,7 +44,8 @@ def save_parameters(script_desc: str, arguments):
         required_args.add_argument('-tor', '--tar_organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
                                    required=True, help='Specify organism from which orthologs should be mapped.')
     if 'm' in arguments:
-        required_args.add_argument('-m', '--mode', choices=['all', 'fasta', 'uniprot', 'uniprot_one', 'uniprot_primary'],
+        required_args.add_argument('-m', '--mode',
+                                   choices=['all', 'fasta', 'uniprot', 'uniprot_one', 'uniprot_primary'],
                                    type=str, required=True, help='Mode of refilling. See below for more infos.')
     if 'i' in arguments:
         required_args.add_argument('-i', '--in_type', choices=['protein', 'gene'], required=True,
@@ -60,15 +62,15 @@ def save_parameters(script_desc: str, arguments):
         optional_args.add_argument('-l', '--fill', action='store_false', default=True,
                                    help='Use this flag, if filled values should be skipped. [Default=True]')
     if 'a' in arguments:
-        optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete', 'fill'],
-                                   help='What to do, if IDs cell is empty after filtering. Keep empty cell, delete it '
-                                        'or fill it based on gene name.')
+        optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete'],
+                                   help='What to do, if IDs cell is empty after filtering. '
+                                        'Keep empty cell or delete it.')
     if 'or' in arguments:
         optional_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
                                    default=None, help='Specify organism the ids should match to.')
     if 'r' in arguments:
         optional_args.add_argument('-r', '--reviewed', action='store_true', default=False,
-                                   help='Bool to indicate if newly retrieved protein IDs should be reduced to reviewed ones.')
+                                   help='Bool to indicate if only reviewed protein IDs should be kept.')
     if 'd' in arguments:
         optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
                                    help='Set flag if protein ids from decoy fasta (REV__, CON__) should be kept.')

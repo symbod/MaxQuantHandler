@@ -180,9 +180,6 @@ class MappingHandler:
                     df = pd.concat([df, df2])
                 if organism is not None:
                     df = df[df['Organism'] == organism]
-            if in_type == "gene":
-                # TODO
-                df = pd.DataFrame()
             if in_type == "orthologs":
                 df2 = self.get_ortholog_mapping(ids=missing, organism=organism, tar_organism=tar_organism)
                 if df2 is not None:
@@ -240,32 +237,20 @@ class MappingHandler:
             genenames = set([x for y in gene_names_series for x in y if x != ""])
             return ';'.join(genenames)
 
-    def get_filtered_ids(self, ids, in_type, organism=None, decoy=False):
-        mapping = self.get_mapping(ids=ids, in_type=in_type, organism=organism, ignore_missing=True)
-        if mapping.empty:
-            return ""
-        if in_type == "protein":
-            if decoy:
-                keep = set([x for x in ids if x.startswith(("REV", "CON"))])
-            else:
-                keep = set()
-            prot_ids = set(mapping['Protein ID']).union(keep)
-            return ';'.join(prot_ids)
-        elif in_type == "gene":
-            gene_names = set(mapping['Gene name'])
-            return ';'.join(gene_names)
-        else:
-            return set()
 
-    def get_ids_from_gene(self, genenames, organism=None, reviewed=True):
-        mapping = self.get_mapping(ids=genenames, in_type="gene", organism=organism)
+    def get_filtered_ids(self, ids, organism=None, decoy=False, reviewed=False):
+        mapping = self.get_mapping(ids=ids, in_type="protein", organism=organism, ignore_missing=True)
         if mapping.empty:
             return ""
+        if decoy:
+            keep = set([x for x in ids if x.startswith(("REV", "CON"))])
         else:
-            if reviewed:
-                mapping = mapping[mapping["Status"] == "reviewed"]
-            protein_ids = set(mapping['Protein ID'])
-            return ';'.join(protein_ids)
+            keep = set()
+        if reviewed:
+            mapping = mapping[mapping['Reviewed'] == "reviewed"]
+        prot_ids = set(mapping['Protein ID']).union(keep)
+        return ';'.join(prot_ids)
+
 
     # === Check existing mapping entries and return missing ones ====
     def get_preloaded(self, in_list: list, in_type: str, organism=None, tar_organism=None, reduction_mode = "ensembl"):
