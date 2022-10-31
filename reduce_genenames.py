@@ -53,7 +53,8 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
                                             )
 
     # ==== Logging ====
-    log_df = get_reduced_genenames_logging(data[gene_column], reduced_gene_names)
+    if return_log:
+        log_dict = get_reduced_genenames_logging(data[gene_column], reduced_gene_names)
 
     # ==== Remove Rows with Empty Gene Names ====
     if keep_empty is False:
@@ -64,8 +65,9 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
 
     # ==== Set Reduced Gene Names To DataFrame ====
     data[ gene_column ] = reduced_gene_names
+
     if return_log:
-        return data, log_df
+        return data, log_dict
     else:
         return data
 

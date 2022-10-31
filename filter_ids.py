@@ -22,33 +22,35 @@ def filter_protein_ids(data: pd.DataFrame, id_column: str = "Protein IDs", organ
     :return: Filtered data as dataframe
     """
 
-    data_copy = data.copy(deep=True)
+    data = data.copy(deep=True)
 
     # ==== Get all existing mappings in one batch ====
     handler = mh.MappingHandler(mapping_dir="mappings/")
-    handler.get_mapping(ids=";".join(data_copy[id_column]).split(";"),
+    handler.get_mapping(ids=";".join(data[id_column]).split(";"),
                         in_type="protein", organism=organism)
 
     # ==== Filter row wise ====
-    filtered_ids = data_copy[id_column].apply(
+    filtered_ids = data[id_column].apply(
         lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy, reviewed=reviewed))
 
     # ==== Logging ====
-    log_df = pd.DataFrame()
     if return_log:
-        log_df = get_filter_ids_logging(data_copy[id_column], filtered_ids)
+        log_dict = get_filter_ids_logging(original=data[id_column], filtered=filtered_ids, handler=handler, organism=organism)
 
     # ==== Set filtered ids to dataframe ====
-    data_copy[id_column] = filtered_ids
+    data[id_column] = filtered_ids
 
     # ==== Save current mapping to files
     handler.save_mappings(mapping_dir="mappings/")
 
     # ==== Remove empty rows if flag is set
     if action == "delete":
-        data_copy = data_copy[data_copy[id_column] != ""]  # remove
+        data = data[data[id_column] != ""]  # remove
 
-    return data_copy, log_df
+    if return_log:
+        return data, log_dict
+    else:
+        return data
 
 
 if __name__ == "__main__":
