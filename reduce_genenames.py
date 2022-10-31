@@ -7,7 +7,7 @@ from mq_utils.logger import get_reduced_genenames_logging
 
 def reduce_genenames(data, mode, gene_column: str = "Gene names",
                      keep_empty: bool = False, organism: str = None, HGNC_mode: str = "mostfrequent",
-                     inplace: bool = True, return_log: bool = True):
+                     return_log: bool = True):
     """
     Reduce gene names in MaxQuant file based on chosen mode.
 
@@ -17,14 +17,11 @@ def reduce_genenames(data, mode, gene_column: str = "Gene names",
     :param keep_empty: Set True if rows with no gene names should be kept
     :param organism: Organism to map to
     :param HGNC_mode: Mode on how to select the gene names in HGNC (mostfrequent, all)
-    :param inplace: Set True if reduction should be applied on original dataframe (False for returning a new dataframe)
     :param return_log: Set True if a log dataframe should be returned
     :return: Remapped MaxQuant file as dataframe
     """
 
-    # ==== Check if user want to work on input or create a deep copy ====
-    if not inplace:
-        data = data.copy( deep=True )
+    data = data.copy( deep=True )
 
     # ==== Preload info for all IDs ====
     handler = mh.MappingHandler(mapping_dir="mappings/")

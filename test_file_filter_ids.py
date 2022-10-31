@@ -19,7 +19,7 @@ decoy = False # Bool to indicate if protein ids from decoy fasta (REV__, CON__) 
 
 filtered_data, logging = filter_protein_ids(data = data, id_column = protein_column, organism = organism,
                                       decoy = decoy, action = action, gene_column = gene_column,
-                                      reviewed = reviewed, inplace=False, return_log=True)
+                                      reviewed = reviewed, return_log=True)
 print(logging)
 
 

@@ -25,6 +25,9 @@ def remap_genenames(data, mode, protein_column: str, gene_column:str = "Gene nam
     :param fasta: Fasta file
     :return: Remapped MayQuant file as dataframe
     """
+
+    data = data.copy( deep=True )
+
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====
     handler.get_mapping(ids=";".join(data[protein_column]).split(";"),

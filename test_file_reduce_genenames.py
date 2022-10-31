@@ -15,7 +15,7 @@ gene_column = "Gene names"
 keep_empty = True
 HGNC_mode = "mostfrequent"
 
-reduced_data, log_df = reduce_genenames(data=data, organism = organism, mode=mode, gene_column=gene_column, keep_empty=keep_empty, HGNC_mode=HGNC_mode, inplace=False)
+reduced_data, log_df = reduce_genenames(data=data, organism = organism, mode=mode, gene_column=gene_column, keep_empty=keep_empty, HGNC_mode=HGNC_mode)
 
 print(data)
 print(reduced_data)

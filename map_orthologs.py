@@ -16,6 +16,10 @@ def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
 
     :return: Data as dataframe with ortholog ids
     """
+
+    data = data.copy( deep=True )
+
+
     handler = mh.MappingHandler(mapping_dir="mappings/")
 
     # Get all existing mappings in one batch
