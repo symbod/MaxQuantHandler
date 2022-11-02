@@ -3,41 +3,47 @@
 import csv
 import pandas as pd
 from mq_utils import mapping_handler as mh, runner_utils as ru
+from mq_utils.logger import get_ortholog_genenames_logging
 
 
-def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str):
+def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str,
+                  res_column: str = None, return_log: bool = True):
     """
     Map gene names of origin organism to orthologs of target organism.
 
-    :param data: MaxQuant data or data with one single column
-    :param gene_column: Name of column in gene names
+    :param data: Dataframe containing a column with gene names
+    :param gene_column: Column name with gene names
     :param organism: Organism of the input ids
     :param tar_organism: Organism to map to
+    :param res_column: Set column name for ortholog results. If None, the gene_column will be overridden.
+    :param return_log: Set True if log dataframes should be returned
 
     :return: Data as dataframe with ortholog ids
     """
 
-    data = data.copy( deep=True )
-
+    data_copy = data.copy(deep=True)
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
-
-    # Get all existing mappings in one batch
-    handler.get_mapping(ids=";".join(data[gene_column]).split(";"),
+    # ==== Get all existing mappings in one batch ====
+    handler.get_mapping(ids=";".join(data_copy[gene_column]).split(";"),
                         in_type="orthologs", organism=organism, tar_organism=tar_organism)
     handler.save_mappings(mapping_dir="mappings/")
 
-    # ==== If Input was single column file ====
-    if len(data.columns) == 1:
-        data['Ortholog Gene names'] = data[gene_column].apply(
-            lambda x: handler.get_orthologs(ids=x.split(";"), organism=organism, tar_organism=tar_organism))
+    ortholog_gene_names= data_copy[gene_column].apply(
+        lambda x: handler.get_orthologs(ids=x.split(";"), organism=organism, tar_organism=tar_organism))
 
-    # ==== If Input was MaxQuant file ====
-    else:
-        data[gene_column] = data[gene_column].apply(
-            lambda x: handler.get_orthologs(ids=x.split(";"), organism=organism, tar_organism=tar_organism))
-    print(data[data[gene_column] != ""])
-    return data
+    # ==== Logging ====
+    log_dict = dict()
+    if return_log:
+        log_dict = get_ortholog_genenames_logging(data_copy[gene_column], ortholog_gene_names)
+
+    # ==== If target column depending if res_column is set ====
+    column = res_column if res_column is not None else gene_column
+
+    # ==== Set Reduced Gene Names To DataFrame ====
+    data_copy[column] = ortholog_gene_names
+
+    return data_copy, log_dict
 
 
 if __name__ == "__main__":
