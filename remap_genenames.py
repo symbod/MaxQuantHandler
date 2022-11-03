@@ -52,10 +52,12 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
 
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
+        data_copy["temp"] = remapped_gene_names # copy into df for apply function
         remapped_gene_names = data_copy.apply(
-            lambda row: get_uniprot_mapping(ids=row[protein_column].split(";"), genename=remapped_gene_names,
+            lambda row: get_uniprot_mapping(ids=row[protein_column].split(";"), genename=row["temp"],
                                             mode=mode, organism=organism, handler=handler,
                                             skip_filled=skip_filled), axis=1)
+        del data_copy["temp"]
 
     # ==== Logging ====
     log_dict = dict()
