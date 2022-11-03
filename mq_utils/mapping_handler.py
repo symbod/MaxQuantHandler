@@ -5,7 +5,7 @@ import pandas as pd
 from pathlib import Path
 from gprofiler import GProfiler
 import requests
-from mq_utils.HGNC_mapping import get_HGNC_mapping
+from HGNC_mapping import get_HGNC_mapping
 import mygene
 import numpy as np
 import itertools
