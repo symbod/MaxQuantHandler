@@ -6,7 +6,7 @@ from mq_utils import mapping_handler as mh, runner_utils as ru
 from mq_utils.logger import get_ortholog_genenames_logging
 
 
-def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str,
+def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str,
                   res_column: str = None, return_log: bool = True):
     """
     Map gene names of origin organism to orthologs of target organism.
@@ -20,7 +20,6 @@ def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
 
     :return: Data as dataframe with ortholog ids
     """
-
     data_copy = data.copy(deep=True)
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
@@ -30,7 +29,7 @@ def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     handler.save_mappings(mapping_dir="mappings/")
 
     ortholog_gene_names= data_copy[gene_column].apply(
-        lambda x: handler.get_orthologs(ids=x.split(";"), organism=organism, tar_organism=tar_organism))
+        lambda x: get_orthologs(ids=x.split(";"), handler=handler, organism=organism, tar_organism=tar_organism))
 
     # ==== Logging ====
     log_dict = dict()
@@ -46,10 +45,30 @@ def get_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     return data_copy, log_dict
 
 
+def get_orthologs(ids, handler, organism: str, tar_organism: str):
+    """
+    Get orthologs of genes from one organism to another.
+
+    :param ids: Set of gene names
+    :param handler: Handler for mappings
+    :param organism: Organism of the input ids
+    :param tar_organism: Organism to map to
+
+    :return:
+    """
+    mapping = handler.get_mapping(ids=ids, in_type="orthologs", organism=organism,
+                               tar_organism=tar_organism, ignore_missing=True)
+    if mapping.empty:
+        return ""
+    else:
+        orthologs = {x for x in mapping['target_symbol'] if pd.notna(x)}
+        return ';'.join(orthologs)
+
+
 if __name__ == "__main__":
     description = "                       Get ortholog gene names."
     parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'tor_req', 'c', 'o'))
-    df = get_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.tar_organism,
+    df, logs = map_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.tar_organism,
                        gene_column=parameters.gene_column)
     df.to_csv(parameters.out_dir + parameters.file_name + "_ortholog.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")

@@ -21,7 +21,6 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
     :param return_log: Set True if a log dataframe should be returned
     :return: Filtered data as dataframe
     """
-
     data_copy = data.copy(deep=True)
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
@@ -31,7 +30,8 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
 
     # ==== Filter row wise ====
     filtered_ids = data_copy[protein_column].apply(
-        lambda x: handler.get_filtered_ids(ids=x.split(";"), organism=organism, decoy=decoy, reviewed=reviewed))
+        lambda x: get_filtered_ids(ids=x.split(";"), handler=handler, organism=organism, decoy=decoy,
+                                   reviewed=reviewed))
 
     # ==== Logging ====
     log_dict = dict()
@@ -50,6 +50,35 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
         data_copy = data_copy[data_copy[protein_column] != ""]  # remove
 
     return data_copy, log_dict
+
+
+def get_filtered_ids(ids, handler: mh.MappingHandler, organism: str = None, decoy: bool = False,
+                     reviewed: bool = False) -> str:
+    """
+    Filter given set of protein ids based on organism, decoy and/or review status.
+
+    :param ids: Set of protein IDs
+    :param handler: MappingHandler object
+    :param organism: Organism the IDs should belong to
+    :param decoy: Bool to indicate if decoy IDs should be kept
+    :param reviewed: Bool to indicate if only reviewed IDs should be kept
+    :return: filtered IDs combined into a string
+    """
+    # ==== Get mapping on protein IDs ====
+    mapping = handler.get_mapping(ids=ids, in_type="protein", organism=organism, ignore_missing=True)
+    if mapping.empty:
+        return ""
+
+    # ==== Keep or remove decoy IDs based on flag ====
+    keep = set([x for x in ids if x.startswith(("REV", "CON"))]) if decoy else set()
+
+    # ==== Keep only reviewed IDs based on flag ====
+    if reviewed:
+        mapping = mapping[mapping['Reviewed'] == "reviewed"]
+
+    # ==== Combine mapped IDs with kept or left decoy IDs ====
+    prot_ids = set(mapping['Protein ID']).union(keep)
+    return ';'.join(prot_ids)
 
 
 if __name__ == "__main__":

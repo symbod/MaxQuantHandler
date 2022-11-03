@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import pandas as pd
+import itertools
 from mq_utils import mapping_handler as mh
 from mq_utils.logger import get_reduced_genenames_logging
 
@@ -22,7 +23,6 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
 
     :return: Reduced data as dataframe
     """
-
     data_copy = data.copy(deep=True)
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
@@ -40,8 +40,8 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
 
     # ==== Reduce Gene Names ====
     reduced_gene_names = data_copy[gene_column].apply(
-        lambda row: handler.get_reduced_genenames(ids=row.split(";"), reduction_mode=mode, HGNC_mode=HGNC_mode,
-                                                  organism=organism))
+        lambda row: get_reduced_genenames(ids=row.split(";"), handler=handler,
+                                          reduction_mode=mode, HGNC_mode=HGNC_mode, organism=organism))
 
     # ==== Logging ====
     log_dict = dict()
@@ -62,3 +62,24 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
     handler.save_mappings(mapping_dir="mappings/")
 
     return data_copy, log_dict
+
+
+def get_reduced_genenames(ids, handler, organism=None, reduction_mode="ensembl", HGNC_mode="mostfrequent"):
+    mapping = handler.get_mapping(ids=ids, in_type="reduced_genes", organism=organism, reduction_mode=reduction_mode)
+    if mapping.empty:
+        return ""
+    else:
+        # check orga
+        if reduction_mode == "HGNC":
+            # separate case because we have two modes (mostfrequent and all)
+            HGNC_output = mapping[mapping["Mode"] == reduction_mode].dropna()
+            HGNC_list = list(itertools.chain.from_iterable(list(HGNC_output["Reduced Gene Name"])))
+            if HGNC_mode == "mostfrequent":
+                reduced_genenames = list(pd.Series(HGNC_list).mode())
+            elif HGNC_mode == "all":
+                reduced_genenames = HGNC_list
+        else:
+            # remove None
+            reduced_genenames = list(mapping[-mapping["Reduced Gene Name"].isin(["None", None])][
+                                         "Reduced Gene Name"])  # "None" and None because Ensembl returns for example "None"
+        return ";".join(list(set(reduced_genenames)))

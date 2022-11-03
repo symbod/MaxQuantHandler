@@ -29,7 +29,6 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
 
     :return: Remapped data as dataframe
     """
-
     data_copy = data.copy(deep=True)
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
@@ -45,7 +44,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     if fasta is not None and mode in ['all', 'fasta']:
         fasta_mapping = grep_header_info(fasta=parameters.mapping_file)
         remapped_gene_names = data_copy.apply(
-            lambda row: run_fasta_mapping(ids=row[protein_column].split(";"), genename=row[gene_column],
+            lambda row: get_fasta_mapping(ids=row[protein_column].split(";"), genename=row[gene_column],
                                           mapping=fasta_mapping, skip_filled=skip_filled), axis=1)
         skip_filled = True
     else:
@@ -54,7 +53,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
         remapped_gene_names = data_copy.apply(
-            lambda row: run_uniprot_mapping(ids=row[protein_column].split(";"), genename=remapped_gene_names,
+            lambda row: get_uniprot_mapping(ids=row[protein_column].split(";"), genename=remapped_gene_names,
                                             mode=mode, organism=organism, handler=handler,
                                             skip_filled=skip_filled), axis=1)
 
@@ -73,7 +72,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     return data_copy, log_dict
 
 
-def run_fasta_mapping(ids, genename, mapping=None, skip_filled=False):
+def get_fasta_mapping(ids, genename, mapping=None, skip_filled=False):
     """
     Get gene names from fasta file for empty entries or all if skip_filles is set to false.
 
@@ -90,7 +89,7 @@ def run_fasta_mapping(ids, genename, mapping=None, skip_filled=False):
         return genename
 
 
-def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled=False):
+def get_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled=False):
     """
     Get gene names from uniprot for empty entries or all if skip_filles is set to false.
 
@@ -106,39 +105,75 @@ def run_uniprot_mapping(ids, genename, mode, handler, organism=None, skip_filled
         if mode == "uniprot_one":
             return get_single_genename(ids=ids, organism=organism, handler=handler)
         elif mode == "uniprot_primary":
-            return handler.get_primary_genenames(ids=ids, organism=organism)
+            return get_primary_genenames(ids=ids, organism=organism, handler=handler)
         else:
-            return handler.get_all_genenames(ids=ids, organism=organism)
+            return get_all_genenames(ids=ids, organism=organism, handler=handler)
     else:
         return genename
 
 
-def get_single_genename(ids, organism=None, handler: mh.MappingHandler = mh.MappingHandler(mapping_dir="mappings/")):
+def get_single_genename(ids, handler: mh.MappingHandler, organism=None):
     """
-    Get gene name from uniprot.
+    Get most frequent gene name from uniprot.
 
-    :param ids: List of protein ids
+    :param ids: List of protein IDs
     :param organism: Organism to map to
     :param handler: Handler for uniprot mappings
     :return: Single gene name
     """
-    df = handler.get_mapping(ids=ids, in_type="protein", organism=organism)
-    # ==== Get primary gene name first ====
-    prim_keys = set(df['Gene Names (primary)'].fillna(""))
+    mapping = handler.get_mapping(ids=ids, in_type="protein", organism=organism)
+    # ==== Get primary gene name first if only one for all ====
+    prim_keys = set(mapping['Gene Names (primary)'].fillna(""))
     if len(prim_keys) == 1:
         return ";".join(prim_keys)
-    # ==== Check all gene names ====
-    df['Gene Names'] = df['Gene Names'].fillna("").str.upper()
-    gene_names = df['Gene Names'].apply(mh.series_to_set)
+    # ==== Most frequent out of all ====
+    mapping['Gene Names'] = mapping['Gene Names'].fillna("")
+    gene_names = mapping['Gene Names'].apply(lambda x: set(x.split(";")))
     lst = [x for z in gene_names for x in z if x != ""]
     # ==== Return most frequent ====
     return max(set(lst), key=lst.count)
 
 
+def get_primary_genenames(ids, handler: mh.MappingHandler, organism=None):
+    """
+    Get only primary gene names from uniprot.
+
+    :param ids: List of protein IDs
+    :param organism: Organism to map to
+    :param handler: Handler for uniprot mappings
+    :return: Primary gene names
+    """
+    mapping = handler.get_mapping(ids=ids, in_type="protein", organism=organism)
+    if mapping.empty:
+        return ""
+    else:
+        genenames = {x for x in mapping['Gene Names (primary)'] if pd.notna(x)}  # set()
+        return ';'.join(genenames)
+
+
+def get_all_genenames(ids, handler: mh.MappingHandler, organism=None):
+    """
+    Get all gene names from uniprot.
+
+    :param ids: List of protein IDs
+    :param organism: Organism to map to
+    :param handler: Handler for uniprot mappings
+    :return: All gene names
+    """
+    mapping = handler.get_mapping(ids=ids, in_type="protein", organism=organism)
+    if mapping.empty:
+        return ""
+    else:
+        mapping['Gene Names'] = mapping['Gene Names'].fillna("")
+        gene_names_series = mapping['Gene Names'].apply(lambda x: set(x.split(";")))
+        genenames = set([x for y in gene_names_series for x in y if x != ""])
+        return ';'.join(genenames)
+
+
 if __name__ == "__main__":
     description = "                  Re-mapp gene names in max quant file."
     parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'c', 'or', 'l', 'm', 'o'))
-    res = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
+    res, log = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
                           protein_column=parameters.protein_column, gene_column=parameters.gene_column,
                           organism=parameters.organism, fasta=parameters.fasta_file)
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
