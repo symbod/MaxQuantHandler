@@ -7,7 +7,7 @@ from mq_utils.logger import get_filter_ids_logging
 
 
 def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", organism: str = None,
-                       decoy: bool = False, action: str = "delete",
+                       decoy: bool = False, keep_empty: bool = False,
                        reviewed: bool = True, return_log: bool = True):
     """
     Filter protein ids in given data by chosen organism.
@@ -16,16 +16,17 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
     :param protein_column: Column name with protein IDs
     :param organism: Organism to map to
     :param decoy: Bool to indicate if decoy IDs (REV_, ) should be kept
-    :param action: What to do, if IDs cell is empty after filtering. Keep empty cell or delete it.
+    :param keep_empty: Set True if empty rows should be kept
     :param reviewed: Set True if only reviewed protein IDs should be kept
     :param return_log: Set True if a log dataframe should be returned
     :return: Filtered data as dataframe
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Get all existing mappings in one batch ====
-    handler.get_mapping(ids=";".join(data_copy[protein_column]).split(";"),
+    handler.get_mapping(ids=";".join(data_copy[protein_column].astype("string")).split(";"),
                         in_type="protein", organism=organism)
 
     # ==== Filter row wise ====
@@ -45,8 +46,8 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
     # ==== Save current mapping to files
     handler.save_mappings(mapping_dir="mappings/")
 
-    # ==== Remove empty rows if flag is set
-    if action == "delete":
+    # ==== Remove rows with empty protein IDs ====
+    if keep_empty is False:
         data_copy = data_copy[data_copy[protein_column] != ""]  # remove
 
     return data_copy, log_dict

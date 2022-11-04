@@ -6,8 +6,6 @@ C15orf38-AP3S2,C15orf38-AP3S2,unreviewed,Homo sapiens (Human),A0A0A6YYH1
 Vasp,Vasp,unreviewed,Rattus norvegicus (Rat),F7EWC1
 HCK,HCK,unreviewed,Homo sapiens (Human),J3KPD6
 SLC7A11,SLC7A11,unreviewed,Homo sapiens (Human),H0Y9F9
-PRSS47P;PRSS47,PRSS47P,reviewed,Homo sapiens (Human),A8MTI9
-SYAP1;PRO3113,SYAP1,reviewed,Homo sapiens (Human),Q96A49
 TMEM222,TMEM222,unreviewed,Homo sapiens (Human),Q8TDQ4
 MEMO1;C2orf4;MEMO;NS5ATP7;CGI-27,MEMO1,reviewed,Homo sapiens (Human),Q9Y316
 SPON2,SPON2,unreviewed,Homo sapiens (Human),D6RA41
@@ -31427,3 +31425,5 @@ Svs4;Svp2;Svp4,Svs4,reviewed,Rattus norvegicus (Rat),P02783
 H2bc12;Hist1h2bg;Hist1h2bk;Hist1h2bp_predicted;Hist1h2bq;LOC100365043;rCG_45129;rCG_45162;rCG_45199;rCG_45211;rCG_45227,H2bc12,unreviewed,Rattus norvegicus (Rat),G3V9C7
 Lpin1;rCG_61514,Lpin1,unreviewed,Rattus norvegicus (Rat),Q5XIM8
 Tpm1;Tpm1_v1;Tpm1_v5;rCG_56696,Tpm1,unreviewed,Rattus norvegicus (Rat),Q91XN6
+SYAP1;PRO3113,SYAP1,reviewed,Homo sapiens (Human),Q96A49
+PRSS47P;PRSS47,PRSS47P,reviewed,Homo sapiens (Human),A8MTI9
