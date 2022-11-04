@@ -5,7 +5,7 @@ import pandas as pd
 from pathlib import Path
 from gprofiler import GProfiler
 import requests
-from HGNC_mapping import get_HGNC_mapping
+from .HGNC_mapping import get_HGNC_mapping
 import mygene
 import numpy as np
 
@@ -29,43 +29,78 @@ class MappingHandler:
             self.full_reduced_gene_mapping = pd.read_csv(mapping_dir + "genenames_to_reduced_genenames.csv",
                                                          na_values=None)
 
-    # === Uniprot Mapping ====
-    def get_uniprot_mapping(self, ids, organism=None):
+    # === UniProt Mapping ====
+    def get_uniprot_mapping(self, ids, organism: str = None):
+        """
+        Get UniProt mapping for UniProt protein IDs. Optionally filter for organism.
+
+        :param ids: Set of protein IDs
+        :param organism: Organism to map to
+        :return: dataframe with mapping to each mappable ID
+        """
         organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)", "mouse": "Mus musculus (Mouse)",
                      "rabbit": "Oryctolagus cuniculus (Rabbit)"}
         url = 'https://rest.uniprot.org/uniprotkb/accessions'
         mapping = pd.DataFrame()
+        # ==== Get mappings in <= 500 IDs chunks ====
         for i in range(0, len(ids), 500):
-            ids_chunk = ids[i:i + 500]
-            params = {
-                'format': 'tsv',
-                'accessions': ",".join([x for x in ids_chunk if not x.startswith(("REV", "CON"))]),
-                'fields': 'gene_names,gene_primary,reviewed,organism_name,accession'}
+            # ==== Remove contaminated and reverse mapped IDs ====
+            ids_chunk = [x for x in ids[i:i + 500] if not x.startswith(("REV", "CON"))]
+            params = {'format': 'tsv',
+                      'accessions': ",".join(ids_chunk),
+                      'fields': 'gene_names,gene_primary,reviewed,organism_name,accession'}
             f = requests.get(url=url, params=params)
-            mapping_chunk = pd.read_csv(f.url, sep="\t")
-            if organism is not None:
-                mapping_chunk = mapping_chunk[mapping_chunk['Organism'] == organisms[organism]]
-            if mapping.empty:
-                mapping = mapping_chunk
+            # ==== If at least one ID doesn't exist ====
+            if f.status_code == 400:
+                mapping_chunk = pd.DataFrame()
+                # ==== Check each id separately ====
+                for id in ids_chunk:
+                    params["accessions"] = id
+                    f = requests.get(url=url, params=params)
+                    if f.status_code != 400:
+                        mapping_chunk2 = pd.read_csv(f.url, sep="\t")
+                        mapping_chunk = mapping_chunk2 if mapping_chunk.empty \
+                            else pd.concat([mapping_chunk, mapping_chunk2])
+            # ==== All IDs were mapped ====
             else:
-                mapping = pd.concat([mapping, mapping_chunk])
-        mapping.columns = [*mapping.columns[:-1], 'Protein ID']
-        mapping['Gene Names'] = mapping['Gene Names'].str.replace(' ', ';')
-        mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
-        mapping = mapping.explode('Protein ID')
-        self.full_protein_mapping = pd.concat([self.full_protein_mapping, mapping])
+                mapping_chunk = pd.read_csv(f.url, sep="\t")
+            # ==== Combine to one mapping dataframe ====
+            mapping = mapping_chunk if mapping.empty else pd.concat([mapping, mapping_chunk])
+        # ==== Changes inside final mapping dataframe ====
+        if not mapping.empty:
+            mapping.columns = [*mapping.columns[:-1], 'Protein ID']  # change name of last column
+            mapping['Gene Names'] = mapping['Gene Names'].str.replace(' ', ';')  # change separation to ;
+            # ==== Split and explode to create one row for each ID ====
+            mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
+            mapping = mapping.explode('Protein ID')
+            # ==== Save to global mapping ====
+            self.full_protein_mapping = pd.concat([self.full_protein_mapping, mapping])
+            # ==== Filter for organism if given ====
+            if organism is not None:
+                mapping = mapping[mapping['Organism'] == organisms[organism]]
         return mapping
 
     # === Ortholog Mapping ====
     def get_ortholog_mapping(self, ids, organism, tar_organism):
+        """
+        Get ortholog mapping from source to target organism using gProfiler.
+
+        :param ids: Set of gene names
+        :param organism: Organism of the input ids
+        :param tar_organism: Organism to map to
+        :return: dataframe with mapped ortholog pairs
+        """
         organisms = {"human": "hsapiens", "mouse": "mmusculus", "rat": "rnorvegicus", "rabbit": "ocuniculus"}
         gp = GProfiler(return_dataframe=True)
         mapping = gp.orth(organism=organisms[organism], query=ids, target=organisms[tar_organism])
+        mapping = mapping.fillna('')
+        # ==== Subset and rename columns ====
         mapping = mapping[['incoming', 'converted', 'ortholog_ensg', 'name', 'description']]
         mapping.columns = ['source_symbol', 'ensg', 'ortholog_ensg', 'target_symbol', 'description']
-        # save organism info
+        # ==== Save organism info ====
         mapping.insert(loc=1, column='source_organism', value=organism)
         mapping.insert(loc=5, column='target_organism', value=tar_organism)
+        # ==== Save to global mapping ====
         self.full_ortholog_mapping = pd.concat([self.full_ortholog_mapping, mapping])
         return mapping
 
@@ -203,6 +238,7 @@ class MappingHandler:
 
     # === Check existing mapping entries and return missing ones ====
     def get_preloaded(self, in_list: list, in_type: str, organism=None, tar_organism=None, reduction_mode="ensembl"):
+        # ==== Filter protein IDs ====
         if in_type == "protein":
             organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
                          "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
@@ -210,11 +246,13 @@ class MappingHandler:
             if organism is not None:
                 cur_mapping = cur_mapping[cur_mapping['Organism'] == organisms[organism]]
             return cur_mapping, list(set(in_list) - set(self.full_protein_mapping["Protein ID"]))
+        # ==== Map orthologs ====
         elif in_type == "orthologs":
             cur_mapping = self.full_ortholog_mapping[self.full_ortholog_mapping["source_symbol"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['source_organism'] == organism]
             cur_mapping = cur_mapping[cur_mapping['target_organism'] == tar_organism]
             return cur_mapping, list(set(in_list) - set(cur_mapping["source_symbol"]))
+        # ==== Reduce gene names ====
         elif in_type == "reduced_genes":
             cur_mapping = self.full_reduced_gene_mapping[self.full_reduced_gene_mapping["Gene Name"].isin(in_list)]
             cur_mapping = cur_mapping[cur_mapping['Organism'] == organism]

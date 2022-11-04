@@ -12,8 +12,8 @@ warnings.filterwarnings('ignore')
 
 
 def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_column: str = "Gene names",
-                    skip_filled: bool = False, organism: str = None, fasta: str = None, res_column: str = None,
-                    return_log: bool = True):
+                    skip_filled: bool = False, organism: str = None, fasta: str = None, keep_empty: bool = True,
+                    res_column: str = None, return_log: bool = True):
     """
     Remap gene names in data file based on chosen mode.
 
@@ -24,12 +24,14 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     :param skip_filled: Set True if rows with already filled gene names should be ignored
     :param organism: Organism to map to
     :param fasta: Fasta file
+    :param keep_empty: Set True if empty rows should be kept
     :param res_column: Set column name for ortholog results. If None, the gene_column will be overridden.
     :param return_log: Set True if log dataframes should be returned
 
     :return: Remapped data as dataframe
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====
@@ -52,7 +54,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
 
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
-        data_copy["temp"] = remapped_gene_names # copy into df for apply function
+        data_copy["temp"] = remapped_gene_names  # copy into df for apply function
         remapped_gene_names = data_copy.apply(
             lambda row: get_uniprot_mapping(ids=row[protein_column].split(";"), genename=row["temp"],
                                             mode=mode, organism=organism, handler=handler,
@@ -62,13 +64,19 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     # ==== Logging ====
     log_dict = dict()
     if return_log:
-        log_dict = get_remapped_genenames_logging(data_copy[gene_column], remapped_gene_names)
+        log_dict = get_remapped_genenames_logging(original=data_copy[gene_column], remapped=remapped_gene_names,
+                                                  protein_ids=";".join(data_copy[protein_column]).split(";"),
+                                                  handler=handler, organism=organism)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column
 
-    # ==== Set Reduced Gene Names To DataFrame ====
+    # ==== Set remapped gene names to dataFrame ====
     data_copy[column] = remapped_gene_names
+
+    # ==== Remove rows with empty gene names ====
+    if keep_empty is False:
+        data_copy = data_copy[data_copy[column] != ""]  # remove
 
     handler.save_mappings(mapping_dir="mappings/")
     return data_copy, log_dict
@@ -176,7 +184,7 @@ if __name__ == "__main__":
     description = "                  Re-mapp gene names in max quant file."
     parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'c', 'or', 'l', 'm', 'o'))
     res, log = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
-                          protein_column=parameters.protein_column, gene_column=parameters.gene_column,
-                          organism=parameters.organism, fasta=parameters.fasta_file)
+                               protein_column=parameters.protein_column, gene_column=parameters.gene_column,
+                               organism=parameters.organism, fasta=parameters.fasta_file)
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")

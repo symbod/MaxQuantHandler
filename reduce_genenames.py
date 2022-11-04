@@ -24,6 +24,7 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
     :return: Reduced data as dataframe
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy[gene_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====

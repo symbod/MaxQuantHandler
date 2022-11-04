@@ -7,7 +7,7 @@ from mq_utils.logger import get_ortholog_genenames_logging
 
 
 def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str,
-                  res_column: str = None, return_log: bool = True):
+                  keep_empty: bool = True, res_column: str = None, return_log: bool = True):
     """
     Map gene names of origin organism to orthologs of target organism.
 
@@ -15,12 +15,14 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     :param gene_column: Column name with gene names
     :param organism: Organism of the input ids
     :param tar_organism: Organism to map to
+    :param keep_empty: Set True if empty rows should be kept
     :param res_column: Set column name for ortholog results. If None, the gene_column will be overridden.
     :param return_log: Set True if log dataframes should be returned
 
     :return: Data as dataframe with ortholog ids
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy[gene_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Get all existing mappings in one batch ====
@@ -28,19 +30,24 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
                         in_type="orthologs", organism=organism, tar_organism=tar_organism)
     handler.save_mappings(mapping_dir="mappings/")
 
-    ortholog_gene_names= data_copy[gene_column].apply(
+    ortholog_gene_names = data_copy[gene_column].apply(
         lambda x: get_orthologs(ids=x.split(";"), handler=handler, organism=organism, tar_organism=tar_organism))
 
     # ==== Logging ====
     log_dict = dict()
     if return_log:
-        log_dict = get_ortholog_genenames_logging(data_copy[gene_column], ortholog_gene_names)
+        log_dict = get_ortholog_genenames_logging(original=data_copy[gene_column], orthologs=ortholog_gene_names,
+                                                  handler=handler, organism=organism, tar_organism=tar_organism)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column
 
-    # ==== Set Reduced Gene Names To DataFrame ====
+    # ==== Set ortholog gene names to dataframe ====
     data_copy[column] = ortholog_gene_names
+
+    # ==== Remove rows with empty ortholog gene names ====
+    if keep_empty is False:
+        data_copy = data_copy[data_copy[column] != ""]  # remove
 
     return data_copy, log_dict
 
@@ -57,7 +64,7 @@ def get_orthologs(ids, handler, organism: str, tar_organism: str):
     :return:
     """
     mapping = handler.get_mapping(ids=ids, in_type="orthologs", organism=organism,
-                               tar_organism=tar_organism, ignore_missing=True)
+                                  tar_organism=tar_organism, ignore_missing=True)
     if mapping.empty:
         return ""
     else:
@@ -69,6 +76,6 @@ if __name__ == "__main__":
     description = "                       Get ortholog gene names."
     parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'tor_req', 'c', 'o'))
     df, logs = map_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.tar_organism,
-                       gene_column=parameters.gene_column)
+                             gene_column=parameters.gene_column)
     df.to_csv(parameters.out_dir + parameters.file_name + "_ortholog.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")
