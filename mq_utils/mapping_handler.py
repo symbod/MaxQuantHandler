@@ -69,7 +69,10 @@ class MappingHandler:
         # ==== Changes inside final mapping dataframe ====
         if not mapping.empty:
             mapping.columns = [*mapping.columns[:-1], 'Protein ID']  # change name of last column
-            mapping['Gene Names'] = mapping['Gene Names'].str.replace(' ', ';')  # change separation to ;
+            # ==== Clean accidental white spaces from UniProt ====
+            mapping['Gene Names'] = mapping['Gene Names'].str.replace(r'\s+', ';', regex=True)  # change separation to ;
+            mapping['Gene Names (primary)'] = mapping['Gene Names (primary)'].str.replace(r'\s+', '', regex=True)
+            mapping['Protein ID'] = mapping['Protein ID'].str.replace(r'\s+', '', regex=True)
             # ==== Split and explode to create one row for each ID ====
             mapping['Protein ID'] = mapping['Protein ID'].apply(lambda x: x.split(","))
             mapping = mapping.explode('Protein ID')
