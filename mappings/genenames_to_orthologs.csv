@@ -4268,7 +4268,7 @@ Apoa4,mouse,ENSMUSG00000032080,ENSG00000110244,APOA4,human,apolipoprotein A4 [So
 Serpina3k,mouse,ENSMUSG00000058207,ENSG00000196136,SERPINA3,human,serpin family A member 3 [Source:HGNC Symbol;Acc:HGNC:16]
 Cfp,mouse,ENSMUSG00000001128,ENSG00000126759,CFP,human,complement factor properdin [Source:HGNC Symbol;Acc:HGNC:8864]
 Apom,mouse,ENSMUSG00000024391,ENSG00000204444,APOM,human,apolipoprotein M [Source:HGNC Symbol;Acc:HGNC:13916]
-Cfhr4,mouse,ENSMUSG00000070594,N/A,N/A,human,N/A
+Cfhr4,mouse,ENSMUSG00000070594,,,human,
 Clu,mouse,ENSMUSG00000022037,ENSG00000120885,CLU,human,clusterin [Source:HGNC Symbol;Acc:HGNC:2095]
 C6,mouse,ENSMUSG00000022181,ENSG00000039537,C6,human,complement C6 [Source:HGNC Symbol;Acc:HGNC:1339]
 Apoc3,mouse,ENSMUSG00000032081,ENSG00000110245,APOC3,human,apolipoprotein C3 [Source:HGNC Symbol;Acc:HGNC:610]
