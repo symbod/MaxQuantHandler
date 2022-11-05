@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import pandas as pd
-import itertools
 
 
 # ==== Logging DataFrame For Filtering Ids ====
@@ -40,7 +39,7 @@ def get_remapped_genenames_logging(original, remapped, protein_ids, handler, org
 
     # ==== for added names --> find out the cause and create df ====
     df, missing = handler.get_preloaded(in_list=protein_ids, in_type="protein",organism=organism)
-    df = df[df["Gene Names (primary)"] in set(itertools.chain.from_iterable(log_df["Added Gene Names"]))]
+    df = df[df["Gene Names (primary)"].isin(log_df["Added Gene Names"].explode().to_list())]
     return {"Overview_Log": log_df, "Detailed_Log": df}
 
 
@@ -79,9 +78,9 @@ def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
     # ==== create dataframe with for each row original names, reduced names, nr names, etc. ====
     log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Reduced Gene Names": reduced.str.split(";")})
     log_df["Added Gene Names"] = log_df.apply(
-        lambda row: list(set(row["Remapped Gene Names"]).difference(set(row["Gene Names"]))), axis=1)
+        lambda row: list(set(row["Reduced Gene Names"]).difference(set(row["Gene Names"]))), axis=1)
     log_df["Removed Gene Names"] = log_df.apply(
-        lambda row: list(set(row["Gene Names"]).difference(set(row["Remapped Gene Names"]))), axis=1)
+        lambda row: list(set(row["Gene Names"]).difference(set(row["Reduced Gene Names"]))), axis=1)
     log_df["Nr Gene Names"] = log_df["Gene Names"].apply(lambda x: len(list(filter(None, x))))
     log_df["Nr Reduced Gene Names"] = log_df["Reduced Gene Names"].apply(lambda x: len(list(filter(None, x))))
     log_df["Nr Added Gene Names"] = log_df["Added Gene Names"].apply(lambda x: len(list(filter(None, x))))
