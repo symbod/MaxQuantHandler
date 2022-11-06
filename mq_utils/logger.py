@@ -90,4 +90,5 @@ def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
 
     # ==== for reduced ids --> find out the cause and create df ====
     df = pd.concat([df, pd.DataFrame({"Gene Name": missing})], ignore_index=True).fillna("Not found")
+    df = df[df["Reduced Gene Name"] == "Not found"]
     return {"Overview_Log": log_df, "Detailed_Log": df}
