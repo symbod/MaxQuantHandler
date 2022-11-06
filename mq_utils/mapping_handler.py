@@ -117,9 +117,12 @@ class MappingHandler:
             mapping = self.get_enrichment_reduction(ids, organism)  # organism must be set
         elif reduction_mode == "mygeneinfo":
             mapping = self.get_mygeneinfo_reduction(ids)  # add for all organisms directly
-        mapping["Mode"] = reduction_mode
-        self.full_reduced_gene_mapping = pd.concat([self.full_reduced_gene_mapping, mapping])
-        return mapping
+        if mapping is not None:
+            mapping["Mode"] = reduction_mode
+            self.full_reduced_gene_mapping = pd.concat([self.full_reduced_gene_mapping, mapping])
+            return mapping
+        else:
+            return None
 
     def get_ensembl_reduction(self, ids, organism):  # organism required
         organisms = {"human": "hsapiens", "mouse": "mmusculus", "rat": "rnorvegicus", "rabbit": "ocuniculus"}
@@ -128,15 +131,40 @@ class MappingHandler:
         if len(gp_df) == 0:
             return None
         else:
-            # check if ensembl id == name --> then take the incoming name
-            gp_df["new_name"] = np.where(gp_df["converted"] == gp_df["name"], gp_df["incoming"], gp_df["name"])
-            # replace Nones
-            gp_df["new_name"] = np.where(gp_df["name"].isin(["None", None]), gp_df["name"], gp_df["new_name"])
 
-            mapping = gp_df[["incoming", "new_name"]]
-            mapping.columns = ["Gene Name", "Reduced Gene Name"]
-            mapping.loc[:, "Organism"] = organism
-            return mapping
+            # Case 1: in ensembl id and name is None --> remove them
+            gp_df = gp_df.drop( gp_df[ (gp_df[ "name" ] == "None") & (gp_df[ "converted" ] == "None") ].index )
+
+            # Case 2: remove entries that have already an entry in gp_df with a corresponding name
+            gp_df = gp_df.drop( gp_df[ (gp_df[ "n_converted" ] > 1) & (gp_df[ "name" ] == "None") ].index )
+
+            # Case 3: in name is also the ensembl id saved --> save in new name the incoming name else take name
+            gp_df[ "new_name" ] = np.where( gp_df[ "converted" ] == gp_df[ "name" ], gp_df[ "incoming" ],
+                                            gp_df[ "name" ] )
+
+            # Case 4: for entries with ensembl id but without name --> take input name
+            gp_df[ "new_name" ] = np.where( (gp_df[ "converted" ] != "None") & (gp_df[ "name" ] == "None"),
+                                            gp_df[ "incoming" ], gp_df[ "new_name" ] )
+
+            mapping = gp_df[ [ "incoming", "new_name" ] ]
+
+            # Case 5: get entries that have more than 1 entry in gProfiler
+            duplicates = mapping[mapping.duplicated("incoming", keep=False)]
+
+            if len(duplicates) > 0:
+                # remove them from initial df
+                mapping = mapping.drop(duplicates.index)
+                # take input names of duplicates as new names
+                mapping_chunk = pd.DataFrame({"incoming": duplicates["incoming"].unique(), "new_name": duplicates["incoming"].unique()})
+                mapping = pd.concat([mapping, mapping_chunk])
+
+            # if after removing nothing remains --> return empty dataframe
+            if len(mapping) > 0:
+                mapping.columns = ["Gene Name", "Reduced Gene Name"]
+                mapping.loc[:, "Organism"] = organism
+                return mapping
+            else:
+                return None
 
     def get_HGNC_reduction(self, ids):  # human organism required
         mapping_dict = {}
