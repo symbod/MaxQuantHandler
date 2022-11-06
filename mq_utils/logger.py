@@ -77,7 +77,6 @@ def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
     # ==== Get Information for all original names ====
     df, missing = handler.get_preloaded(in_list=original, in_type="reduced_genes",
                                         organism=organism, reduction_mode=mode)
-
     # ==== create dataframe with for each row original names, reduced names, nr names, etc. ====
     log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Reduced Gene Names": reduced.str.split(";")})
     log_df["Added Gene Names"] = log_df.apply(
@@ -90,5 +89,5 @@ def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
     log_df["Nr Removed Gene Names"] = log_df["Removed Gene Names"].apply(lambda x: len(list(filter(None, x))))
 
     # ==== for reduced ids --> find out the cause and create df ====
-    df = pd.concat([df, pd.DataFrame({"source_symbol": missing})], ignore_index=True).fillna("Not found")
+    df = pd.concat([df, pd.DataFrame({"Gene Name": missing})], ignore_index=True).fillna("Not found")
     return {"Overview_Log": log_df, "Detailed_Log": df}
