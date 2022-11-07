@@ -25,13 +25,13 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     :param organism: Organism to map to
     :param fasta: Fasta file
     :param keep_empty: Set True if empty rows should be kept
-    :param res_column: Set column name for ortholog results. If None, the gene_column will be overridden.
+    :param res_column: Set column name for remap genenames results. If None, the gene_column will be overridden.
     :param return_log: Set True if log dataframes should be returned
 
     :return: Remapped data as dataframe
     """
     data_copy = data.copy(deep=True)
-    data_copy = data_copy[protein_column].astype("string")
+    data_copy[protein_column] = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====

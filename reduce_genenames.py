@@ -24,7 +24,7 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
     :return: Reduced data as dataframe
     """
     data_copy = data.copy(deep=True)
-    data_copy = data_copy[gene_column].astype("string")
+    data_copy[gene_column] = data_copy[gene_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Preload info for all IDs ====
@@ -47,7 +47,7 @@ def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
     # ==== Logging ====
     log_dict = dict()
     if return_log:
-        log_dict = get_reduced_genenames_logging(data_copy[gene_column], reduced_gene_names)
+        log_dict = get_reduced_genenames_logging(data_copy[gene_column], reduced_gene_names, handler, organism, mode)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column

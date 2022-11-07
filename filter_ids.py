@@ -22,11 +22,11 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
     :return: Filtered data as dataframe
     """
     data_copy = data.copy(deep=True)
-    data_copy = data_copy[protein_column].astype("string")
+    data_copy[protein_column] = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler(mapping_dir="mappings/")
     # ==== Get all existing mappings in one batch ====
-    handler.get_mapping(ids=";".join(data_copy[protein_column].astype("string")).split(";"),
+    handler.get_mapping(ids=";".join(data_copy[protein_column]).split(";"),
                         in_type="protein", organism=organism)
 
     # ==== Filter row wise ====
