@@ -182,9 +182,19 @@ def get_all_genenames(ids, handler: mh.MappingHandler, organism=None):
 
 if __name__ == "__main__":
     description = "                  Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'c', 'or', 'l', 'm', 'o'))
-    res, log = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
-                               protein_column=parameters.protein_column, gene_column=parameters.gene_column,
-                               organism=parameters.organism, fasta=parameters.fasta_file)
+    parameters = ru.save_parameters(script_desc=description,
+                                    arguments=('qf', 'm', 'pc_req', 'gc', 'l', 'or', 'f', 'ke', 'rc', 'rl', 'o'))
+    res, log = remap_genenames(data=parameters.data, mode= parameters.remap_mode, protein_column=parameters.protein_column,
+                               gene_column=parameters.gene_column, skip_filled = parameters.fill,
+                               organism = parameters.organism, fasta = parameters.fasta_file, keep_empty=parameters.keep_empty,
+                               res_column=parameters.res_column, return_log = parameters.return_log)
+
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
+    if parameters.return_log:
+        log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped_overview_log.txt",
+                                   header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+        log["Detailed_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_remapped_detailed_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )

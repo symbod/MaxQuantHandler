@@ -4,11 +4,11 @@ import csv
 import pandas as pd
 from mq_utils import mapping_handler as mh, runner_utils as ru
 from mq_utils.logger import get_filter_ids_logging
+from pathlib import Path
 
-
-def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", organism: str = None,
-                       decoy: bool = False, keep_empty: bool = False,
-                       reviewed: bool = True, return_log: bool = True):
+def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = None,
+                       decoy: bool = False, keep_empty: bool = True,
+                       reviewed: bool = True, res_column: str = None, return_log: bool = True):
     """
     Filter protein ids in given data by chosen organism.
 
@@ -18,6 +18,7 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
     :param decoy: Bool to indicate if decoy IDs (REV_, ) should be kept
     :param keep_empty: Set True if empty rows should be kept
     :param reviewed: Set True if only reviewed protein IDs should be kept
+    :param res_column: Set column name for remap genenames results. If None, the gene_column will be overridden.
     :param return_log: Set True if a log dataframe should be returned
     :return: Filtered data as dataframe
     """
@@ -40,15 +41,18 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str = "Protein IDs", 
         log_dict = get_filter_ids_logging(original=data_copy[protein_column], filtered=filtered_ids, handler=handler,
                                           organism=organism)
 
+    # ==== If target column depending if res_column is set ====
+    column = res_column if res_column is not None else protein_column
+
     # ==== Set filtered ids to dataframe ====
-    data_copy[protein_column] = filtered_ids
+    data_copy[column] = filtered_ids
 
     # ==== Save current mapping to files
     handler.save_mappings(mapping_dir="mappings/")
 
     # ==== Remove rows with empty protein IDs ====
     if keep_empty is False:
-        data_copy = data_copy[data_copy[protein_column] != ""]  # remove
+        data_copy = data_copy[data_copy[column] != ""]  # remove
 
     return data_copy, log_dict
 
@@ -84,9 +88,19 @@ def get_filtered_ids(ids, handler: mh.MappingHandler, organism: str = None, deco
 
 if __name__ == "__main__":
     description = "        Filter proteins by organism and/or decoy names."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'or_req', 'c', 'r', 'd', 'a', 'o'))
-    df, log = filter_protein_ids(data=parameters.data, organism=parameters.organism, decoy=parameters.decoy,
-                                 protein_column=parameters.protein_column,
-                                 action=parameters.action, reviewed=parameters.reviewed)
-    df.to_csv(parameters.out_dir + parameters.file_name + "_filtered.txt", header=True, index=False,
+    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'pc_req', 'or', 'd', 'ke', 'r', 'rc', 'rl', 'o'))
+    df, log = filter_protein_ids(data=parameters.data, protein_column=parameters.protein_column,
+                                 organism=parameters.organism, decoy=parameters.decoy,
+                                 keep_empty=parameters.keep_empty, reviewed=parameters.reviewed,
+                                 res_column=parameters.res_column, return_log=parameters.return_log)
+    df.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_filtered.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
+    if parameters.return_log:
+        log[ "Overview_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_filtered_overview_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+        log[ "Detailed_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_filtered_detailed_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import csv
+from pathlib import Path
 import pandas as pd
 from mq_utils import mapping_handler as mh, runner_utils as ru
 from mq_utils.logger import get_ortholog_genenames_logging
@@ -74,8 +75,20 @@ def get_orthologs(ids, handler, organism: str, tar_organism: str):
 
 if __name__ == "__main__":
     description = "                       Get ortholog gene names."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'tor_req', 'c', 'o'))
-    df, logs = map_orthologs(data=parameters.data, organism=parameters.organism, tar_organism=parameters.tar_organism,
-                             gene_column=parameters.gene_column)
-    df.to_csv(parameters.out_dir + parameters.file_name + "_ortholog.txt", header=True, index=False,
+    parameters = ru.save_parameters(script_desc=description,
+                                    arguments=('qf','gc_req','or_req','tor_req','ke','rc','rl','o'))
+    df, log = map_orthologs(data=parameters.data, gene_column=parameters.gene_column,organism=parameters.organism,
+                            tar_organism=parameters.tar_organism, keep_empty=parameters.keep_empty,
+                            return_log=parameters.return_log)
+
+    df.to_csv(parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
+    if parameters.return_log:
+        log[ "Overview_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_overview_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+        log[ "Detailed_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_detailed_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+

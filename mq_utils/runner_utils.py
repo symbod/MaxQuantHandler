@@ -39,23 +39,38 @@ def save_parameters(script_desc: str, arguments):
         required_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
                                    required=True, help='Specify organism the ids should match to.')
     if 'tor_req' in arguments:
-        required_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
-                                   required=True, help='Specify organism the ids are mapped to.')
         required_args.add_argument('-tor', '--tar_organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
                                    required=True, help='Specify organism from which orthologs should be mapped.')
+    if 'pc_req' in arguments:
+        required_args.add_argument('-pc', '--protein_column', type=str,
+                                   help='Name of column with protein IDs.', required=True)
+    if 'gc_req' in arguments:
+        required_args.add_argument('-gc', '--gene_column', type=str, default=None,
+                                   help='Name of column with gene names.', required = True)
     if 'm' in arguments:
-        required_args.add_argument('-m', '--mode',
+        required_args.add_argument('-m', '--remap_mode',
                                    choices=['all', 'fasta', 'uniprot', 'uniprot_one', 'uniprot_primary'],
                                    type=str, required=True, help='Mode of refilling. See below for more infos.')
+
+    if 'rm' in arguments:
+        required_args.add_argument( '-rm', '--reduce_mode',
+                                    choices=[ 'ensembl', 'mygeneinfo', 'HGNC', 'enrichment'],
+                                    type=str, required=True, help='Mode of reducing. See below for more infos.' )
     if 'i' in arguments:
         required_args.add_argument('-i', '--in_type', choices=['protein', 'gene'], required=True,
                                    help='Define what type should be the source.')
     optional_args = parser.add_argument_group("optional arguments")
-    if 'c' in arguments:
+    if 'pc' in arguments:
         optional_args.add_argument('-pc', '--protein_column', type=str, default=None,
                                    help='Name of column with protein IDs [Default=None]')
+    if 'gc' in arguments:
         optional_args.add_argument('-gc', '--gene_column', type=str, default=None,
                                    help='Name of column with gene names [Default=None]')
+
+    if 'ke' in arguments:
+        optional_args.add_argument('-ke', '--keep_empty', action='store_true', default=True,
+                                   help = "Bool to indicate whether empty rows should be kept. [Default=True]")
+
     if 'f' in arguments:
         optional_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
     if 'l' in arguments:
@@ -65,6 +80,15 @@ def save_parameters(script_desc: str, arguments):
         optional_args.add_argument('-a', '--action', type=str, default="delete", choices=['keep', 'delete'],
                                    help='What to do, if IDs cell is empty after filtering. '
                                         'Keep empty cell or delete it.')
+    if 'hm' in arguments:
+        optional_args.add_argument('-hm', '--hgnc_mode', type=str, choices=["mostfrequent", "all"],
+                                   default="mostfrequent",
+                                   help="What to do if reduce_mode is HGNC. Take mostfrequent gene name or all. "
+                                        "[Default=mostfrequent]"
+                                   )
+    if 'rc' in arguments:
+        optional_args.add_argument('-rc', '--res_column', type=str, default=None,
+                                   help='Name of output column. If None, input column will be edited. [Default = None]')
     if 'or' in arguments:
         optional_args.add_argument('-or', '--organism', choices=["human", "mouse", "rat", "rabbit"], type=str,
                                    default=None, help='Specify organism the ids should match to.')
@@ -74,6 +98,11 @@ def save_parameters(script_desc: str, arguments):
     if 'd' in arguments:
         optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
                                    help='Set flag if protein ids from decoy fasta (REV__, CON__) should be kept.')
+
+    if 'rl' in arguments:
+        optional_args.add_argument('-rl', '--return_log', action='store_ture', default=True,
+                                   help = "Set flag if logging data should be written to output directory.")
+
     if 'o' in arguments:
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")
@@ -101,6 +130,13 @@ def _get_epilog(script_name):
         epilog += "  uniprot\t\tUse mapping information from uniprot and use all gene names.\n"
         epilog += "  uniprot_primary\tUse mapping information from uniprot and only all primary gene names.\n"
         epilog += "  uniprot_one\t\tUse mapping information from uniprot and only use most frequent single gene name.\n"
+    if script_name == "reduce_genenames.py":
+        epilog += "\n----------------------------------------------------------------------------\n"
+        epilog += "\nsupported modes\n"
+        epilog += "  ensembl\t\t\tUse gProfiler to reduce gene names to those have an Ensembl ID.\n"
+        epilog += "  mygeneinfo\t\t\tUse mygeneinfo database to reduce gene names to those having an entry in mygeneinfo.\n"
+        epilog += "  HGNC\t\tUse HGNC database to reduce gene names to those having an entry in HGNC (only for human).\n"
+        epilog += "  enrichment\tUse gProfiler to reduce gene names to those having a functional annotation.\n"
     epilog += "\n############################################################################\n"
     return epilog
 

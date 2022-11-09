@@ -2,12 +2,14 @@
 
 import pandas as pd
 import itertools
-from mq_utils import mapping_handler as mh
 from mq_utils.logger import get_reduced_genenames_logging
+from mq_utils import mapping_handler as mh, runner_utils as ru
+from pathlib import Path
+import csv
 
 
-def reduce_genenames(data: pd.DataFrame, mode, gene_column: str, organism: str,
-                     res_column: str = None, keep_empty: bool = False, HGNC_mode: str = "mostfrequent",
+def reduce_genenames(data: pd.DataFrame, gene_column: str, mode:str, organism: str,
+                     res_column: str = None, keep_empty: bool = True, HGNC_mode: str = "mostfrequent",
                      return_log: bool = True):
     """
     Reduce gene names in data file based on chosen mode.
@@ -84,3 +86,22 @@ def get_reduced_genenames(ids, handler, organism=None, reduction_mode="ensembl",
             reduced_genenames = list(mapping[-mapping["Reduced Gene Name"].isin(["None", None])][
                                          "Reduced Gene Name"])  # "None" and None because Ensembl returns for example "None"
         return ";".join(list(set(reduced_genenames)))
+
+
+if __name__ == "__main__":
+    description = "                  Reduce gene names in max quant file."
+    parameters = ru.save_parameters(script_desc=description,
+                                    arguments=('qf', 'gc_req', 'rm', 'or_req', 'rc', 'ke', 'hm', 'rl', 'o'))
+    res, log = reduce_genenames(data=parameters.data, gene_column=parameters.gene_column, mode=parameters.reduce_mode,
+                                organism=parameters.organism, res_column = parameters.res_column,
+                                keep_empty=parameters.keep_empty, HGNC_mode= parameters.hgnc_mode,
+                                return_log = parameters.return_log)
+    res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced.txt", header=True,
+               index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
+    if parameters.return_log:
+        log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced_overview_log.txt",
+                                   header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+        log["Detailed_Log" ].to_csv(
+            parameters.out_dir + Path( parameters.file_name ).stem + "_reduced_detailed_log.txt",
+            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
