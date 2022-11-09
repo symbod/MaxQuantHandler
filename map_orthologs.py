@@ -8,7 +8,7 @@ from mq_utils.logger import get_ortholog_genenames_logging
 
 
 def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organism: str,
-                  keep_empty: bool = True, res_column: str = None, return_log: bool = True):
+                  keep_empty: bool = True, res_column: str = None):
     """
     Map gene names of origin organism to orthologs of target organism.
 
@@ -18,8 +18,6 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     :param tar_organism: Organism to map to
     :param keep_empty: Set True if empty rows should be kept
     :param res_column: Set column name for ortholog results. If None, the gene_column will be overridden.
-    :param return_log: Set True if log dataframes should be returned
-
     :return: Data as dataframe with ortholog ids
     """
     data_copy = data.copy(deep=True)
@@ -35,9 +33,7 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
         lambda x: get_orthologs(ids=x.split(";"), handler=handler, organism=organism, tar_organism=tar_organism))
 
     # ==== Logging ====
-    log_dict = dict()
-    if return_log:
-        log_dict = get_ortholog_genenames_logging(original=data_copy[gene_column], orthologs=ortholog_gene_names,
+    log_dict = get_ortholog_genenames_logging(original=data_copy[gene_column], orthologs=ortholog_gene_names,
                                                   handler=handler, organism=organism, tar_organism=tar_organism)
 
     # ==== If target column depending if res_column is set ====
@@ -74,21 +70,19 @@ def get_orthologs(ids, handler, organism: str, tar_organism: str):
 
 
 if __name__ == "__main__":
-    description = "                       Get ortholog gene names."
+    description = "                       Map ortholog gene names in data file."
     parameters = ru.save_parameters(script_desc=description,
-                                    arguments=('qf','gc_req','or_req','tor_req','ke','rc','rl','o'))
+                                    arguments=('d','gc_req','or_req','tor_req','ke','rc','o'))
     df, log = map_orthologs(data=parameters.data, gene_column=parameters.gene_column,organism=parameters.organism,
                             tar_organism=parameters.tar_organism, keep_empty=parameters.keep_empty,
-                            return_log=parameters.return_log)
+                            res_column=parameters.res_column)
 
     df.to_csv(parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")
-
-    if parameters.return_log:
-        log[ "Overview_Log" ].to_csv(
-            parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_overview_log.txt",
-            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
-        log[ "Detailed_Log" ].to_csv(
-            parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_detailed_log.txt",
-            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+    log[ "Overview_Log" ].to_csv(
+        parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_overview_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+    log[ "Detailed_Log" ].to_csv(
+        parameters.out_dir + Path( parameters.file_name ).stem + "_ortholog_detailed_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
 

@@ -27,12 +27,8 @@ def save_parameters(script_desc: str, arguments):
     parser = argparse.ArgumentParser(description=descr, formatter_class=argparse.RawTextHelpFormatter, epilog=epilo,
                                      usage=argparse.SUPPRESS, add_help=False)
     required_args = parser.add_argument_group("required arguments")
-    if 'qf' in arguments:
-        required_mut = required_args.add_mutually_exclusive_group(required=True)
-        required_mut.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', default=None)
-        required_mut.add_argument('-s', '--single_file', type=str, help='Single file', default=None)
-    if 'q' in arguments:
-        required_args.add_argument('-q', '--maxquant_file', type=str, help='MaxQuant file', required=True)
+    if 'd' in arguments:
+        required_args.add_argument('-d', '--data', type=str, help='Data file', default=None, required=True)
     if 'f_req' in arguments:
         required_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', required=True)
     if 'or_req' in arguments:
@@ -83,9 +79,8 @@ def save_parameters(script_desc: str, arguments):
     if 'hm' in arguments:
         optional_args.add_argument('-hm', '--hgnc_mode', type=str, choices=["mostfrequent", "all"],
                                    default="mostfrequent",
-                                   help="What to do if reduce_mode is HGNC. Take mostfrequent gene name or all. "
-                                        "[Default=mostfrequent]"
-                                   )
+                                   help="What to do if reduce_mode is HGNC. Take most frequent gene name or all. "
+                                        "[Default=mostfrequent]")
     if 'rc' in arguments:
         optional_args.add_argument('-rc', '--res_column', type=str, default=None,
                                    help='Name of output column. If None, input column will be edited. [Default = None]')
@@ -95,28 +90,16 @@ def save_parameters(script_desc: str, arguments):
     if 'r' in arguments:
         optional_args.add_argument('-r', '--reviewed', action='store_true', default=False,
                                    help='Bool to indicate if only reviewed protein IDs should be kept.')
-    if 'd' in arguments:
-        optional_args.add_argument('-d', '--decoy', action='store_true', default=False,
-                                   help='Set flag if protein ids from decoy fasta (REV__, CON__) should be kept.')
-
-    if 'rl' in arguments:
-        optional_args.add_argument('-rl', '--return_log', action='store_ture', default=True,
-                                   help = "Set flag if logging data should be written to output directory.")
-
+    if 'rv' in arguments:
+        optional_args.add_argument('-rv', '--rev_con', action='store_true', default=False,
+                                   help='Set flag if decoy and contaminants IDs (REV__, CON__) should be kept.')
     if 'o' in arguments:
         optional_args.add_argument('-o', '--out_dir', type=str, default='./', help='Output directory. [Default=./]')
     optional_args.add_argument("-h", "--help", action="help", help="show this help message and exit")
     args = parser.parse_args()
-    if 'qf' in arguments:
-        if args.maxquant_file is not None:
-            args.data = pd.read_table(args.maxquant_file, sep=find_delimiter(args.maxquant_file)).fillna("")
-            args.file_name = Path(args.maxquant_file).stem
-        else:
-            args.data = pd.read_table(args.single_file).fillna("")
-            args.file_name = Path(args.single_file).stem
-    if 'q' in arguments:
-        args.data = pd.read_table(args.maxquant_file, sep=find_delimiter(args.maxquant_file)).fillna("")
-        args.file_name = Path(args.maxquant_file).stem
+    if 'd' in arguments:
+        args.data = pd.read_table(args.data).fillna("")
+        args.file_name = Path(args.single_file).stem
     return args
 
 

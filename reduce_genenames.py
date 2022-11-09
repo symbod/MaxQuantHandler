@@ -9,8 +9,7 @@ import csv
 
 
 def reduce_genenames(data: pd.DataFrame, gene_column: str, mode:str, organism: str,
-                     res_column: str = None, keep_empty: bool = True, HGNC_mode: str = "mostfrequent",
-                     return_log: bool = True):
+                     res_column: str = None, keep_empty: bool = True, HGNC_mode: str = "mostfrequent"):
     """
     Reduce gene names in data file based on chosen mode.
 
@@ -47,9 +46,7 @@ def reduce_genenames(data: pd.DataFrame, gene_column: str, mode:str, organism: s
                                           reduction_mode=mode, HGNC_mode=HGNC_mode, organism=organism))
 
     # ==== Logging ====
-    log_dict = dict()
-    if return_log:
-        log_dict = get_reduced_genenames_logging(data_copy[gene_column], reduced_gene_names, handler, organism, mode)
+    log_dict = get_reduced_genenames_logging(data_copy[gene_column], reduced_gene_names, handler, organism, mode)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column
@@ -89,19 +86,17 @@ def get_reduced_genenames(ids, handler, organism=None, reduction_mode="ensembl",
 
 
 if __name__ == "__main__":
-    description = "                  Reduce gene names in max quant file."
+    description = "                  Reduce gene names in data file."
     parameters = ru.save_parameters(script_desc=description,
-                                    arguments=('qf', 'gc_req', 'rm', 'or_req', 'rc', 'ke', 'hm', 'rl', 'o'))
+                                    arguments=('d', 'gc_req', 'rm', 'or_req', 'rc', 'ke', 'hm', 'o'))
     res, log = reduce_genenames(data=parameters.data, gene_column=parameters.gene_column, mode=parameters.reduce_mode,
                                 organism=parameters.organism, res_column = parameters.res_column,
-                                keep_empty=parameters.keep_empty, HGNC_mode= parameters.hgnc_mode,
-                                return_log = parameters.return_log)
+                                keep_empty=parameters.keep_empty, HGNC_mode= parameters.hgnc_mode)
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
 
-    if parameters.return_log:
-        log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced_overview_log.txt",
-                                   header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
-        log["Detailed_Log" ].to_csv(
-            parameters.out_dir + Path( parameters.file_name ).stem + "_reduced_detailed_log.txt",
-            header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+    log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced_overview_log.txt",
+                               header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+    log["Detailed_Log" ].to_csv(
+        parameters.out_dir + Path( parameters.file_name ).stem + "_reduced_detailed_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
