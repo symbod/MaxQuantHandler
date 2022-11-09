@@ -44,17 +44,18 @@ def save_parameters(script_desc: str, arguments):
         required_args.add_argument('-gc', '--gene_column', type=str, default=None,
                                    help='Name of column with gene names.', required = True)
     if 'm' in arguments:
-        required_args.add_argument('-m', '--remap_mode',
+        required_args.add_argument('-m', '--mode',
                                    choices=['all', 'fasta', 'uniprot', 'uniprot_one', 'uniprot_primary'],
                                    type=str, required=True, help='Mode of refilling. See below for more infos.')
-
     if 'rm' in arguments:
-        required_args.add_argument( '-rm', '--reduce_mode',
+        required_args.add_argument( '-m', '--mode',
                                     choices=[ 'ensembl', 'mygeneinfo', 'HGNC', 'enrichment'],
                                     type=str, required=True, help='Mode of reducing. See below for more infos.' )
     if 'i' in arguments:
         required_args.add_argument('-i', '--in_type', choices=['protein', 'gene'], required=True,
                                    help='Define what type should be the source.')
+
+
     optional_args = parser.add_argument_group("optional arguments")
     if 'pc' in arguments:
         optional_args.add_argument('-pc', '--protein_column', type=str, default=None,
@@ -66,7 +67,6 @@ def save_parameters(script_desc: str, arguments):
     if 'ke' in arguments:
         optional_args.add_argument('-ke', '--keep_empty', action='store_true', default=True,
                                    help = "Bool to indicate whether empty rows should be kept. [Default=True]")
-
     if 'f' in arguments:
         optional_args.add_argument('-f', '--fasta_file', type=str, help='Fasta file', default=None)
     if 'l' in arguments:

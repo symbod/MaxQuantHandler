@@ -89,7 +89,7 @@ if __name__ == "__main__":
     description = "                  Reduce gene names in data file."
     parameters = ru.save_parameters(script_desc=description,
                                     arguments=('d', 'gc_req', 'rm', 'or_req', 'rc', 'ke', 'hm', 'o'))
-    res, log = reduce_genenames(data=parameters.data, gene_column=parameters.gene_column, mode=parameters.reduce_mode,
+    res, log = reduce_genenames(data=parameters.data, gene_column=parameters.gene_column, mode=parameters.mode,
                                 organism=parameters.organism, res_column = parameters.res_column,
                                 keep_empty=parameters.keep_empty, HGNC_mode= parameters.hgnc_mode)
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_reduced.txt", header=True,
