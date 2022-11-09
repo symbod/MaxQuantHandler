@@ -55,7 +55,6 @@ def save_parameters(script_desc: str, arguments):
         required_args.add_argument('-i', '--in_type', choices=['protein', 'gene'], required=True,
                                    help='Define what type should be the source.')
 
-
     optional_args = parser.add_argument_group("optional arguments")
     if 'pc' in arguments:
         optional_args.add_argument('-pc', '--protein_column', type=str, default=None,
@@ -116,8 +115,8 @@ def _get_epilog(script_name):
     if script_name == "reduce_genenames.py":
         epilog += "\n----------------------------------------------------------------------------\n"
         epilog += "\nsupported modes\n"
-        epilog += "  ensembl\t\t\tUse gProfiler to reduce gene names to those have an Ensembl ID.\n"
-        epilog += "  mygeneinfo\t\t\tUse mygeneinfo database to reduce gene names to those having an entry in mygeneinfo.\n"
+        epilog += "  ensembl\t\tUse gProfiler to reduce gene names to those have an Ensembl ID.\n"
+        epilog += "  mygeneinfo\t\tUse mygeneinfo database to reduce gene names to those having an entry in mygeneinfo.\n"
         epilog += "  HGNC\t\tUse HGNC database to reduce gene names to those having an entry in HGNC (only for human).\n"
         epilog += "  enrichment\tUse gProfiler to reduce gene names to those having a functional annotation.\n"
     epilog += "\n############################################################################\n"
