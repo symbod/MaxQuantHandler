@@ -37,8 +37,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
                         in_type="protein", organism=organism)
 
     # ==== If gene_column does not exist in given dataframe ====
-    if gene_column not in data_copy.columns:
-        data_copy[gene_column] = ""
+    data_copy[gene_column] = "" if gene_column not in data_copy.columns else data_copy[gene_column].fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
@@ -153,7 +152,7 @@ def get_primary_genenames(ids, handler: mh.MappingHandler, organism=None):
     if mapping.empty:
         return ""
     else:
-        genenames = {x for x in mapping['Gene Names (primary)'] if pd.notna(x)}  # set()
+        genenames = {x for x in mapping['Gene Names (primary)'].str.split(";").explode() if pd.notna(x)}  # set()
         return ';'.join(genenames)
 
 
