@@ -46,13 +46,38 @@ def get_remapped_genenames_logging(original, remapped, protein_ids, handler, org
     return {"Overview_Log": log_df, "Detailed_Log": df}
 
 
+# ==== Logging DataFrame For Reducing Gene Names ====
+def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
+    # ==== Get Information for all original names ====
+    df, missing = handler.get_preloaded(in_list=original, in_type="reduced_genes",
+                                        organism=organism, reduction_mode=mode)
+    # ==== create dataframe with for each row original names, reduced names, nr names, etc. ====
+    log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Reduced Gene Names": reduced.str.split(";")})
+    print(log_df)
+    log_df["Added Gene Names"] = log_df.apply(
+        lambda row: list(set(row["Reduced Gene Names"]).difference(set(row["Gene Names"]))), axis=1)
+    log_df["Removed Gene Names"] = log_df.apply(
+        lambda row: list(set(row["Gene Names"]).difference(set(row["Reduced Gene Names"]))), axis=1)
+    log_df["Nr Gene Names"] = log_df["Gene Names"].apply(lambda x: len(list(filter(None, x))))
+    log_df["Nr Reduced Gene Names"] = log_df["Reduced Gene Names"].apply(lambda x: len(list(filter(None, x))))
+    log_df["Nr Added Gene Names"] = log_df["Added Gene Names"].apply(lambda x: len(list(filter(None, x))))
+    log_df["Nr Removed Gene Names"] = log_df["Removed Gene Names"].apply(lambda x: len(list(filter(None, x))))
+
+    # ==== for reduced ids --> find out the cause and create df ====
+    df = pd.concat([df, pd.DataFrame({"Gene Name": missing})], ignore_index=True).fillna("Not found")
+    df = df[df["Gene Name"].isin(log_df["Removed Gene Names"].explode().to_list())]
+    return {"Overview_Log": log_df, "Detailed_Log": df}
+
+
 # ==== Logging DataFrame For Remapped Gene Names ====
 def get_ortholog_genenames_logging(original, orthologs, handler, organism, tar_organism):
     # ==== Get Information for all original names ====
     original_names = [x for x in ";".join(original).split(";") if str(x) != 'nan']
     df, missing = handler.get_preloaded(in_list=original_names, in_type="orthologs",
                                         organism=organism, tar_organism=tar_organism)
-    removed_gene_names = set(original_names).difference(set(df["source_symbol"]))
+    df = df.fillna("")
+    df = df[df["target_symbol"] == ""]
+    removed_gene_names = set(df["source_symbol"])
 
     # ==== create dataframe with for each row original names, ortholog names, nr names, etc. ====
     log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Ortholog Gene Names": orthologs.str.split(";")})
@@ -67,28 +92,5 @@ def get_ortholog_genenames_logging(original, orthologs, handler, organism, tar_o
         return {"Overview_Log": log_df, "Detailed_Log": pd.DataFrame()}
     else:
         # ==== Get Information for removed names ====
-        df = df[df["target_symbol"] == ""]  # no ortholog found
         df = pd.concat([df, pd.DataFrame({"source_symbol": missing})], ignore_index=True).fillna("Not found")
         return {"Overview_Log": log_df, "Detailed_Log": df}
-
-
-# ==== Logging DataFrame For Reducing Gene Names ====
-def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
-    # ==== Get Information for all original names ====
-    df, missing = handler.get_preloaded(in_list=original, in_type="reduced_genes",
-                                        organism=organism, reduction_mode=mode)
-    # ==== create dataframe with for each row original names, reduced names, nr names, etc. ====
-    log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Reduced Gene Names": reduced.str.split(";")})
-    log_df["Added Gene Names"] = log_df.apply(
-        lambda row: list(set(row["Reduced Gene Names"]).difference(set(row["Gene Names"]))), axis=1)
-    log_df["Removed Gene Names"] = log_df.apply(
-        lambda row: list(set(row["Gene Names"]).difference(set(row["Reduced Gene Names"]))), axis=1)
-    log_df["Nr Gene Names"] = log_df["Gene Names"].apply(lambda x: len(list(filter(None, x))))
-    log_df["Nr Reduced Gene Names"] = log_df["Reduced Gene Names"].apply(lambda x: len(list(filter(None, x))))
-    log_df["Nr Added Gene Names"] = log_df["Added Gene Names"].apply(lambda x: len(list(filter(None, x))))
-    log_df["Nr Removed Gene Names"] = log_df["Removed Gene Names"].apply(lambda x: len(list(filter(None, x))))
-
-    # ==== for reduced ids --> find out the cause and create df ====
-    df = pd.concat([df, pd.DataFrame({"Gene Name": missing})], ignore_index=True).fillna("Not found")
-    df = df[df["Reduced Gene Name"] == "Not found"]
-    return {"Overview_Log": log_df, "Detailed_Log": df}

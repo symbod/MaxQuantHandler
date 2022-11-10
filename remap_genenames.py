@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 
 def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_column: str = "Gene names",
                     skip_filled: bool = False, organism: str = None, fasta: str = None, keep_empty: bool = True,
-                    res_column: str = None, return_log: bool = True):
+                    res_column: str = None):
     """
     Remap gene names in data file based on chosen mode.
 
@@ -26,8 +26,6 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     :param fasta: Fasta file
     :param keep_empty: Set True if empty rows should be kept
     :param res_column: Set column name for remap genenames results. If None, the gene_column will be overridden.
-    :param return_log: Set True if log dataframes should be returned
-
     :return: Remapped data as dataframe
     """
     data_copy = data.copy(deep=True)
@@ -39,8 +37,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
                         in_type="protein", organism=organism)
 
     # ==== If gene_column does not exist in given dataframe ====
-    if gene_column not in data_copy.columns:
-        data_copy[gene_column] = ""
+    data_copy[gene_column] = "" if gene_column not in data_copy.columns else data_copy[gene_column].fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
@@ -62,11 +59,9 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
         del data_copy["temp"]
 
     # ==== Logging ====
-    log_dict = dict()
-    if return_log:
-        log_dict = get_remapped_genenames_logging(original=data_copy[gene_column], remapped=remapped_gene_names,
-                                                  protein_ids=";".join(data_copy[protein_column]).split(";"),
-                                                  handler=handler, organism=organism)
+    log_dict = get_remapped_genenames_logging(original=data_copy[gene_column], remapped=remapped_gene_names,
+                                              protein_ids=";".join(data_copy[protein_column]).split(";"),
+                                              handler=handler, organism=organism)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column
@@ -157,7 +152,7 @@ def get_primary_genenames(ids, handler: mh.MappingHandler, organism=None):
     if mapping.empty:
         return ""
     else:
-        genenames = {x for x in mapping['Gene Names (primary)'] if pd.notna(x)}  # set()
+        genenames = {x for x in mapping['Gene Names (primary)'].str.split(";").explode() if pd.notna(x)}  # set()
         return ';'.join(genenames)
 
 
@@ -181,10 +176,20 @@ def get_all_genenames(ids, handler: mh.MappingHandler, organism=None):
 
 
 if __name__ == "__main__":
-    description = "                  Re-mapp gene names in max quant file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('qf', 'f', 'c', 'or', 'l', 'm', 'o'))
-    res, log = remap_genenames(data=parameters.data, mode=parameters.mode, skip_filled=parameters.fill,
-                               protein_column=parameters.protein_column, gene_column=parameters.gene_column,
-                               organism=parameters.organism, fasta=parameters.fasta_file)
+    description = "                  Re-mapp gene names in data file."
+    parameters = ru.save_parameters(script_desc=description,
+                                    arguments=('d', 'm', 'pc_req', 'gc', 'l', 'or', 'f', 'ke', 'rc', 'o'))
+    res, log = remap_genenames(data=parameters.data, mode= parameters.mode, protein_column=parameters.protein_column,
+                               gene_column=parameters.gene_column, skip_filled = parameters.fill,
+                               organism = parameters.organism, fasta = parameters.fasta_file, keep_empty=parameters.keep_empty,
+                               res_column=parameters.res_column)
+
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+
+
+    log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped_overview_log.txt",
+                               header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+    log["Detailed_Log" ].to_csv(
+        parameters.out_dir + Path( parameters.file_name ).stem + "_remapped_detailed_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
