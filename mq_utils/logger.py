@@ -53,7 +53,6 @@ def get_reduced_genenames_logging(original, reduced, handler, organism, mode):
                                         organism=organism, reduction_mode=mode)
     # ==== create dataframe with for each row original names, reduced names, nr names, etc. ====
     log_df = pd.DataFrame({"Gene Names": original.str.split(";"), "Reduced Gene Names": reduced.str.split(";")})
-    print(log_df)
     log_df["Added Gene Names"] = log_df.apply(
         lambda row: list(set(row["Reduced Gene Names"]).difference(set(row["Gene Names"]))), axis=1)
     log_df["Removed Gene Names"] = log_df.apply(

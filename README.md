@@ -178,7 +178,13 @@ supported modes
 
 ## Reduce Gene Names ([reduce_genenames.py](reduce_genenames.py))
 
-<span style="color:red">**TODO --> write description**</span>
+A well-known problem with gene symbols is that they are not unique and slight changes in spelling can lead to problems. Often there are different gene symbols for the same gene in UniProt. Depending on which protein IDs you used to get the gene symbol, you can get multiple gene symbols for the same gene by using the previous remap function.
+
+This method makes it possible to reduce the gene symbols to a common gene symbol using different features and databases, thus preventing redundancy. There are multiple possible modes for which names should be taken.
+
+Here, too, it is possible to subsequently obtain information on how many gene names were reduced for how many rows. 
+
+This can also be displayed as a plot with a simple call.
 
 This function requires multiple arguments:
 - **mandatory arguments:**
