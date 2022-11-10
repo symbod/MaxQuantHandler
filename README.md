@@ -52,11 +52,15 @@ This function requires multiple arguments:
   
 To call the function in a python script:
 ```{python}
-from mqhandler import filter_ids
+from filter_ids import filter_protein_ids
+from mq_utils.plotting import *
 data = pd.read_csv(<file>)
 filtered_data, logging = filter_protein_ids(data=data, protein_column=protein_column, organism=organism,
                                             decoy=decoy, keep_empty=keep_empty,
                                             reviewed=reviewed, return_log=True)
+create_overview_plot(logging = logging["Overview_Log"], out_dir = out_dir, file_type = "png")
+create_filter_detailed_plot(logging = logging["Detailed_Log"], organism = organism, 
+                            reviewed = reviewed, decoy = decoy, out_dir = out_dir, file_type = "png")                              
 ```
 
 If you want to run the function from console/terminal:
@@ -96,10 +100,7 @@ Besides protein IDs, gene names are also taken out of the respective Fasta files
 
 This method makes it possible to retrieve the assigned gene names based on the protein IDs with direct access to the Uniprot database and to fill the empty entries in the user file or even replace existing entries. There are multiple possible modes for which names should be taken.
 
-Here, too, it is possible to subsequently obtain information on how many gene names were found for how many rows. This can also be displayed as a plot with a simple call.
-
-In this tutorial, we will call the remap gene names function on the data that has already been processed using the filter IDs method.
-
+Here, too, it is possible to subsequently obtain information on how many gene names were found for how many rows.
 
 This function requires multiple arguments:
 - **mandatory arguments:**
@@ -124,7 +125,7 @@ There are five **modes of refilling**:
 To call the function in a python script:
 
 ```{python}
-from mqhandler import remap_genenames
+from remap_genenames import remap_genenames
 data = pd.read_csv(<file>)
 remapped_data, logging = remap_genenames(data=data, mode=mode, protein_column=protein_column, 
 gene_column=gene_column, skip_filled=skip_filled, organism=organism, fasta=fasta, keep_empty=keep_empty, 
@@ -198,10 +199,13 @@ There are four **modes of reduction**:
  - enrichment: Use gProfiler to reduce gene names to those having a functional annotation
  
 ```{python}
-from mqhandler import reduce_genenames
+from reduce_genenames import reduce_genenames
+from mq_utils.plotting import *
 data = pd.read_csv(<file>)
 reduced_data, logging = reduce_genenames(data=data, mode=mode, gene_column=gene_column, 
 organism=organism, keep_empty=keep_empty, res_column = res_column, HGNC_mode = HGNC_mode)
+create_overview_plot(logging = logging["Overview_Log"], out_dir = out_dir, file_type = "png")
+create_reduced_detailed_plot(logging = logging["Detailed_Log"], out_dir = out_dir, file_type = "png")
 ```
  
 If you want to run the function from console/terminal:
@@ -269,10 +273,13 @@ This function requires multiple arguments:
   - res_column: name of column for remap gene names results, if None, the gene_column will be overridden
   
 ```{python}
-from mqhandler import map_orthologs
+from map_orthologs import map_orthologs
+from mq_utils.plotting import * 
 data = pd.read_csv(<file>)
 map_orthologs_data, logging = map_orthologs(data=data, genee_column=gene_column, organism=organism, 
-tar_organism=tar_organism, keep_empty=keep_empty, res_column = res_column)
+                                            tar_organism=tar_organism, keep_empty=keep_empty, res_column = res_column)
+create_overview_plot(logging = logging["Overview_Log"], out_dir = out_dir, file_type = "png")
+create_ortholog_detailed_plot(logging = logging["Detailed_Log"], organism = organism, out_dir = out_dir, file_type = "png")
 ```
   
 

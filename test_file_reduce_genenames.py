@@ -1,5 +1,6 @@
 import pandas as pd
 from reduce_genenames import reduce_genenames
+from mq_utils.plotting import *
 
 #data = pd.read_csv("/Users/lisiarend/Desktop/Hiwi/proteomics_analysis/data/TMT_data/rat_plasma_diabetic/proteinGroups_filtered_remapped.txt", sep=" ", header=0)
 data = pd.read_csv("out/MQ_Uniprots_filtered_remapped.txt", sep=" ", header=0).fillna("")
@@ -19,4 +20,6 @@ HGNC_mode = "mostfrequent"
 reduced_data, log_df = reduce_genenames(data=data, organism = organism, mode=mode, gene_column=gene_column, keep_empty=keep_empty, HGNC_mode=HGNC_mode)
 
 #print(data)
-print(log_df["Detailed_Log"])
+#print(log_df["Detailed_Log"])
+
+create_filter_detailed_plot()
