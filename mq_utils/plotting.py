@@ -8,6 +8,14 @@ from matplotlib import pyplot as plt
 
 # ==== Get Log Plots ====
 def create_overview_plot(logging, out_dir, file_type="png"):
+    """
+    Overview plot for logging data of mqhandler's functions
+
+    :param logging: overview logging Dataframe that has been returned by one of the four methods of mqhandler
+    :param out_dir: (optional) output directory to save the plots
+    :param file_type: (optional) file type for the plots (png, pdf, jpg, ...)
+    :return:
+    """
     # ==== Prepare dataframe ====
     logging_names = [x for x in logging.columns if x.startswith(("Nr"))]
     # ==== Create box plot ====
@@ -33,6 +41,17 @@ def create_overview_plot(logging, out_dir, file_type="png"):
 
 
 def create_filter_detailed_plot(logging, organism, reviewed, decoy, out_dir, file_type="png"):
+    """
+    Detailed plot for logging data of mqhandler's filter_protein_ids method
+
+    :param logging: detailed logging Dataframe that has been returned by the filtered_protein_ids method of mqhandler
+    :param organism: organism that has been specified in the filter_protein_ids method of mqhandler
+    :param reviewed: specified reviewed parameter of the filter_protein_ids method of mqhandler
+    :param decoy: specified rev_con parameter of the filter_protein_ids method of mqhandler
+    :param out_dir: (optional) output directory to save the plot
+    :param file_type: (optional) file type for the plot
+    :return:
+    """
     organisms = {"human": "Homo sapiens (Human)", "rat": "Rattus norvegicus (Rat)",
                  "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
     # ==== Prepare dataframe ====
@@ -57,6 +76,14 @@ def create_filter_detailed_plot(logging, organism, reviewed, decoy, out_dir, fil
 
 
 def create_reduced_detailed_plot(logging, out_dir, file_type="png"):
+    """
+    Detailed plot for logging data of mqhandler's reduce_genenames method
+
+    :param logging: detailed logging Dataframe that has been returned by the reduce_genenames method of mqhandler
+    :param out_dir: (optional) output directory to save the plot
+    :param file_type: (optional) file type for the plot
+    :return:
+    """
     # ==== Prepare dataframe ====
     df_dict = dict()
     df_dict["Not found IDs"] = len(logging[logging["Reduced Gene Name"] == "Not found"].index)
@@ -74,6 +101,14 @@ def create_reduced_detailed_plot(logging, out_dir, file_type="png"):
 
 
 def create_ortholog_detailed_plot(logging, organism, out_dir, file_type="png"):
+    """
+    Detailed plot for logging data of mqhandler's map_orthologs method
+
+    :param logging: detailed logging Dataframe that has been returned by the map_orthologs method of mqhandler
+    :param organism: organism that has been specified in the map_orthologs method of mqhandler
+    :param out_dir: (optional) output directory to save the plot
+    :param file_type: (optional) file type for the plot    :return:
+    """
     # ==== Prepare dataframe ====
     df_dict = dict()
     df_dict["Not found target names"] = len( logging[(logging["ortholog_ensg"] != "") & (logging["target_symbol"] == "")].index)
