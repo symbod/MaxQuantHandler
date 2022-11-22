@@ -122,7 +122,7 @@ class MappingHandler:
             self.full_reduced_gene_mapping = pd.concat([self.full_reduced_gene_mapping, mapping])
             return mapping
         else:
-            return None
+            return pd.DataFrame()
 
     def get_ensembl_reduction(self, ids, organism):  # organism required
         organisms = {"human": "hsapiens", "mouse": "mmusculus", "rat": "rnorvegicus", "rabbit": "ocuniculus"}
@@ -248,23 +248,19 @@ class MappingHandler:
                                          reduction_mode=reduction_mode)
         # ===== get missing =====
         if len(missing) > 0 and not ignore_missing:
+            df2 = pd.DataFrame()
             # ==== Filter protein IDs ====
             if in_type == "protein":
                 df2 = self.get_uniprot_mapping(ids=missing, organism=organism)
-                if df2 is not None:
-                    df = pd.concat([df, df2])
-                if organism is not None:
-                    df = df[df['Organism'] == organism]
             # ==== Map orthologs ====
             if in_type == "orthologs":
                 df2 = self.get_ortholog_mapping(ids=missing, organism=organism, tar_organism=tar_organism)
-                if df2 is not None:
-                    df = pd.concat([df, df2])
             # ==== Reduce gene names ====
             if in_type == "reduced_genes":
                 df2 = self.get_reduced_mapping(ids=missing, organism=organism, reduction_mode=reduction_mode)
-                if df2 is not None:
-                    df = pd.concat([df, df2])
+            # ==== Concat if new found ====
+            if not df2.empty:
+                df = pd.concat([df, df2])
         return df
 
     # === Check existing mapping entries and return missing ones ====
