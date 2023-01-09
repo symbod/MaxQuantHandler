@@ -27,7 +27,7 @@ def reduce_genenames(data: pd.DataFrame, gene_column: str, mode:str, organism: s
     data_copy = data.copy(deep=True)
     data_copy[gene_column] = data_copy[gene_column].astype("string")
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    handler = mh.MappingHandler()
     # ==== Preload info for all IDs ====
     handler.get_mapping(ids=";".join(data_copy[gene_column]).split(";"),
                         in_type="reduced_genes", organism=organism, reduction_mode=mode)
@@ -57,9 +57,6 @@ def reduce_genenames(data: pd.DataFrame, gene_column: str, mode:str, organism: s
     # ==== Remove Rows with Empty Gene Names ====
     if keep_empty is False:
         data_copy = data_copy[data_copy[column] != ""]  # remove
-
-    # ==== Save Current Mappings To Files ====
-    handler.save_mappings(mapping_dir="mappings/")
 
     return data_copy, log_dict
 

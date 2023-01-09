@@ -1,4 +1,4 @@
-# MaxQuantHandler
+# MeSIdHa - A Meta-Study Identifier Harmonizer
 
 ##Introduction
 <span style="color:red">**TODO**</span>
@@ -12,13 +12,13 @@ This repository comprises four main functionalities:
 ## Installation
 
 You have multiple options to use the methods of this repo. You can either use the 
-[mqhandler python package](https://pypi.org/project/mqhandler/) or use the [R package](https://github.com/symbod/MaxQuantHandler-R). 
+[mesidha python package](https://pypi.org/project/mesidha/) or use the [R package](https://github.com/symbod/mesidha-R). 
 Or you can simply clone this github repository.
 
 If you want to clone this repository:
 
 ```shell
-git clone git@github.com:MaxQuantHandler.git
+git clone git@github.com:mesidha.git
 ```
 
 and make sure you install python 3.

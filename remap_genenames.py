@@ -31,7 +31,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     data_copy = data.copy(deep=True)
     data_copy[protein_column] = data_copy[protein_column].astype("string")
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    handler = mh.MappingHandler()
     # ==== Preload info for all IDs ====
     handler.get_mapping(ids=";".join(data_copy[protein_column]).split(";"),
                         in_type="protein", organism=organism)
@@ -73,7 +73,6 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     if keep_empty is False:
         data_copy = data_copy[data_copy[column] != ""]  # remove
 
-    handler.save_mappings(mapping_dir="mappings/")
     return data_copy, log_dict
 
 

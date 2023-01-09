@@ -6,6 +6,7 @@ from mq_utils import mapping_handler as mh, runner_utils as ru
 from mq_utils.logger import get_filter_ids_logging
 from pathlib import Path
 
+
 def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = None,
                        rev_con: bool = False, keep_empty: bool = True,
                        reviewed: bool = True, res_column: str = None):
@@ -24,7 +25,7 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = 
     data_copy = data.copy(deep=True)
     data_copy[protein_column] = data_copy[protein_column].astype("string")
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    handler = mh.MappingHandler()
     # ==== Get all existing mappings in one batch ====
     handler.get_mapping(ids=";".join(data_copy[protein_column]).split(";"),
                         in_type="protein", organism=organism)
@@ -36,7 +37,7 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = 
 
     # ==== Logging ====
     log_dict = get_filter_ids_logging(original=data_copy[protein_column], filtered=filtered_ids, handler=handler,
-                                          organism=organism)
+                                      organism=organism)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else protein_column
@@ -45,7 +46,7 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = 
     data_copy[column] = filtered_ids
 
     # ==== Save current mapping to files
-    handler.save_mappings(mapping_dir="mappings/")
+    # handler.save_mappings(mapping_dir="mappings/")
 
     # ==== Remove rows with empty protein IDs ====
     if keep_empty is False:
@@ -85,7 +86,8 @@ def get_filtered_ids(ids, handler: mh.MappingHandler, organism: str = None, rev_
 
 if __name__ == "__main__":
     description = "        Filter proteins by organism and/or decoy/contaminants names in data file."
-    parameters = ru.save_parameters(script_desc=description, arguments=('d', 'pc_req', 'or', 'rv', 'ke', 'r', 'rc', 'o'))
+    parameters = ru.save_parameters(script_desc=description,
+                                    arguments=('d', 'pc_req', 'or', 'rv', 'ke', 'r', 'rc', 'o'))
     df, log = filter_protein_ids(data=parameters.data, protein_column=parameters.protein_column,
                                  organism=parameters.organism, rev_con=parameters.rev_con,
                                  keep_empty=parameters.keep_empty, reviewed=parameters.reviewed,
@@ -93,10 +95,9 @@ if __name__ == "__main__":
     df.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_filtered.txt", header=True, index=False,
               quoting=csv.QUOTE_NONNUMERIC, sep=" ")
 
-    log[ "Overview_Log" ].to_csv(
-        parameters.out_dir + Path( parameters.file_name ).stem + "_filtered_overview_log.txt",
-        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
-    log[ "Detailed_Log" ].to_csv(
-        parameters.out_dir + Path( parameters.file_name ).stem + "_filtered_detailed_log.txt",
-        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
-
+    log["Overview_Log"].to_csv(
+        parameters.out_dir + Path(parameters.file_name).stem + "_filtered_overview_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+    log["Detailed_Log"].to_csv(
+        parameters.out_dir + Path(parameters.file_name).stem + "_filtered_detailed_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
