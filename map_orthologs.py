@@ -23,18 +23,17 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     data_copy = data.copy(deep=True)
     data_copy[gene_column] = data_copy[gene_column].astype("string")
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    handler = mh.MappingHandler()
     # ==== Get all existing mappings in one batch ====
     handler.get_mapping(ids=";".join(data_copy[gene_column]).split(";"),
                         in_type="orthologs", organism=organism, tar_organism=tar_organism)
-    handler.save_mappings(mapping_dir="mappings/")
 
     ortholog_gene_names = data_copy[gene_column].apply(
         lambda x: get_orthologs(ids=x.split(";"), handler=handler, organism=organism, tar_organism=tar_organism))
 
     # ==== Logging ====
     log_dict = get_ortholog_genenames_logging(original=data_copy[gene_column], orthologs=ortholog_gene_names,
-                                                  handler=handler, organism=organism, tar_organism=tar_organism)
+                                              handler=handler, organism=organism, tar_organism=tar_organism)
 
     # ==== If target column depending if res_column is set ====
     column = res_column if res_column is not None else gene_column

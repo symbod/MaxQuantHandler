@@ -31,7 +31,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     data_copy = data.copy(deep=True)
     data_copy[protein_column] = data_copy[protein_column].astype("string")
 
-    handler = mh.MappingHandler(mapping_dir="mappings/")
+    handler = mh.MappingHandler()
     # ==== Preload info for all IDs ====
     handler.get_mapping(ids=";".join(data_copy[protein_column]).split(";"),
                         in_type="protein", organism=organism)
@@ -73,7 +73,6 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     if keep_empty is False:
         data_copy = data_copy[data_copy[column] != ""]  # remove
 
-    handler.save_mappings(mapping_dir="mappings/")
     return data_copy, log_dict
 
 
@@ -179,17 +178,17 @@ if __name__ == "__main__":
     description = "                  Re-mapp gene names in data file."
     parameters = ru.save_parameters(script_desc=description,
                                     arguments=('d', 'm', 'pc_req', 'gc', 'l', 'or', 'f', 'ke', 'rc', 'o'))
-    res, log = remap_genenames(data=parameters.data, mode= parameters.mode, protein_column=parameters.protein_column,
-                               gene_column=parameters.gene_column, skip_filled = parameters.fill,
-                               organism = parameters.organism, fasta = parameters.fasta_file, keep_empty=parameters.keep_empty,
+    res, log = remap_genenames(data=parameters.data, mode=parameters.mode, protein_column=parameters.protein_column,
+                               gene_column=parameters.gene_column, skip_filled=parameters.fill,
+                               organism=parameters.organism, fasta=parameters.fasta_file,
+                               keep_empty=parameters.keep_empty,
                                res_column=parameters.res_column)
 
     res.to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped.txt", header=True,
                index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
 
-
     log["Overview_Log"].to_csv(parameters.out_dir + Path(parameters.file_name).stem + "_remapped_overview_log.txt",
-                               header = True, index = False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
-    log["Detailed_Log" ].to_csv(
-        parameters.out_dir + Path( parameters.file_name ).stem + "_remapped_detailed_log.txt",
-        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" " )
+                               header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")
+    log["Detailed_Log"].to_csv(
+        parameters.out_dir + Path(parameters.file_name).stem + "_remapped_detailed_log.txt",
+        header=True, index=False, quoting=csv.QUOTE_NONNUMERIC, sep=" ")

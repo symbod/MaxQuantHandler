@@ -19,15 +19,15 @@ class MappingHandler:
                                                   'target_symbol', 'target_organism', 'description'])
     full_reduced_gene_mapping = pd.DataFrame(columns=["Gene Name", "Reduced Gene Name", "Organism", "Mode"])
 
-    def __init__(self, mapping_dir):
-        mapping_dir = join(here, mapping_dir)
-        if Path(mapping_dir + "protein_to_genenames.csv").exists():
-            self.full_protein_mapping = pd.read_csv(mapping_dir + "protein_to_genenames.csv")
-        if Path(mapping_dir + "genenames_to_orthologs.csv").exists():
-            self.full_ortholog_mapping = pd.read_csv(mapping_dir + "genenames_to_orthologs.csv")
-        if Path(mapping_dir + "genenames_to_reduced_genenames.csv").exists():
-            self.full_reduced_gene_mapping = pd.read_csv(mapping_dir + "genenames_to_reduced_genenames.csv",
-                                                         na_values=None)
+    # def __init__(self, mapping_dir):
+    #     mapping_dir = join(here, mapping_dir)
+    #     if Path(mapping_dir + "protein_to_genenames.csv").exists():
+    #         self.full_protein_mapping = pd.read_csv(mapping_dir + "protein_to_genenames.csv")
+    #     if Path(mapping_dir + "genenames_to_orthologs.csv").exists():
+    #         self.full_ortholog_mapping = pd.read_csv(mapping_dir + "genenames_to_orthologs.csv")
+    #     if Path(mapping_dir + "genenames_to_reduced_genenames.csv").exists():
+    #         self.full_reduced_gene_mapping = pd.read_csv(mapping_dir + "genenames_to_reduced_genenames.csv",
+    #                                                      na_values=None)
 
     # === UniProt Mapping ====
     def get_uniprot_mapping(self, ids, organism: str = None):
@@ -70,7 +70,8 @@ class MappingHandler:
         if not mapping.empty:
             mapping.columns = [*mapping.columns[:-1], 'Protein ID']  # change name of last column
             # ==== Clean accidental white spaces from UniProt ====
-            mapping['Gene Names'] = mapping['Gene Names'].str.replace(r';?\s+;?', ';', regex=True)  # change separation to ;
+            mapping['Gene Names'] = mapping['Gene Names'].str.replace(r';?\s+;?', ';',
+                                                                      regex=True)  # change separation to ;
             mapping['Gene Names (primary)'] = mapping['Gene Names (primary)'].str.replace(r'\s+', '', regex=True)
             mapping['Protein ID'] = mapping['Protein ID'].str.replace(r'\s+', '', regex=True)
             # ==== Split and explode to create one row for each ID ====
@@ -117,7 +118,9 @@ class MappingHandler:
             mapping = self.get_enrichment_reduction(ids, organism)  # organism must be set
         elif reduction_mode == "mygeneinfo":
             mapping = self.get_mygeneinfo_reduction(ids)  # add for all organisms directly
-        if mapping is not None:
+        else:
+            mapping = pd.DataFrame()
+        if not mapping.empty:
             mapping["Mode"] = reduction_mode
             self.full_reduced_gene_mapping = pd.concat([self.full_reduced_gene_mapping, mapping])
             return mapping
@@ -133,20 +136,20 @@ class MappingHandler:
         else:
 
             # Case 1: in ensembl id and name is None --> remove them
-            gp_df = gp_df.drop( gp_df[ (gp_df[ "name" ] == "None") & (gp_df[ "converted" ] == "None") ].index )
+            gp_df = gp_df.drop(gp_df[(gp_df["name"] == "None") & (gp_df["converted"] == "None")].index)
 
             # Case 2: remove entries that have already an entry in gp_df with a corresponding name
-            gp_df = gp_df.drop( gp_df[ (gp_df[ "n_converted" ] > 1) & (gp_df[ "name" ] == "None") ].index )
+            gp_df = gp_df.drop(gp_df[(gp_df["n_converted"] > 1) & (gp_df["name"] == "None")].index)
 
             # Case 3: in name is also the ensembl id saved --> save in new name the incoming name else take name
-            gp_df[ "new_name" ] = np.where( gp_df[ "converted" ] == gp_df[ "name" ], gp_df[ "incoming" ],
-                                            gp_df[ "name" ] )
+            gp_df["new_name"] = np.where(gp_df["converted"] == gp_df["name"], gp_df["incoming"],
+                                         gp_df["name"])
 
             # Case 4: for entries with ensembl id but without name --> take input name
-            gp_df[ "new_name" ] = np.where( (gp_df[ "converted" ] != "None") & (gp_df[ "name" ] == "None"),
-                                            gp_df[ "incoming" ], gp_df[ "new_name" ] )
+            gp_df["new_name"] = np.where((gp_df["converted"] != "None") & (gp_df["name"] == "None"),
+                                         gp_df["incoming"], gp_df["new_name"])
 
-            mapping = gp_df[ [ "incoming", "new_name" ] ]
+            mapping = gp_df[["incoming", "new_name"]]
 
             # Case 5: get entries that have more than 1 entry in gProfiler
             duplicates = mapping[mapping.duplicated("incoming", keep=False)]
@@ -155,7 +158,8 @@ class MappingHandler:
                 # remove them from initial df
                 mapping = mapping.drop(duplicates.index)
                 # take input names of duplicates as new names
-                mapping_chunk = pd.DataFrame({"incoming": duplicates["incoming"].unique(), "new_name": duplicates["incoming"].unique()})
+                mapping_chunk = pd.DataFrame(
+                    {"incoming": duplicates["incoming"].unique(), "new_name": duplicates["incoming"].unique()})
                 mapping = pd.concat([mapping, mapping_chunk])
 
             # if after removing nothing remains --> return empty dataframe
@@ -289,8 +293,8 @@ class MappingHandler:
             return None
 
     # === Save new mappings to files ====
-    def save_mappings(self, mapping_dir):
-        mapping_dir = join(here, mapping_dir)
-        self.full_protein_mapping.to_csv(mapping_dir + "protein_to_genenames.csv", index=False)
-        self.full_ortholog_mapping.to_csv(mapping_dir + "genenames_to_orthologs.csv", index=False)
-        self.full_reduced_gene_mapping.to_csv(mapping_dir + "genenames_to_reduced_genenames.csv", index=False)
+    # def save_mappings(self, mapping_dir):
+    #     mapping_dir = join(here, mapping_dir)
+    #     self.full_protein_mapping.to_csv(mapping_dir + "protein_to_genenames.csv", index=False)
+    #     self.full_ortholog_mapping.to_csv(mapping_dir + "genenames_to_orthologs.csv", index=False)
+    #     self.full_reduced_gene_mapping.to_csv(mapping_dir + "genenames_to_reduced_genenames.csv", index=False)
