@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import requests
 import pandas as pd
 from collections import Counter
 from upsetplot import plot
@@ -31,6 +32,13 @@ def plot_intersections(data: dict, out_dir, file_type="png"):
     plt.suptitle('Overview of Intersections')
     plt.show()
     fig.savefig(os.path.join(out_dir, f"overview_intersections.{file_type}"), bbox_inches='tight')
+
+
+def inspect_for_drugs(genes: list):
+    url = 'https://api.drugst.one/create_network'
+    myobj = {"network": {'nodes': [{"id": gene, "group": "gene"} for gene in genes]}}
+    result = requests.post(url, json=myobj)
+    return "https://drugst.one?id="+result.json()
 
 
 def load_multi_files(files: [list, str], columns: [list, str]):
