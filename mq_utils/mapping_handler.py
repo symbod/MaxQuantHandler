@@ -132,7 +132,7 @@ class MappingHandler:
         gp = GProfiler(return_dataframe=True)
         gp_df = gp.convert(organism=organisms[organism], query=ids, target_namespace="ENSG")
         if len(gp_df) == 0:
-            return None
+            return pd.DataFrame()
         else:
 
             # Case 1: in ensembl id and name is None --> remove them
@@ -150,7 +150,6 @@ class MappingHandler:
                                          gp_df["incoming"], gp_df["new_name"])
 
             mapping = gp_df[["incoming", "new_name"]]
-
             # Case 5: get entries that have more than 1 entry in gProfiler
             duplicates = mapping[mapping.duplicated("incoming", keep=False)]
 
@@ -168,7 +167,7 @@ class MappingHandler:
                 mapping.loc[:, "Organism"] = organism
                 return mapping
             else:
-                return None
+                return pd.DataFrame()
 
     def get_HGNC_reduction(self, ids):  # human organism required
         mapping_dict = {}

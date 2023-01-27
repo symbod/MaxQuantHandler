@@ -75,7 +75,7 @@ def get_ortholog_genenames_logging(original, orthologs, handler, organism, tar_o
     df, missing = handler.get_preloaded(in_list=original_names, in_type="orthologs",
                                         organism=organism, tar_organism=tar_organism)
     df = df.fillna("")
-    df = df[df["target_symbol"] == ""]
+    df = df[df["target_symbol"].isin(["", "N/A"])]
     removed_gene_names = set(df["source_symbol"])
 
     # ==== create dataframe with for each row original names, ortholog names, nr names, etc. ====
