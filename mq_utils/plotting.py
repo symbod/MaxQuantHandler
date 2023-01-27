@@ -40,14 +40,12 @@ def create_overview_plot(logging, out_dir, file_type="png"):
     fig.savefig(os.path.join(out_dir, f"overview_log_bar.{file_type}"), bbox_inches='tight')
 
 
-def create_filter_detailed_plot(logging, organism, reviewed, decoy, out_dir, file_type="png"):
+def create_filter_detailed_plot(logging, organism, out_dir, file_type="png"):
     """
     Detailed plot for logging data of mqhandler's filter_protein_ids method
 
     :param logging: detailed logging Dataframe that has been returned by the filtered_protein_ids method of mqhandler
     :param organism: organism that has been specified in the filter_protein_ids method of mqhandler
-    :param reviewed: specified reviewed parameter of the filter_protein_ids method of mqhandler
-    :param decoy: specified rev_con parameter of the filter_protein_ids method of mqhandler
     :param out_dir: (optional) output directory to save the plot
     :param file_type: (optional) file type for the plot
     :return:
@@ -56,14 +54,18 @@ def create_filter_detailed_plot(logging, organism, reviewed, decoy, out_dir, fil
                  "mouse": "Mus musculus (Mouse)", "rabbit": "Oryctolagus cuniculus (Rabbit)"}
     # ==== Prepare dataframe ====
     df_dict = dict()
-    if decoy is False:
+    if logging.empty:
+        df_dict["Decoys"] = 0
+        df_dict["Unreviewed"] = 0
+        df_dict["Not found IDs"] = 0
+        df_dict["Wrong organism"] = 0
+    else:
         df_dict["Decoys"] = len(logging[logging["Organism"] == "Decoy"].index)
-    if reviewed:
         df_dict["Unreviewed"] = len(
             logging[(logging["Reviewed"] == "unreviewed") & (logging["Organism"] == organisms[organism])].index)
-    df_dict["Not found IDs"] = len(logging[logging["Organism"] == "Not found"].index)
-    df_dict["Wrong organism"] = len(
-        logging[~logging["Organism"].isin(["Not found", "Decoy", organisms[organism]])].index)
+        df_dict["Not found IDs"] = len(logging[logging["Organism"] == "Not found"].index)
+        df_dict["Wrong organism"] = len(
+            logging[~logging["Organism"].isin(["Not found", "Decoy", organisms[organism]])].index)
     df = pd.melt(pd.DataFrame(df_dict, index=[0]))
     # ==== Create plot ====
     fig = plt.figure(figsize=(6, 6), dpi=80)
@@ -86,9 +88,13 @@ def create_reduced_detailed_plot(logging, out_dir, file_type="png"):
     """
     # ==== Prepare dataframe ====
     df_dict = dict()
-    df_dict["Not found IDs"] = len(logging[logging["Reduced Gene Name"] == "Not found"].index)
-    df_dict["Different Name"] = len(
-        logging[logging["Reduced Gene Name"] != "Not found"].index)
+    if logging.empty:
+        df_dict["Not found IDs"] = 0
+        df_dict["Different Name"] = 0
+    else:
+        df_dict["Not found IDs"] = len(logging[logging["Reduced Gene Name"] == "Not found"].index)
+        df_dict["Different Name"] = len(
+            logging[logging["Reduced Gene Name"] != "Not found"].index)
     df = pd.melt(pd.DataFrame(df_dict, index=[0]))
     # ==== Create plot ====
     fig = plt.figure(figsize=(6, 6), dpi=80)
@@ -111,11 +117,17 @@ def create_ortholog_detailed_plot(logging, organism, out_dir, file_type="png"):
     """
     # ==== Prepare dataframe ====
     df_dict = dict()
-    df_dict["Not found target names"] = len( logging[(logging["ortholog_ensg"] != "") & (logging["target_symbol"] == "")].index)
-    df_dict["Not found target IDs"] = len( logging[(logging["ortholog_ensg"] == "") & (logging["target_symbol"] == "")].index)
-    df_dict["Not found source IDs"] = len(logging[logging["ortholog_ensg"] == "Not found"].index)
-    df_dict["Wrong organism"] = len(
-        logging[~logging["source_organism"].isin(["Not found", organism])].index)
+    if logging.empty:
+        df_dict["Not found target names"] = 0
+        df_dict["Not found target IDs"] = 0
+        df_dict["Not found source IDs"] = 0
+        df_dict["Wrong organism"] = 0
+    else:
+        df_dict["Not found target names"] = len( logging[(logging["ortholog_ensg"] != "") & (logging["target_symbol"] == "")].index)
+        df_dict["Not found target IDs"] = len( logging[(logging["ortholog_ensg"] == "") & (logging["target_symbol"] == "")].index)
+        df_dict["Not found source IDs"] = len(logging[logging["ortholog_ensg"] == "Not found"].index)
+        df_dict["Wrong organism"] = len(
+            logging[~logging["source_organism"].isin(["Not found", organism])].index)
     df = pd.melt(pd.DataFrame(df_dict, index=[0]))
     # ==== Create plot ====
     fig = plt.figure(figsize=(6, 6), dpi=80)

@@ -27,8 +27,8 @@ def plot_intersections(data: dict, out_dir, file_type="png"):
     df = pd.DataFrame([[element in data_sets[key] for key in data_sets] for element in all_elements], columns=names)
     df_up = df.groupby(names).size()
 
-    fig = plt.figure(dpi=80)
-    plot(df_up, fig=fig, show_counts=True, orientation='horizontal')
+    fig = plt.figure(figsize=(12, 6), dpi=80)
+    plot(df_up, fig=fig, element_size=None, show_counts=True, orientation='horizontal')
     plt.suptitle('Overview of Intersections')
     plt.show()
     fig.savefig(os.path.join(out_dir, f"overview_intersections.{file_type}"), bbox_inches='tight')

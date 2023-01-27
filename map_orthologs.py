@@ -64,7 +64,7 @@ def get_orthologs(ids, handler, organism: str, tar_organism: str):
     if mapping.empty:
         return ""
     else:
-        orthologs = {x for x in mapping['target_symbol'] if pd.notna(x)}
+        orthologs = {x for x in mapping['target_symbol'] if pd.notna(x) and x not in ["N/A", "None", None]}
         return ';'.join(orthologs)
 
 
