@@ -11,7 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_column: str = "Gene names",
+def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_column: str = None,
                     skip_filled: bool = False, organism: str = None, fasta: str = None, keep_empty: bool = True,
                     res_column: str = None):
     """
@@ -37,17 +37,18 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
                         in_type="protein", organism=organism)
 
     # ==== If gene_column does not exist in given dataframe ====
-    data_copy[gene_column] = "" if gene_column not in data_copy.columns else data_copy[gene_column].fillna("")
+    temp_gene_column = "Remapped Gene Names" if gene_column is None else gene_column
+    data_copy[temp_gene_column] = "" if temp_gene_column not in data_copy.columns else data_copy[temp_gene_column].fillna("")
 
     # ==== Get fasta mapping ====
     if fasta is not None and mode in ['all', 'fasta']:
         fasta_mapping = grep_header_info(fasta=parameters.mapping_file)
         remapped_gene_names = data_copy.apply(
-            lambda row: get_fasta_mapping(ids=row[protein_column].split(";"), genename=row[gene_column],
+            lambda row: get_fasta_mapping(ids=row[protein_column].split(";"), genename=row[temp_gene_column],
                                           mapping=fasta_mapping, skip_filled=skip_filled), axis=1)
         skip_filled = True
     else:
-        remapped_gene_names = data_copy[gene_column]
+        remapped_gene_names = data_copy[temp_gene_column]
 
     # ==== Get uniprot mappings ====
     if mode != 'fasta':
@@ -59,15 +60,19 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
         del data_copy["temp"]
 
     # ==== Logging ====
-    log_dict = get_remapped_genenames_logging(original=data_copy[gene_column], remapped=remapped_gene_names,
+    log_dict = get_remapped_genenames_logging(original=data_copy[temp_gene_column], remapped=remapped_gene_names,
                                               protein_ids=";".join(data_copy[protein_column]).split(";"),
                                               handler=handler, organism=organism)
 
     # ==== If target column depending if res_column is set ====
-    column = res_column if res_column is not None else gene_column
+    column = res_column if res_column is not None else temp_gene_column
 
     # ==== Set remapped gene names to dataFrame ====
     data_copy[column] = remapped_gene_names
+
+    # Remove temporary gene column
+    if gene_column is None and res_column is not None:
+        data_copy = data_copy.drop(temp_gene_column, axis=1)
 
     # ==== Remove rows with empty gene names ====
     if keep_empty is False:
