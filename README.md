@@ -1,24 +1,29 @@
-# MeSIdHa - A Meta-Study Identifier Harmonizer
+# ProHarMeD - Proteomic Meta-Study Harmonization, Mechanotyping and Drug Repurposing Prediction
 
 ##Introduction
 <span style="color:red">**TODO**</span>
 
-This repository comprises four main functionalities:
+This repository comprises four main harmonization functionalities:
 - filter protein IDs
 - remap gene names
 - reduce gene names
 - map orthologs
 
+Additionally, it offers following meta anylsis functionalities:
+- intersection anaysis
+- disease mechanism mining and drug repurposing
+
+
 ## Installation
 
 You have multiple options to use the methods of this repo. You can either use the 
-[mesidha python package](https://pypi.org/project/mesidha/) or use the [R package](https://github.com/symbod/mesidha-R). 
+[mesidha python package](https://pypi.org/project/proharmed/) or use the [R package](https://github.com/symbod/proharmed-R). 
 Or you can simply clone this github repository.
 
 If you want to clone this repository:
 
 ```shell
-git clone git@github.com:mesidha.git
+git clone git@github.com:proharmed.git
 ```
 
 and make sure you install python 3.

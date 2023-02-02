@@ -21,7 +21,7 @@ def get_filter_ids_logging(original, filtered, handler, organism):
         decoy = [x for x in removed_ids if x.startswith(("REV", "CON"))]  # save decoys
         removed_ids_nondecoy = [x for x in removed_ids if (x not in decoy)]
         # ==== Get Information for removed IDs ====
-        df, missing = handler.get_preloaded(in_list=removed_ids_nondecoy, in_type="protein", organism=organism)
+        df, missing = handler.get_preloaded(in_list=removed_ids_nondecoy, in_type="protein")
         df = pd.concat([df, pd.DataFrame({"Protein ID": missing})], ignore_index=True).fillna("Not found")
         df = pd.concat([df, pd.DataFrame({"Protein ID": decoy})], ignore_index=True).fillna("Decoy")
         return {"Overview_Log": log_df, "Detailed_Log": df}
