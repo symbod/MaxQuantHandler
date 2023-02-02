@@ -9,9 +9,9 @@ from matplotlib import pyplot as plt
 # ==== Get Log Plots ====
 def create_overview_plot(logging, out_dir, file_type="png"):
     """
-    Overview plot for logging data of mqhandler's functions
+    Overview plot for logging data of proharmed's functions
 
-    :param logging: overview logging Dataframe that has been returned by one of the four methods of mqhandler
+    :param logging: overview logging Dataframe that has been returned by one of the four methods of proharmed
     :param out_dir: (optional) output directory to save the plots
     :param file_type: (optional) file type for the plots (png, pdf, jpg, ...)
     :return:
@@ -42,10 +42,10 @@ def create_overview_plot(logging, out_dir, file_type="png"):
 
 def create_filter_detailed_plot(logging, organism, out_dir, file_type="png"):
     """
-    Detailed plot for logging data of mqhandler's filter_protein_ids method
+    Detailed plot for logging data of proharmed's filter_protein_ids method
 
-    :param logging: detailed logging Dataframe that has been returned by the filtered_protein_ids method of mqhandler
-    :param organism: organism that has been specified in the filter_protein_ids method of mqhandler
+    :param logging: detailed logging Dataframe that has been returned by the filtered_protein_ids method of proharmed
+    :param organism: organism that has been specified in the filter_protein_ids method of proharmed
     :param out_dir: (optional) output directory to save the plot
     :param file_type: (optional) file type for the plot
     :return:
@@ -79,9 +79,9 @@ def create_filter_detailed_plot(logging, organism, out_dir, file_type="png"):
 
 def create_reduced_detailed_plot(logging, out_dir, file_type="png"):
     """
-    Detailed plot for logging data of mqhandler's reduce_genenames method
+    Detailed plot for logging data of proharmed's reduce_genenames method
 
-    :param logging: detailed logging Dataframe that has been returned by the reduce_genenames method of mqhandler
+    :param logging: detailed logging Dataframe that has been returned by the reduce_genenames method of proharmed
     :param out_dir: (optional) output directory to save the plot
     :param file_type: (optional) file type for the plot
     :return:
@@ -108,10 +108,10 @@ def create_reduced_detailed_plot(logging, out_dir, file_type="png"):
 
 def create_ortholog_detailed_plot(logging, organism, out_dir, file_type="png"):
     """
-    Detailed plot for logging data of mqhandler's map_orthologs method
+    Detailed plot for logging data of proharmed's map_orthologs method
 
-    :param logging: detailed logging Dataframe that has been returned by the map_orthologs method of mqhandler
-    :param organism: organism that has been specified in the map_orthologs method of mqhandler
+    :param logging: detailed logging Dataframe that has been returned by the map_orthologs method of proharmed
+    :param organism: organism that has been specified in the map_orthologs method of proharmed
     :param out_dir: (optional) output directory to save the plot
     :param file_type: (optional) file type for the plot    :return:
     """
