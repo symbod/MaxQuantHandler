@@ -29,6 +29,7 @@ def remap_genenames(data: pd.DataFrame, mode: str, protein_column: str, gene_col
     :return: Remapped data as dataframe
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy.fillna("")
     data_copy[protein_column] = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler()

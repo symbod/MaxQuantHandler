@@ -23,6 +23,7 @@ def filter_protein_ids(data: pd.DataFrame, protein_column: str, organism: str = 
     :return: Filtered data as dataframe
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy.fillna("")
     data_copy[protein_column] = data_copy[protein_column].astype("string")
 
     handler = mh.MappingHandler()

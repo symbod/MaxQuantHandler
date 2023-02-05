@@ -21,6 +21,7 @@ def map_orthologs(data: pd.DataFrame, gene_column: str, organism: str, tar_organ
     :return: Data as dataframe with ortholog ids
     """
     data_copy = data.copy(deep=True)
+    data_copy = data_copy.fillna("")
     data_copy[gene_column] = data_copy[gene_column].astype("string")
 
     handler = mh.MappingHandler()
