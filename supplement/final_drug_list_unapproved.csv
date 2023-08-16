@@ -1,0 +1,21 @@
+drugId,label,score,rank,status
+DB01109,Heparin,1,1,unapproved
+DB01225,Enoxaparin,1,1,unapproved
+DB00569,Fondaparinux,1,1,approved
+DB00605,Sulindac,0.738916506295296,2,approved
+DB00997,Doxorubicin,0.738916506295296,2,approved
+DB00878,Chlorhexidine,0.738916506295296,2,approved
+DB11145,Oxyquinoline,0.738916506295296,2,unapproved
+DB00254,Doxycycline,0.738916506295296,2,approved
+DB01330,Cefotetan,0.738916506295296,2,approved
+DB00399,Zoledronic acid,0.738916506295296,2,approved
+DB01112,Cefuroxime,0.738916506295296,2,approved
+DB03424,Ubenimex,0.738916506295296,2,unapproved
+DB04216,Quercetin,0.738916506295296,2,unapproved
+DB11617,Aclarubicin,0.738916506295296,2,unapproved
+DB01133,Tiludronic acid,0.738916506295296,2,approved
+DB00694,Daunorubicin,0.738916506295296,2,approved
+DB00822,Disulfiram,0.544866264201855,3,approved
+DB00756,Hexachlorophene,0.259380395752685,4,approved
+DB00171,ATP,0.259380395752685,4,unapproved
+DB01013,Clobetasol propionate,0.154761311119543,5,approved

@@ -1,0 +1,39 @@
+label,symbol,uniprot,ensg,entrez,proteinName,isSeed,score,rank
+FN1,FN1,B7ZLE5|P02751,ENSG00000115414,2335,fibronectin,true,null,1
+ALDH2,ALDH2,P05091|A0A384NPN7,ENSG00000111275,217,"aldehyde dehydrogenase, mitochondrial",true,null,1
+COL12A1,COL12A1,Q99715,ENSG00000111799,1303,collagen alpha-1(XII) chain,true,null,1
+THBS2,THBS2,P35442,ENSG00000186340,7058,thrombospondin-2,true,null,1
+PCOLCE,PCOLCE,Q15113,ENSG00000106333,5118,procollagen C-endopeptidase enhancer 1,true,null,1
+FBN1,FBN1,P35555,ENSG00000166147,2200,fibrillin-1,true,null,1
+FLNA,FLNA,Q60FE5|P21333|Q6NXF2,ENSG00000196924,2316,filamin-A,true,null,1
+PRDX2,PRDX2,P32119,ENSG00000167815,7001,peroxiredoxin-2,true,null,1
+GAPDH,GAPDH,P04406,ENSG00000111640,2597,glyceraldehyde-3-phosphate dehydrogenase,true,null,1
+HYOU1,HYOU1,A0A494C039|Q6IN67|Q9Y4L1,ENSG00000280682|ENSG00000149428,10525,hypoxia up-regulated protein 1,false,null,1
+TUBA1C,TUBA1C,Q9BQE3|F5H5D3,ENSG00000167553,84790,tubulin alpha-1C chain,true,null,1
+HSPA1A,HSPA1A,P0DMV8,undefined,3303,heat shock 70 kDa protein 1A,true,null,1
+HSPA1B,HSPA1B,P0DMV9,undefined,3303,heat shock 70 kDa protein 1A,true,null,1
+UNC119,UNC119,Q13432|K7EN86,ENSG00000109103,9094,protein unc-119 homolog A,false,null,1
+EGFR,EGFR,E7BSV0|C9JYS6|E9PFD7|P00533|Q504U8,ENSG00000146648,1956,epidermal growth factor receptor,false,null,1
+CCN1,CCN1,O00622,ENSG00000142871,3491,CCN family member 1,true,null,1
+ACTA2,ACTA2,D2JYH4|P62736,ENSG00000107796,59,"actin, aortic smooth muscle",true,null,1
+CCN2,CCN2,P29279,ENSG00000118523,1490,CCN family member 2,true,null,1
+HSPA8,HSPA8,P11142,ENSG00000109971,3312,heat shock cognate 71 kDa protein,false,null,1
+COL1A1,COL1A1,P02452,ENSG00000108821,1277,collagen alpha-1(I) chain,true,null,1
+APOE,APOE,P02649|A0A0S2Z3D5,ENSG00000130203,348,apolipoprotein E,true,null,1
+COL1A2,COL1A2,P08123|A0A0S2Z3H5,ENSG00000164692,1278,collagen alpha-2(I) chain,true,null,1
+POSTN,POSTN,Q15063|B1ALD9|A0A024RDT5|A0A024RDS2,ENSG00000133110,10631,periostin,true,null,1
+HEL-S-72p,HEL-S-72p,V9HW22,ENSG00000109971,3312,heat shock cognate 71 kDa protein,false,null,1
+IGFBP7,IGFBP7,Q16270,ENSG00000163453,3490,insulin-like growth factor-binding protein 7,true,null,1
+SERPINC1,SERPINC1,A0A024R944|P01008,ENSG00000117601,462,antithrombin-III,true,null,1
+HTRA1,HTRA1,Q92743,ENSG00000166033,5654,serine protease HTRA1,true,null,1
+PGAM1,PGAM1,P18669|Q6FHU2,ENSG00000171314,5223,phosphoglycerate mutase 1,true,null,1
+PGAM4,PGAM4,Q8N0Y7,ENSG00000226784,441531,phosphoglycerate mutase 4,true,null,1
+ANXA1,ANXA1,Q5TZZ9|P04083,ENSG00000135046,301,annexin A1,true,null,1
+ANXA2,ANXA2,P07355|A0A024R5Z7|H0YL33,ENSG00000182718,302,annexin A2,true,null,1
+HNRNPK,HNRNPK,P61978,ENSG00000165119,3190,heterogeneous nuclear ribonucleoprotein K,true,null,1
+MMP2,MMP2,P08253|A0A024R6R4,ENSG00000087245,4313,72 kDa type IV collagenase,true,null,1
+HSPG2,HSPG2,P98160,ENSG00000142798,3339,basement membrane-specific heparan sulfate proteoglycan core protein,true,null,1
+CEMIP,CEMIP,Q8WUJ3,ENSG00000103888,57214,cell migration-inducing and hyaluronan-binding protein,true,null,1
+CFTR,CFTR,A0A024R730|P13569,ENSG00000001626,1080,cystic fibrosis transmembrane conductance regulator,false,null,1
+LGALS1,LGALS1,P09382,ENSG00000100097,3956,galectin-1,true,null,1
+TGFBI,TGFBI,Q15582|A0A0S2Z4Q2,ENSG00000120708,7045,transforming growth factor-beta-induced protein ig-h3,false,null,1
